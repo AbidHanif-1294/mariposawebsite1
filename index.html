@@ -61,6 +61,18 @@
   .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 currentColor}50%{opacity:.6;box-shadow:0 0 0 7px transparent}}
 
+  .btn-login{
+    display:flex;align-items:center;gap:6px;
+    font-size:.78rem;padding:7px 13px;
+    border-radius:9px;cursor:pointer;
+    background:rgba(138,166,184,.08);
+    border:1px solid rgba(138,166,184,.3);
+    color:var(--muted);font-family:inherit;font-weight:600;
+    transition:.2s;
+  }
+  .btn-login:hover{background:rgba(34,211,238,.08);color:var(--aqua);border-color:var(--border-2)}
+  .btn-login.admin{background:rgba(52,211,153,.1);color:var(--green);border-color:rgba(52,211,153,.3)}
+
   .hero{padding:56px 0 34px;text-align:center}
   .badge{
     display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:600;
@@ -91,13 +103,16 @@
   .field{margin-bottom:15px}
   .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
   .field label .unit{color:var(--aqua);font-size:.7rem;font-weight:500;text-transform:none;letter-spacing:0}
-  .field input{
+  .field input,.field select,.field textarea{
     width:100%;padding:11px 14px;border-radius:11px;
     background:rgba(8,18,30,.85);border:1px solid rgba(94,234,212,.16);
     color:var(--txt);font-size:.95rem;font-family:inherit;transition:.2s;outline:none;
   }
-  .field input:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(34,211,238,.13);background:rgba(8,18,30,1)}
-  .field input::placeholder{color:#3d5568}
+  .field textarea{resize:vertical;min-height:80px;line-height:1.5}
+  .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238aa6b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .field select option{background:#0a1524;color:#e6f4f8}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(34,211,238,.13);background:rgba(8,18,30,1)}
+  .field input::placeholder,.field textarea::placeholder{color:#3d5568}
   .field input.from-sensor{background:rgba(52,211,153,.12)!important;border-color:rgba(52,211,153,.4)!important}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
   @media(max-width:520px){.row2{grid-template-columns:1fr}}
@@ -116,6 +131,7 @@
   .btn.ghost:hover{background:rgba(34,211,238,.08);transform:none}
   .btn.danger{color:#fca5a5;border-color:rgba(239,68,68,.35)}
   .btn.danger:hover{background:rgba(239,68,68,.1)}
+  .btn.sm{padding:9px 14px;font-size:.8rem;width:auto}
 
   .btn-row{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-top:6px}
 
@@ -190,6 +206,52 @@
 
   .rain-alert{padding:12px 16px;border-radius:12px;font-size:.8rem;line-height:1.6;background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.3);color:#fcd34d;margin-top:14px}
 
+  .visitor-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:.2s}
+  .stat-card:hover{border-color:var(--border-2);transform:translateY(-2px)}
+  .stat-card .icon{font-size:26px;margin-bottom:6px;line-height:1}
+  .stat-card .val{font-size:1.9rem;font-weight:800;letter-spacing:-1px;color:var(--aqua);line-height:1.1}
+  .stat-card .val.txt{font-size:1rem;padding-top:8px}
+  .stat-card .lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
+  .stat-card .sub{font-size:.7rem;color:var(--muted);margin-top:3px}
+
+  .admin-panel{display:none;margin-top:22px;padding-top:22px;border-top:1px dashed rgba(94,234,212,.25)}
+  .admin-panel.show{display:block;animation:fadeUp .4s}
+  .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+  .admin-badge{font-size:.7rem;color:var(--green);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);padding:4px 10px;border-radius:99px;font-weight:700}
+
+  .modal-overlay{
+    position:fixed;inset:0;z-index:1000;
+    background:rgba(0,0,0,.78);backdrop-filter:blur(10px);
+    display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.show{display:flex}
+  .modal{
+    background:linear-gradient(180deg,rgba(20,36,56,.98),rgba(15,28,45,.98));
+    border:1px solid var(--border-2);border-radius:18px;
+    max-width:420px;width:100%;padding:28px;position:relative;
+    box-shadow:0 24px 70px rgba(0,0,0,.7), 0 0 40px rgba(34,211,238,.15);
+    animation:modalIn .3s ease;
+  }
+  @keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal h3{font-size:1.25rem;font-weight:800;margin-bottom:6px;letter-spacing:-.4px}
+  .modal p.sub{font-size:.82rem;color:var(--muted);margin-bottom:20px;line-height:1.55}
+  .modal-close{
+    position:absolute;top:12px;right:12px;
+    background:transparent;border:none;color:var(--muted);
+    font-size:18px;cursor:pointer;padding:6px 9px;border-radius:8px;
+    transition:.2s;font-family:inherit;
+  }
+  .modal-close:hover{color:var(--red);background:rgba(239,68,68,.1)}
+  .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .modal-error{
+    padding:10px 13px;border-radius:10px;
+    background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);
+    color:#fca5a5;font-size:.78rem;margin-bottom:12px;display:none;
+  }
+  .modal-error.show{display:block;animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
   .rec{display:flex;gap:14px;padding:16px;border-radius:14px;background:var(--panel-2);border:1px solid var(--border);margin-bottom:11px;transition:.2s}
   .rec:hover{border-color:var(--border-2);transform:translateX(4px)}
   .rec .ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:17px;flex-shrink:0}
@@ -214,6 +276,16 @@
   .table-scroll::-webkit-scrollbar{width:7px;height:7px}
   .table-scroll::-webkit-scrollbar-thumb{background:rgba(34,211,238,.22);border-radius:9px}
 
+  .btn-row-del{display:flex;gap:6px;justify-content:center}
+  .btn-del{
+    background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);
+    color:#fca5a5;padding:5px 10px;border-radius:7px;cursor:pointer;
+    font-family:inherit;font-size:.72rem;font-weight:600;
+    transition:.2s;
+  }
+  .btn-del:hover{background:rgba(239,68,68,.25);color:#fff}
+  .btn-del:disabled{opacity:.4;cursor:wait}
+
   .empty-note{text-align:center;padding:34px;color:var(--muted);font-size:.85rem}
 
   footer{margin-top:70px;padding:28px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem;text-align:center}
@@ -237,6 +309,9 @@
     color:#fcd34d;line-height:1.65;margin-bottom:16px;
   }
   .config-warn code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;font-size:.75rem;color:#22d3ee}
+
+  @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(20px)}}
 </style>
 </head>
 <body>
@@ -250,11 +325,15 @@
     <div class="nav-links">
       <a href="#analisis">Analisis</a>
       <a href="#cuaca">Cuaca</a>
+      <a href="#lapangan">Lapangan</a>
       <a href="#prediksi">Prediksi</a>
       <a href="#rekomendasi">Rekomendasi</a>
       <a href="#riwayat">Riwayat</a>
     </div>
-    <div class="live" id="liveIndicator"><span class="dot"></span> Cek koneksi...</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn-login" id="loginBtn">🔐 Login Admin</button>
+      <div class="live" id="liveIndicator"><span class="dot"></span> Cek koneksi...</div>
+    </div>
   </div>
 </nav>
 
@@ -265,9 +344,8 @@
     <h1>Analisis <span class="grad">Kadar Fosfat</span><br>Real-time Berbasis AI</h1>
     <p>
       Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
-      Terintegrasi dengan sensor IoT via Firebase & prakiraan cuaca BMKG —
-      data masuk otomatis, AI menganalisis status trofik, memprediksi tren,
-      dan menyusun rekomendasi mitigasi.
+      Terintegrasi dengan sensor IoT via Firebase, prakiraan cuaca BMKG,
+      dan panel data lapangan admin.
     </p>
   </header>
 
@@ -367,6 +445,80 @@
     </div>
   </section>
 
+  <section class="block" id="lapangan">
+    <div class="sec-head">
+      <h2>Data <span class="grad">Lapangan</span></h2>
+      <p>Jumlah pengunjung, kondisi hujan aktual, dan catatan lapangan dari Sumber Maron.</p>
+    </div>
+    <div class="card">
+      <div class="card-b">
+        <div id="fieldStatsBox">
+          <div class="empty-note">Belum ada data lapangan.</div>
+        </div>
+
+        <div class="admin-panel" id="adminPanel">
+          <div class="admin-header">
+            <h3 style="font-size:1rem;font-weight:700;letter-spacing:-.2px">✏️ Input Data Lapangan</h3>
+            <span class="admin-badge">● Admin Aktif</span>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Tanggal <span class="unit">—</span></label>
+              <input type="date" id="fieldDate" />
+            </div>
+            <div class="field">
+              <label>Jumlah Pengunjung <span class="unit">orang</span></label>
+              <input type="number" id="visitorCount" min="0" placeholder="cth: 45" />
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Kondisi Hujan <span class="unit">—</span></label>
+              <select id="rainStatus">
+                <option value="Tidak Hujan">☀️ Tidak Hujan</option>
+                <option value="Hujan Ringan">🌦️ Hujan Ringan</option>
+                <option value="Hujan Sedang">🌧️ Hujan Sedang</option>
+                <option value="Hujan Lebat">⛈️ Hujan Lebat</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Kondisi Cuaca <span class="unit">—</span></label>
+              <select id="weatherCond">
+                <option value="Cerah">☀️ Cerah</option>
+                <option value="Berawan">⛅ Berawan</option>
+                <option value="Mendung">☁️ Mendung</option>
+                <option value="Hujan">🌧️ Hujan</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Suhu Udara <span class="unit">°C</span></label>
+              <input type="number" step="0.1" id="airTemp" placeholder="cth: 28.5" />
+            </div>
+            <div class="field">
+              <label>Kelembapan Udara <span class="unit">%</span></label>
+              <input type="number" step="1" min="0" max="100" id="airHumidity" placeholder="cth: 75" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Catatan Tambahan <span class="unit">opsional</span></label>
+            <textarea id="fieldNotes" rows="3" placeholder="cth: Air terlihat keruh, ada aktivitas pertanian di hulu..."></textarea>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:10px;margin-top:6px">
+            <button class="btn" id="saveFieldBtn">💾 Simpan Data Lapangan</button>
+            <button class="btn ghost" id="autoFillWeatherBtn">🌤️ Isi dari BMKG</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="prediksi">
     <div class="sec-head">
       <h2>Tren & <span class="grad">Prediksi Fosfat</span></h2>
@@ -397,9 +549,10 @@
         <h2>Riwayat <span class="grad">Pengukuran</span></h2>
         <p id="historyInfo">Data tersimpan otomatis di browser & Firebase.</p>
       </div>
-      <div style="display:flex;gap:9px;flex-wrap:wrap">
+      <div style="display:flex;gap:9px;flex-wrap:wrap" id="historyActions">
         <button class="btn ghost" id="exportBtn" style="width:auto;padding:10px 18px">⬇ Export CSV</button>
-        <button class="btn ghost danger" id="clearBtn" style="width:auto;padding:10px 18px">🗑 Hapus Lokal</button>
+        <button class="btn ghost danger" id="clearManualBtn" style="width:auto;padding:10px 18px">🗑 Hapus Data Manual</button>
+        <button class="btn ghost danger" id="clearSensorBtn" style="width:auto;padding:10px 18px;display:none">🗑 Hapus Data Sensor</button>
       </div>
     </div>
     <div class="card">
@@ -410,10 +563,11 @@
               <th>Waktu</th><th>PO₄ (mg/L)</th><th>pH</th><th>Suhu</th>
               <th>DO</th><th>Kekeruhan</th><th>Konduktivitas</th>
               <th>Status</th><th>WQI</th><th>Sumber</th>
+              <th id="actionCol" style="display:none">Aksi</th>
             </tr>
           </thead>
           <tbody id="historyBody">
-            <tr><td colspan="10" class="empty-note">Belum ada data tersimpan.</td></tr>
+            <tr><td colspan="11" class="empty-note">Belum ada data tersimpan.</td></tr>
           </tbody>
         </table>
       </div>
@@ -421,17 +575,32 @@
   </section>
 
   <footer>
-    <b>MariPosa AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> (Badan Meteorologi, Klimatologi, dan Geofisika) · AI Engine v1.3</span>
+    <b>MariPos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
+    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · AI Engine v1.4</span>
   </footer>
+</div>
+
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" id="closeLogin" aria-label="Tutup">✕</button>
+    <h3>🔐 Login Admin</h3>
+    <p class="sub">Masukkan password untuk mengakses panel input data lapangan & hapus data.</p>
+    <div class="modal-error" id="loginError"></div>
+    <div class="field">
+      <label>Password <span class="unit">—</span></label>
+      <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="cancelLogin">Batal</button>
+      <button class="btn" id="submitLogin">Masuk</button>
+    </div>
+  </div>
 </div>
 
 <script type="module">
 /* ============================================================
-   ⚙️ KONFIGURASI — GANTI 2 BAGIAN INI SAJA
+   ⚙️ KONFIGURASI
    ============================================================ */
-
-/* --- 1. FIREBASE (opsional, untuk sensor IoT 24/7) --- */
 const FIREBASE_CONFIG = {
   apiKey:            "ISI_API_KEY_KAMU",
   authDomain:        "ISI.firebaseapp.com",
@@ -442,17 +611,16 @@ const FIREBASE_CONFIG = {
   appId:             "ISI_APP_ID"
 };
 
-/* --- 2. PROXY BMKG (WAJIB — deploy ke Vercel dulu) --- */
-// Contoh: "https://maronphos-proxy-xxxx.vercel.app"
 const PROXY_URL = "https://mariposaproxy.vercel.app";
 
-/* ============================================================
-   KONFIGURASI WILAYAH BMKG
-   ============================================================ */
+const ADMIN_AUTH = {
+  password: "maronphos2024",
+  hash: ""
+};
+
 const BMKG_ADM4 = "35.07.33.2009";
 
-const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey &&
-                         !FIREBASE_CONFIG.apiKey.includes('ISI_');
+const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.includes('ISI_');
 const PROXY_ENABLED = PROXY_URL && !PROXY_URL.includes('GANTI-DENGAN');
 
 /* ============================================================
@@ -463,11 +631,17 @@ let localHistory = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
 let firebaseHistory = [];
 let chart = null;
 let db = null;
+let fbApi = null;
 let weatherData = null;
 let lastFirebaseTs = 0;
 
+const ADMIN_SESSION_KEY = 'maronphos_admin_session';
+const SESSION_DURATION = 8 * 60 * 60 * 1000;
+const FIELD_STORE_KEY = 'maronphos_field_data_v1';
+let fieldData = JSON.parse(localStorage.getItem(FIELD_STORE_KEY) || '[]');
+
 /* ============================================================
-   1. KLASIFIKASI TROFIK FOSFAT
+   1. KLASIFIKASI TROFIK
    ============================================================ */
 function classifyPhosphate(p){
   if (p < 0.025) return {level:'Sangat Rendah', status:'Oligotrofik', color:'#22d3ee', idx:0, desc:'Perairan sangat bersih, produktivitas primer sangat rendah.'};
@@ -606,7 +780,7 @@ function forecast(steps){
 }
 
 /* ============================================================
-   6. REKOMENDASI AI
+   6. REKOMENDASI
    ============================================================ */
 function buildRecommendations(d, cls, wqi, anomalies){
   const recs=[];
@@ -623,17 +797,17 @@ function buildRecommendations(d, cls, wqi, anomalies){
       body:'Kadar fosfat masuk kategori mesotrofik. Kurangi sumber masuknya fosfat: batasi penggunaan pupuk fosfat di lahan sekitar, cek kebocoran septic tank, dan mulai tanam buffer strip vegetasi 5–10 m dari tepi sumber.'});
   } else if (p < 1.00){
     recs.push({sev:'warn', ico:'🚨', tag:'Prioritas Tinggi', title:'Indikasi Eutrofikasi',
-      body:'Kadar fosfat tinggi berpotensi memicu blooming alga (terlihat dari pH naik / DO fluktuatif). Tindakan mendesak: identifikasi & putuskan sumber pencemar, pasang perangkap sedimen, dan lakukan uji laboratorium lanjutan (total-P, nitrat).'});
+      body:'Kadar fosfat tinggi berpotensi memicu blooming alga. Tindakan mendesak: identifikasi & putuskan sumber pencemar, pasang perangkap sedimen, dan lakukan uji laboratorium lanjutan.'});
   } else {
     recs.push({sev:'crit', ico:'🛑', tag:'Darurat', title:'Pencemaran Fosfat Berat',
-      body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi (aerasi, constructed wetland, atau coagulant dosing).'});
+      body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
   }
 
   if (weatherData && weatherData.rainExpected){
     recs.push({
       sev: 'warn', ico: '🌧️', tag: 'Cuaca BMKG',
       title: 'Prediksi Hujan — Waspadai Lonjakan Fosfat',
-      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat dari lahan pertanian & permukiman ke badan air. Disarankan: (1) pantau kenaikan fosfat 1–2 hari setelah hujan, (2) pastikan saluran drainase tidak membawa limbah langsung ke sumber, (3) siapkan alat sampling untuk verifikasi.`
+      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat. Disarankan pantau kenaikan fosfat 1–2 hari setelah hujan.`
     });
   }
 
@@ -644,40 +818,65 @@ function buildRecommendations(d, cls, wqi, anomalies){
     if (temp >= 32){
       recs.push({
         sev: 'warn', ico: '🌡️', tag: 'Cuaca BMKG',
-        title: 'Suhu Udara Tinggi — Percepatan Reaksi',
-        body: `Suhu udara ${temp}°C dapat meningkatkan suhu air dan mempercepat pelepasan fosfat dari sedimen. Pantau parameter suhu air secara bersamaan.`
+        title: 'Suhu Udara Tinggi',
+        body: `Suhu udara ${temp}°C dapat mempercepat pelepasan fosfat dari sedimen.`
       });
     }
     if (hu >= 90){
       recs.push({
         sev: 'info', ico: '💧', tag: 'Cuaca BMKG',
-        title: 'Kelembapan Tinggi — Potensi Kondensasi',
-        body: `Kelembapan udara ${hu}% menandakan kondisi jenuh air. Waspadai potensi hujan lokal yang dapat memicu limpasan.`
+        title: 'Kelembapan Tinggi',
+        body: `Kelembapan udara ${hu}% — waspadai potensi hujan lokal.`
+      });
+    }
+  }
+
+  if (fieldData.length > 0){
+    const latest = fieldData[0];
+    if (latest.rainStatus && latest.rainStatus !== 'Tidak Hujan'){
+      recs.push({
+        sev: 'warn', ico: '☔', tag: 'Data Lapangan',
+        title: `Kondisi Lapangan: ${latest.rainStatus}`,
+        body: `Admin mencatat "${latest.rainStatus}" pada ${latest.date}. Disarankan pengambilan sampel tambahan dalam 24-48 jam.`
+      });
+    }
+    if (latest.visitorCount >= 100){
+      recs.push({
+        sev: 'info', ico: '👥', tag: 'Data Lapangan',
+        title: `Pengunjung Padat (${latest.visitorCount} orang)`,
+        body: 'Tingginya aktivitas pengunjung berpotensi meningkatkan input nutrien dari limbah domestik & sampah.'
+      });
+    }
+    if (latest.notes){
+      recs.push({
+        sev: 'info', ico: '📝', tag: 'Catatan Lapangan',
+        title: 'Catatan dari Admin',
+        body: latest.notes
       });
     }
   }
 
   if (d.do_ !== null && d.do_ !== undefined && d.do_ < 5){
     recs.push({sev:'warn', ico:'💨', tag:'Kualitas Air', title:'Oksigen Terlarut Rendah',
-      body:`DO tercatat ${d.do_} mg/L. Kadar fosfat tinggi bersama DO rendah mempercepat eutrofikasi. Pertimbangkan instalasi aerator sederhana atau pemantauan harian di titik terdampak.`});
+      body:`DO tercatat ${d.do_} mg/L. Pertimbangkan instalasi aerator sederhana.`});
   }
   if (d.turbidity !== null && d.turbidity !== undefined && d.turbidity > 25){
     recs.push({sev:'info', ico:'🌊', tag:'Sedimentasi', title:'Kekeruhan Meningkat',
-      body:`Kekeruhan ${d.turbidity} NTU menunjukkan partikel tersuspensi tinggi. Fosfat sering terikat pada sedimen — pasang sedimen trap dan lakukan pembersihan dasar secara berkala.`});
+      body:`Kekeruhan ${d.turbidity} NTU. Pasang sedimen trap dan lakukan pembersihan dasar berkala.`});
   }
   if (d.ph !== null && d.ph !== undefined && (d.ph < 6.5 || d.ph > 8.5)){
     recs.push({sev:'warn', ico:'⚗️', tag:'Kimia Air', title:'pH di Luar Rentang Normal',
-      body:`pH ${d.ph} dapat mengubah kelarutan fosfat. Pada pH rendah fosfat lebih mudah terlepas dari sedimen; pada pH tinggi terjadi presipitasi kalsium-fosfat. Lakukan kalibrasi ulang & uji ulang.`});
+      body:`pH ${d.ph} dapat mengubah kelarutan fosfat. Lakukan kalibrasi ulang & uji ulang.`});
   }
 
   const fc = forecast(3);
   if (fc && fc.reg.slope > 0.01){
     const akhir = fc.preds[fc.preds.length-1].toFixed(3);
     recs.push({sev:'info', ico:'📈', tag:'Proyeksi', title:'Tren Fosfat Meningkat',
-      body:`Model regresi memproyeksikan kenaikan fosfat menjadi ±${akhir} mg/L dalam 3 periode ke depan (R²=${fc.reg.r2.toFixed(2)}). Perkuat pengawasan pada periode tersebut.`});
+      body:`Model regresi memproyeksikan fosfat ±${akhir} mg/L dalam 3 periode (R²=${fc.reg.r2.toFixed(2)}).`});
   } else if (fc && fc.reg.slope < -0.01){
     recs.push({sev:'ok', ico:'📉', tag:'Proyeksi', title:'Tren Fosfat Menurun',
-      body:'Data historis menunjukkan tren penurunan kadar fosfat. Pertahankan praktik pengelolaan saat ini dan lanjutkan pencatatan untuk validasi model.'});
+      body:'Data historis menunjukkan tren penurunan. Pertahankan praktik pengelolaan saat ini.'});
   }
 
   anomalies.forEach(a=>{
@@ -700,7 +899,7 @@ function thinkingAnimation(){
     'Menghitung sub-indeks kualitas air...',
     'Mengklasifikasi status trofik fosfat...',
     'Mendeteksi anomali parameter...',
-    'Menganalisis data cuaca BMKG...',
+    'Menganalisis data cuaca BMKG & lapangan...',
     'Menjalankan model prediksi regresi...',
     'Menyusun rekomendasi tindakan...'
   ];
@@ -876,24 +1075,17 @@ function renderChart(){
       responsive:true, maintainAspectRatio:false,
       interaction:{mode:'index', intersect:false},
       plugins:{
-        legend:{
-          labels:{ color:'#8aa6b8', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, padding:16, usePointStyle:true }
-        },
+        legend:{ labels:{ color:'#8aa6b8', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, padding:16, usePointStyle:true } },
         tooltip:{
           backgroundColor:'rgba(10,21,36,.96)',
           borderColor:'rgba(34,211,238,.3)', borderWidth:1,
           titleColor:'#22d3ee', bodyColor:'#e6f4f8', padding:12,
           titleFont:{size:12, weight:'700'}, bodyFont:{size:12},
-          callbacks:{
-            label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(4) ?? '—'} mg/L`
-          }
+          callbacks:{ label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(4) ?? '—'} mg/L` }
         }
       },
       scales:{
-        x:{
-          grid:{color:'rgba(94,234,212,.05)'},
-          ticks:{color:'#8aa6b8', font:{size:10}, maxRotation:45}
-        },
+        x:{ grid:{color:'rgba(94,234,212,.05)'}, ticks:{color:'#8aa6b8', font:{size:10}, maxRotation:45} },
         y:{
           grid:{color:'rgba(94,234,212,.07)'},
           ticks:{color:'#8aa6b8', font:{size:10}},
@@ -905,14 +1097,19 @@ function renderChart(){
 }
 
 /* ============================================================
-   11. RIWAYAT
+   11. RIWAYAT (dengan tombol hapus per baris)
    ============================================================ */
 function renderHistory(){
   const body = document.getElementById('historyBody');
   const all = getAllHistory().slice().reverse();
+  const isAdmin = isAdminLoggedIn();
+  const actionCol = document.getElementById('actionCol');
+
+  if (isAdmin) actionCol.style.display = 'table-cell';
+  else actionCol.style.display = 'none';
 
   if (!all.length){
-    body.innerHTML = '<tr><td colspan="10" class="empty-note">Belum ada data tersimpan.</td></tr>';
+    body.innerHTML = `<tr><td colspan="${isAdmin ? 11 : 10}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
     document.getElementById('historyInfo').textContent =
       FIREBASE_ENABLED ? 'Menunggu data dari sensor & input manual...' : 'Data tersimpan otomatis di browser (mode offline).';
     return;
@@ -923,7 +1120,19 @@ function renderHistory(){
     const timeStr = h.ts
       ? new Date(h.ts).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
       : (h.time || '—');
-    return `<tr>
+
+    // Generate unique identifier untuk baris
+    const uniqueId = h.source === 'sensor'
+      ? `fb:${h.id || ''}`
+      : `local:${h.ts}`;
+
+    const actionCell = isAdmin
+      ? `<td><div class="btn-row-del">
+           <button class="btn-del" data-del-id="${uniqueId}" data-del-src="${h.source || 'manual'}">🗑 Hapus</button>
+         </div></td>`
+      : '';
+
+    return `<tr data-row-id="${uniqueId}">
       <td style="color:var(--muted);font-size:.76rem">${timeStr}</td>
       <td><b style="color:${cls.color}">${h.phosphate}</b></td>
       <td>${h.ph ?? '—'}</td>
@@ -934,11 +1143,59 @@ function renderHistory(){
       <td><span class="pill" style="background:${cls.color}22;color:${cls.color}">${cls.status}</span></td>
       <td>${h.wqi ?? '—'}</td>
       <td style="font-size:.72rem;color:var(--muted)">${h.source || 'manual'}</td>
+      ${actionCell}
     </tr>`;
   }).join('');
 
+  // Attach event listener untuk tombol hapus per baris
+  if (isAdmin){
+    body.querySelectorAll('.btn-del').forEach(btn => {
+      btn.addEventListener('click', () => handleDeleteRow(btn));
+    });
+  }
+
   document.getElementById('historyInfo').textContent =
     `Menampilkan ${Math.min(all.length,200)} dari ${all.length} data · ${firebaseHistory.length} dari sensor · ${localHistory.length} manual`;
+}
+
+async function handleDeleteRow(btn){
+  const id = btn.dataset.delId;
+  const src = btn.dataset.delSrc;
+  const [prefix, key] = id.split(':');
+
+  if (!confirm(`Hapus data ini?\n\nSumber: ${src}\nID: ${key || id}`)) return;
+
+  btn.disabled = true;
+  btn.textContent = '⏳...';
+
+  try {
+    if (prefix === 'local'){
+      // Hapus dari localHistory
+      const tsNum = parseInt(key);
+      localHistory = localHistory.filter(h => h.ts !== tsNum);
+      localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
+      showToast('✅ Data manual dihapus', 'success');
+    } else if (prefix === 'fb'){
+      // Hapus dari Firebase
+      if (!FIREBASE_ENABLED || !db || !key){
+        showToast('❌ Tidak bisa hapus — Firebase tidak aktif atau ID tidak valid', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '🗑 Hapus';
+        return;
+      }
+      const { ref, remove } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js');
+      await remove(ref(db, `readings/${key}`));
+      showToast('✅ Data sensor dihapus dari Firebase', 'success');
+    }
+
+    renderHistory();
+    renderChart();
+  } catch(e){
+    console.error('Delete error:', e);
+    showToast('❌ Gagal hapus: ' + e.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = '🗑 Hapus';
+  }
 }
 
 /* ============================================================
@@ -1024,20 +1281,16 @@ async function analyze(){
 }
 
 /* ============================================================
-   14. BMKG WEATHER INTEGRATION (SELF-HOSTED PROXY)
+   14. BMKG WEATHER
    ============================================================ */
 async function fetchBMKGWeather(){
   const box = document.getElementById('weatherBox');
 
   if (!PROXY_ENABLED){
-    box.innerHTML = `
-      <div class="empty-note" style="color:#fcd34d;line-height:1.7">
-        ⚠️ <b>Proxy BMKG belum dikonfigurasi.</b><br>
-        <span style="font-size:.75rem">Isi konstanta <code style="background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;color:#22d3ee">PROXY_URL</code> di bagian atas script dengan URL Vercel proxy kamu.</span>
-        <div style="margin-top:12px;font-size:.72rem;color:var(--muted)">
-          Belum punya proxy? Lihat panduan deploy di komentar sebelumnya.
-        </div>
-      </div>`;
+    box.innerHTML = `<div class="empty-note" style="color:#fcd34d;line-height:1.7">
+      ⚠️ <b>Proxy BMKG belum dikonfigurasi.</b><br>
+      <span style="font-size:.75rem">Isi <code style="background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;color:#22d3ee">PROXY_URL</code> di atas.</span>
+    </div>`;
     return;
   }
 
@@ -1046,42 +1299,23 @@ async function fetchBMKGWeather(){
   try {
     const url = `${PROXY_URL}/api/cuaca?adm4=${BMKG_ADM4}`;
     const res = await fetch(url);
-
-    if (!res.ok){
-      throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    }
-
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
     const data = await res.json();
+    if (data.error) throw new Error(data.error);
 
-    // Cek error dari proxy
-    if (data.error){
-      throw new Error(data.error);
-    }
-
-    // Parse struktur data BMKG resmi
-    let lokasi = null;
-    let cuacaArr = [];
-
+    let lokasi = null, cuacaArr = [];
     if (data.lokasi) lokasi = data.lokasi;
     if (data.data && data.data[0]){
       const first = data.data[0];
       if (first.lokasi && !lokasi) lokasi = first.lokasi;
-      if (first.cuaca){
-        cuacaArr = Array.isArray(first.cuaca[0]) ? first.cuaca.flat() : first.cuaca;
-      }
+      if (first.cuaca) cuacaArr = Array.isArray(first.cuaca[0]) ? first.cuaca.flat() : first.cuaca;
     }
+    if (!cuacaArr.length) throw new Error('Format data cuaca tidak dikenali');
 
-    if (!cuacaArr.length){
-      throw new Error('Format data cuaca tidak dikenali');
-    }
-
-    // Simpan ke state global
     const current = cuacaArr[0];
-    const rainForecast = cuacaArr.find(c =>
-      (c.weather_desc || '').toLowerCase().includes('hujan')
-    );
+    const rainForecast = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
     weatherData = {
-      current: current,
+      current,
       forecast: cuacaArr.slice(0, 12),
       rainExpected: !!rainForecast,
       rainTimeframe: rainForecast ? formatTimeDiff(rainForecast.local_datetime) : '',
@@ -1092,19 +1326,11 @@ async function fetchBMKGWeather(){
 
   } catch(e) {
     console.error('BMKG fetch error:', e);
-    box.innerHTML = `
-      <div class="empty-note" style="color:#fca5a5;line-height:1.7">
-        ❌ <b>Gagal memuat data cuaca BMKG.</b><br>
-        <span style="font-size:.75rem;display:block;margin-top:6px">${e.message}</span>
-        <div style="margin-top:12px;font-size:.72rem;color:var(--muted);max-width:520px;margin-left:auto;margin-right:auto;text-align:left">
-          <b>Kemungkinan penyebab:</b><br>
-          • URL <code style="background:rgba(0,0,0,.4);padding:1px 5px;border-radius:4px">PROXY_URL</code> salah / belum di-deploy<br>
-          • Proxy Vercel sedang error — cek di dashboard Vercel<br>
-          • Koneksi internet kamu terputus<br>
-          • Kode ADM4 tidak ditemukan di BMKG
-        </div>
-        <button class="btn ghost" onclick="window.__retryWeather()" style="width:auto;padding:8px 16px;margin-top:14px">🔄 Coba Lagi</button>
-      </div>`;
+    box.innerHTML = `<div class="empty-note" style="color:#fca5a5;line-height:1.7">
+      ❌ <b>Gagal memuat data cuaca BMKG.</b><br>
+      <span style="font-size:.75rem;display:block;margin-top:6px">${e.message}</span>
+      <button class="btn ghost" onclick="window.__retryWeather()" style="width:auto;padding:8px 16px;margin-top:14px">🔄 Coba Lagi</button>
+    </div>`;
   }
 }
 
@@ -1115,7 +1341,6 @@ function formatTimeDiff(datetimeStr){
     const now = new Date();
     const diffH = Math.round((target - now) / 3600000);
     if (diffH <= 0) return 'saat ini';
-    if (diffH <= 3) return `${diffH} jam ke depan`;
     if (diffH <= 24) return `${diffH} jam ke depan`;
     return `${Math.round(diffH/24)} hari ke depan`;
   } catch(_) { return 'waktu dekat'; }
@@ -1124,10 +1349,7 @@ function formatTimeDiff(datetimeStr){
 function renderWeather(lokasi, cuacaArr, source){
   const box = document.getElementById('weatherBox');
   const current = cuacaArr[0];
-
-  const locName = lokasi
-    ? [lokasi.desa, lokasi.kecamatan, lokasi.kotkab].filter(Boolean).join(', ')
-    : 'Sumber Maron';
+  const locName = lokasi ? [lokasi.desa, lokasi.kecamatan, lokasi.kotkab].filter(Boolean).join(', ') : 'Sumber Maron';
 
   const curTemp = current.t ?? '—';
   const curDesc = current.weather_desc || '—';
@@ -1139,9 +1361,7 @@ function renderWeather(lokasi, cuacaArr, source){
   const curTime = current.local_datetime || '—';
   const curIcon = current.image || '';
 
-  const rainSoon = cuacaArr.find(c =>
-    (c.weather_desc || '').toLowerCase().includes('hujan')
-  );
+  const rainSoon = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
 
   box.innerHTML = `
     <div class="weather-current">
@@ -1155,42 +1375,21 @@ function renderWeather(lokasi, cuacaArr, source){
         <div class="desc">${curDesc}</div>
         <h3>${curTemp}°C</h3>
         <div class="loc">📍 ${locName} · Kode: ${BMKG_ADM4}</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">
-          Diperbarui: ${curTime}
-        </div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Diperbarui: ${curTime}</div>
       </div>
     </div>
 
     <div class="weather-grid">
-      <div class="weather-item">
-        <div class="lbl">Kelembapan</div>
-        <div class="val">${curHu}${curHu !== '—' ? '%' : ''}</div>
-      </div>
-      <div class="weather-item">
-        <div class="lbl">Kecepatan Angin</div>
-        <div class="val">${curWs}${curWs !== '—' ? ' km/j' : ''}</div>
-      </div>
-      <div class="weather-item">
-        <div class="lbl">Arah Angin</div>
-        <div class="val">${curWd}</div>
-      </div>
-      <div class="weather-item">
-        <div class="lbl">Tutupan Awan</div>
-        <div class="val">${curTcc}${curTcc !== '—' ? '%' : ''}</div>
-      </div>
-      <div class="weather-item">
-        <div class="lbl">Jarak Pandang</div>
-        <div class="val">${curVs}</div>
-      </div>
+      <div class="weather-item"><div class="lbl">Kelembapan</div><div class="val">${curHu}${curHu !== '—' ? '%' : ''}</div></div>
+      <div class="weather-item"><div class="lbl">Kecepatan Angin</div><div class="val">${curWs}${curWs !== '—' ? ' km/j' : ''}</div></div>
+      <div class="weather-item"><div class="lbl">Arah Angin</div><div class="val">${curWd}</div></div>
+      <div class="weather-item"><div class="lbl">Tutupan Awan</div><div class="val">${curTcc}${curTcc !== '—' ? '%' : ''}</div></div>
+      <div class="weather-item"><div class="lbl">Jarak Pandang</div><div class="val">${curVs}</div></div>
     </div>
 
-    ${rainSoon ? `
-      <div class="rain-alert">
-        🌧️ <b>Waspada Hujan:</b> BMKG memprediksi <b>${rainSoon.weather_desc || 'hujan'}</b> pada ${rainSoon.local_datetime || 'beberapa saat ke depan'}.
-        Curah hujan dapat meningkatkan limpasan fosfat dari lahan sekitar ke badan air.
-        Disarankan pantau kenaikan fosfat 1–2 hari setelah hujan.
-      </div>
-    ` : ''}
+    ${rainSoon ? `<div class="rain-alert">
+      🌧️ <b>Waspada Hujan:</b> BMKG memprediksi <b>${rainSoon.weather_desc || 'hujan'}</b> pada ${rainSoon.local_datetime || 'beberapa saat ke depan'}.
+    </div>` : ''}
 
     <div style="margin-top:18px">
       <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">
@@ -1220,16 +1419,14 @@ function formatForecastTime(dt){
     const d = new Date(String(dt).replace(' ', 'T'));
     if (isNaN(d.getTime())) return String(dt).slice(-5);
     const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-    const day = days[d.getDay()];
-    const h = String(d.getHours()).padStart(2,'0');
-    return `${day} ${h}:00`;
+    return `${days[d.getDay()]} ${String(d.getHours()).padStart(2,'0')}:00`;
   } catch(_) { return String(dt).slice(-5) || '—'; }
 }
 
 window.__retryWeather = fetchBMKGWeather;
 
 /* ============================================================
-   15. FIREBASE INTEGRATION
+   15. FIREBASE
    ============================================================ */
 async function initFirebase(){
   if (!FIREBASE_ENABLED){
@@ -1241,54 +1438,41 @@ async function initFirebase(){
 
   try {
     const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
-    const {
-      getDatabase, ref, onValue, query, limitToLast, goOnline
-    } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js');
+    const fb = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js');
+    fbApi = fb;
 
     const app = initializeApp(FIREBASE_CONFIG);
-    db = getDatabase(app);
-    goOnline(db);
+    db = fb.getDatabase(app);
+    fb.goOnline(db);
 
     setSensorStatus('🔄 Menghubungkan ke Firebase...', '');
 
-    onValue(ref(db, 'latest'), (snap) => {
+    fb.onValue(fb.ref(db, 'latest'), (snap) => {
       const d = snap.val();
-      if (!d) {
-        setSensorStatus('Terhubung — menunggu data sensor pertama...', 'ok');
-        return;
-      }
+      if (!d){ setSensorStatus('Terhubung — menunggu data sensor pertama...', 'ok'); return; }
       lastFirebaseTs = d.ts || Date.now();
-      fillInputs({
-        phosphate: d.phosphate, ph: d.ph, temp: d.temp,
-        do_: d.do_, turbidity: d.turbidity, conductivity: d.conductivity
-      });
+      fillInputs(d);
       setSensorStatus(`📡 Data terakhir: ${new Date(lastFirebaseTs).toLocaleString('id-ID')} — PO₄: ${d.phosphate} mg/L`, 'ok');
     }, (err) => {
       console.error('Firebase /latest error:', err);
       setSensorStatus('❌ Gagal baca /latest: ' + err.message, 'err');
     });
 
-    onValue(ref(db, 'status'), (snap) => {
+    fb.onValue(fb.ref(db, 'status'), (snap) => {
       const s = snap.val();
-      if (!s || !s.lastSeen){
-        setLiveIndicator('offline', 'Alat Belum Aktif');
-        return;
-      }
+      if (!s || !s.lastSeen){ setLiveIndicator('offline', 'Alat Belum Aktif'); return; }
       const secAgo = (Date.now() - s.lastSeen) / 1000;
-      if (secAgo > 120){
-        setLiveIndicator('offline', `Alat Offline (${Math.round(secAgo/60)}m lalu)`);
-      } else {
-        setLiveIndicator('online', `Alat Online · ${new Date(s.lastSeen).toLocaleTimeString('id-ID')}`);
-      }
+      if (secAgo > 120) setLiveIndicator('offline', `Alat Offline (${Math.round(secAgo/60)}m lalu)`);
+      else setLiveIndicator('online', `Alat Online · ${new Date(s.lastSeen).toLocaleTimeString('id-ID')}`);
     });
 
-    onValue(query(ref(db, 'readings'), limitToLast(200)), (snap) => {
+    fb.onValue(fb.query(fb.ref(db, 'readings'), fb.limitToLast(200)), (snap) => {
       const arr = [];
       snap.forEach(child => {
         const v = child.val();
         arr.push({
           id: child.key,
-          ts: v.ts ? (v.ts > 1e12 ? v.ts : v.ts) : Date.now(),
+          ts: v.ts || Date.now(),
           phosphate: v.phosphate, ph: v.ph, temp: v.temp,
           do_: v.do_, turbidity: v.turbidity, conductivity: v.conductivity,
           wqi: computeWQI(v).score,
@@ -1302,6 +1486,20 @@ async function initFirebase(){
       if (!document.getElementById('stamp').textContent){
         setSensorStatus(`✅ Tersinkron: ${arr.length} data sensor dari Firebase`, 'ok');
       }
+    });
+
+    fb.onValue(fb.query(fb.ref(db, 'fieldData'), fb.limitToLast(100)), (snap) => {
+      const arr = [];
+      snap.forEach(child => arr.push(child.val()));
+      const merged = [...arr, ...fieldData];
+      const seen = new Set();
+      fieldData = merged.filter(f => {
+        if (!f.ts || seen.has(f.ts)) return false;
+        seen.add(f.ts);
+        return true;
+      }).sort((a,b) => b.ts - a.ts).slice(0, 100);
+      localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
+      renderFieldStats();
     });
 
   } catch(e) {
@@ -1327,7 +1525,357 @@ function setSensorStatus(text, kind){
 }
 
 /* ============================================================
-   16. EVENT LISTENERS
+   16. ADMIN AUTHENTICATION
+   ============================================================ */
+async function sha256(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+window.sha256 = sha256;
+
+function isAdminLoggedIn(){
+  try {
+    const s = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
+    if (!s) return false;
+    if (Date.now() - s.ts > SESSION_DURATION){
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      return false;
+    }
+    return true;
+  } catch(_) { return false; }
+}
+
+function setAdminSession(){ localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
+function clearAdminSession(){ localStorage.removeItem(ADMIN_SESSION_KEY); }
+
+async function verifyPassword(input){
+  if (ADMIN_AUTH.hash) {
+    const inputHash = await sha256(input);
+    return inputHash === ADMIN_AUTH.hash;
+  }
+  return input === ADMIN_AUTH.password;
+}
+
+function updateAuthUI(){
+  const loggedIn = isAdminLoggedIn();
+  const btn = document.getElementById('loginBtn');
+  const panel = document.getElementById('adminPanel');
+  const sensorDeleteBtn = document.getElementById('clearSensorBtn');
+
+  if (loggedIn){
+    btn.innerHTML = '🔓 Logout Admin';
+    btn.classList.add('admin');
+    panel.classList.add('show');
+    if (FIREBASE_ENABLED) sensorDeleteBtn.style.display = 'inline-flex';
+  } else {
+    btn.innerHTML = '🔐 Login Admin';
+    btn.classList.remove('admin');
+    panel.classList.remove('show');
+    sensorDeleteBtn.style.display = 'none';
+  }
+
+  // Re-render history untuk tampilkan/sembunyikan kolom Aksi
+  renderHistory();
+}
+
+function openLoginModal(){
+  document.getElementById('loginModal').classList.add('show');
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('loginError').classList.remove('show');
+  setTimeout(() => document.getElementById('adminPassword').focus(), 100);
+}
+
+function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  if (isAdminLoggedIn()){
+    if (confirm('Logout dari panel admin?')){
+      clearAdminSession();
+      updateAuthUI();
+      showToast('Berhasil logout', 'success');
+    }
+  } else {
+    openLoginModal();
+  }
+});
+
+document.getElementById('closeLogin').addEventListener('click', closeLoginModal);
+document.getElementById('cancelLogin').addEventListener('click', closeLoginModal);
+
+document.getElementById('submitLogin').addEventListener('click', async () => {
+  const pwd = document.getElementById('adminPassword').value;
+  const err = document.getElementById('loginError');
+
+  if (!pwd){
+    err.textContent = '❌ Password tidak boleh kosong';
+    err.classList.add('show');
+    return;
+  }
+
+  const btn = document.getElementById('submitLogin');
+  btn.disabled = true;
+  btn.textContent = 'Memeriksa...';
+
+  if (await verifyPassword(pwd)){
+    setAdminSession();
+    updateAuthUI();
+    closeLoginModal();
+    showToast('✅ Login berhasil! Selamat datang, Admin.', 'success');
+  } else {
+    err.textContent = '❌ Password salah. Coba lagi.';
+    err.classList.add('show');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('adminPassword').focus();
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Masuk';
+});
+
+document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') document.getElementById('submitLogin').click();
+});
+
+document.getElementById('adminPassword').addEventListener('input', () => {
+  document.getElementById('loginError').classList.remove('show');
+});
+
+/* ============================================================
+   17. FIELD DATA
+   ============================================================ */
+function saveFieldDataLocal(data){
+  fieldData.unshift(data);
+  if (fieldData.length > 100) fieldData = fieldData.slice(0, 100);
+  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
+}
+
+async function saveFieldDataToFirebase(data){
+  if (!FIREBASE_ENABLED || !db || !fbApi) return false;
+  try {
+    await fbApi.set(fbApi.push(fbApi.ref(db, 'fieldData')), data);
+    await fbApi.set(fbApi.ref(db, 'fieldDataLatest'), data);
+    return true;
+  } catch(e){
+    console.error('Save field data error:', e);
+    return false;
+  }
+}
+
+async function deleteFieldDataEntry(ts){
+  // Hapus dari lokal
+  fieldData = fieldData.filter(f => f.ts !== ts);
+  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
+
+  // Hapus dari Firebase (cari berdasarkan ts)
+  if (FIREBASE_ENABLED && db && fbApi){
+    try {
+      const snap = await fbApi.get(fbApi.query(fbApi.ref(db, 'fieldData'), fbApi.limitToLast(100)));
+      const updates = {};
+      snap.forEach(child => {
+        const v = child.val();
+        if (v.ts === ts) updates[`fieldData/${child.key}`] = null;
+      });
+      if (Object.keys(updates).length){
+        await fbApi.update(fbApi.ref(db), updates);
+      }
+    } catch(e){
+      console.error('Delete field from Firebase error:', e);
+    }
+  }
+
+  renderFieldStats();
+  showToast('✅ Entri data lapangan dihapus', 'success');
+}
+
+function renderFieldStats(){
+  const box = document.getElementById('fieldStatsBox');
+  const isAdmin = isAdminLoggedIn();
+
+  if (!fieldData.length){
+    box.innerHTML = '<div class="empty-note">Belum ada data lapangan. Admin dapat menambahkan data di panel bawah.</div>';
+    return;
+  }
+
+  const latest = fieldData[0];
+  const rainEmoji = latest.rainStatus === 'Tidak Hujan' ? '☀️' :
+                    latest.rainStatus === 'Hujan Ringan' ? '🌦️' :
+                    latest.rainStatus === 'Hujan Sedang' ? '🌧️' :
+                    latest.rainStatus === 'Hujan Lebat' ? '⛈️' : '🌤️';
+
+  box.innerHTML = `
+    <div class="visitor-stats">
+      <div class="stat-card">
+        <div class="icon">👥</div>
+        <div class="val">${latest.visitorCount ?? 0}</div>
+        <div class="lbl">Pengunjung</div>
+        <div class="sub">${latest.date || '—'}</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">${rainEmoji}</div>
+        <div class="val txt">${latest.rainStatus || '—'}</div>
+        <div class="lbl">Kondisi Hujan</div>
+        <div class="sub">${latest.weatherCond || '—'}</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">🌡️</div>
+        <div class="val">${latest.airTemp ?? '—'}°</div>
+        <div class="lbl">Suhu Udara</div>
+        <div class="sub">Kelembapan ${latest.airHumidity ?? '—'}%</div>
+      </div>
+    </div>
+    ${latest.notes ? `
+      <div style="margin-top:14px;padding:14px;border-radius:12px;background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.2)">
+        <div style="font-size:.68rem;color:var(--aqua);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">📝 Catatan Lapangan</div>
+        <div style="font-size:.85rem;color:var(--txt);line-height:1.6">${escapeHtml(latest.notes)}</div>
+      </div>
+    ` : ''}
+    ${fieldData.length > 1 ? `
+      <div style="margin-top:16px">
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">
+          Riwayat Data Lapangan (${fieldData.length} entri)
+        </div>
+        <div class="table-scroll" style="max-height:240px">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th><th>Pengunjung</th><th>Hujan</th><th>Cuaca</th><th>Suhu</th><th>Lembap</th>
+                ${isAdmin ? '<th>Aksi</th>' : ''}
+              </tr>
+            </thead>
+            <tbody>
+              ${fieldData.slice(0, 30).map(f => `
+                <tr>
+                  <td style="font-size:.76rem">${f.date || '—'}</td>
+                  <td><b>${f.visitorCount ?? '—'}</b></td>
+                  <td>${f.rainStatus || '—'}</td>
+                  <td>${f.weatherCond || '—'}</td>
+                  <td>${f.airTemp ?? '—'}°C</td>
+                  <td>${f.airHumidity ?? '—'}%</td>
+                  ${isAdmin ? `<td><div class="btn-row-del"><button class="btn-del" data-field-del="${f.ts}">🗑 Hapus</button></div></td>` : ''}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
+  `;
+
+  // Attach listener untuk tombol hapus field data
+  if (isAdmin){
+    box.querySelectorAll('[data-field-del]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const ts = parseInt(btn.dataset.fieldDel);
+        if (!confirm('Hapus entri data lapangan ini?')) return;
+        btn.disabled = true;
+        btn.textContent = '⏳';
+        await deleteFieldDataEntry(ts);
+      });
+    });
+  }
+}
+
+function escapeHtml(s){
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+document.getElementById('saveFieldBtn').addEventListener('click', async () => {
+  if (!isAdminLoggedIn()){
+    showToast('Sesi admin habis. Silakan login ulang.', 'error');
+    return;
+  }
+
+  const visitorCount = parseInt(document.getElementById('visitorCount').value);
+  const data = {
+    date: document.getElementById('fieldDate').value || new Date().toISOString().slice(0,10),
+    visitorCount: isNaN(visitorCount) ? 0 : visitorCount,
+    rainStatus: document.getElementById('rainStatus').value,
+    weatherCond: document.getElementById('weatherCond').value,
+    airTemp: parseFloat(document.getElementById('airTemp').value) || null,
+    airHumidity: parseInt(document.getElementById('airHumidity').value) || null,
+    notes: document.getElementById('fieldNotes').value.trim(),
+    ts: Date.now(),
+    admin: true
+  };
+
+  const btn = document.getElementById('saveFieldBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span> Menyimpan...';
+
+  saveFieldDataLocal(data);
+  const fbOk = await saveFieldDataToFirebase(data);
+  renderFieldStats();
+
+  btn.disabled = false;
+  btn.innerHTML = '💾 Simpan Data Lapangan';
+
+  if (fbOk) showToast('✅ Data tersimpan & tersinkron ke cloud', 'success');
+  else if (FIREBASE_ENABLED) showToast('⚠️ Tersimpan lokal, gagal sync ke Firebase', 'warn');
+  else showToast('✅ Data tersimpan lokal', 'success');
+
+  document.getElementById('visitorCount').value = '';
+  document.getElementById('fieldNotes').value = '';
+});
+
+document.getElementById('autoFillWeatherBtn').addEventListener('click', () => {
+  if (!weatherData || !weatherData.current){
+    showToast('Data cuaca BMKG belum tersedia', 'warn');
+    return;
+  }
+  const w = weatherData.current;
+  document.getElementById('airTemp').value = w.t ?? '';
+  document.getElementById('airHumidity').value = w.hu ?? '';
+
+  const desc = (w.weather_desc || '').toLowerCase();
+  let rainStatus = 'Tidak Hujan';
+  if (desc.includes('hujan lebat') || desc.includes('badai')) rainStatus = 'Hujan Lebat';
+  else if (desc.includes('hujan sedang')) rainStatus = 'Hujan Sedang';
+  else if (desc.includes('hujan')) rainStatus = 'Hujan Ringan';
+  document.getElementById('rainStatus').value = rainStatus;
+
+  let weatherCond = 'Cerah';
+  if (desc.includes('hujan')) weatherCond = 'Hujan';
+  else if (desc.includes('mendung') || desc.includes('tebal')) weatherCond = 'Mendung';
+  else if (desc.includes('berawan') || desc.includes('awan')) weatherCond = 'Berawan';
+  document.getElementById('weatherCond').value = weatherCond;
+
+  showToast('Data cuaca diisi dari BMKG', 'success');
+});
+
+/* ============================================================
+   18. TOAST
+   ============================================================ */
+function showToast(message, type = 'info'){
+  const toast = document.createElement('div');
+  const colors = {
+    success: { bg: 'rgba(52,211,153,.15)', border: 'rgba(52,211,153,.4)', color: '#6ee7b7' },
+    error:   { bg: 'rgba(239,68,68,.15)',  border: 'rgba(239,68,68,.4)',  color: '#fca5a5' },
+    warn:    { bg: 'rgba(251,191,36,.15)', border: 'rgba(251,191,36,.4)', color: '#fcd34d' },
+    info:    { bg: 'rgba(34,211,238,.15)', border: 'rgba(34,211,238,.4)', color: '#67e8f9' }
+  };
+  const c = colors[type] || colors.info;
+  toast.style.cssText = `
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    padding:12px 20px;border-radius:12px;
+    background:${c.bg};border:1px solid ${c.border};color:${c.color};
+    font-size:.85rem;font-weight:600;z-index:10000;
+    backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,.4);
+    animation:toastIn .3s ease;max-width:90vw;text-align:center;
+  `;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = 'toastOut .3s ease forwards';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+/* ============================================================
+   19. EVENT LISTENERS
    ============================================================ */
 document.getElementById('analyzeBtn').addEventListener('click', analyze);
 
@@ -1362,32 +1910,76 @@ document.getElementById('exportBtn').addEventListener('click', ()=>{
   URL.revokeObjectURL(url);
 });
 
-document.getElementById('clearBtn').addEventListener('click', ()=>{
-  if (!localHistory.length){ alert('Tidak ada data lokal untuk dihapus.'); return; }
-  if (confirm('Hapus seluruh riwayat INPUT MANUAL dari browser?\n(Data sensor dari Firebase tidak terpengaruh)')){
+/* --- Hapus Data Manual (localHistory) --- */
+document.getElementById('clearManualBtn').addEventListener('click', ()=>{
+  if (!localHistory.length){
+    alert('Tidak ada data manual untuk dihapus.');
+    return;
+  }
+  if (confirm(`Hapus ${localHistory.length} data INPUT MANUAL dari browser?\n\nData sensor dari Firebase TIDAK akan terhapus.`)){
     localHistory = [];
     localStorage.removeItem(STORE_KEY);
     renderHistory();
     renderChart();
     document.getElementById('resultBox').innerHTML =
-      '<div class="result-empty"><div class="big">🧪</div><p>Riwayat manual telah dihapus. Data sensor dari Firebase tetap tersimpan.</p></div>';
+      '<div class="result-empty"><div class="big">🧪</div><p>Riwayat manual telah dihapus.</p></div>';
     document.getElementById('recBox').innerHTML =
       '<div class="empty-note">Belum ada rekomendasi. Lakukan analisis terlebih dahulu.</div>';
     document.getElementById('stamp').textContent = '';
+    showToast('✅ Semua data manual dihapus', 'success');
   }
 });
 
+/* --- Hapus Data Sensor (Firebase) — Admin only --- */
+document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
+  if (!isAdminLoggedIn()){
+    showToast('Login admin dulu untuk hapus data sensor', 'error');
+    return;
+  }
+  if (!FIREBASE_ENABLED || !db || !fbApi){
+    showToast('Firebase tidak aktif', 'error');
+    return;
+  }
+  if (!firebaseHistory.length){
+    alert('Tidak ada data sensor untuk dihapus.');
+    return;
+  }
+  if (!confirm(`⚠️ PERINGATAN KERAS!\n\nHapus SEMUA (${firebaseHistory.length}) data sensor dari Firebase?\n\nTindakan ini TIDAK BISA dibatalkan, dan data akan hilang permanen dari server.`)) return;
+  if (!confirm('Yakin? Konfirmasi terakhir — ketik OK untuk lanjut.')) return;
+
+  const btn = document.getElementById('clearSensorBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Menghapus...';
+
+  try {
+    await fbApi.remove(fbApi.ref(db, 'readings'));
+    await fbApi.remove(fbApi.ref(db, 'latest'));
+    firebaseHistory = [];
+    renderHistory();
+    renderChart();
+    showToast(`✅ ${firebaseHistory.length} data sensor dihapus dari Firebase`, 'success');
+  } catch(e){
+    console.error('Clear sensor error:', e);
+    showToast('❌ Gagal hapus: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '🗑 Hapus Data Sensor';
+});
+
 /* ============================================================
-   17. INIT
+   20. INIT
    ============================================================ */
+document.getElementById('fieldDate').value = new Date().toISOString().slice(0,10);
+
 renderHistory();
 renderChart();
+updateAuthUI();
+renderFieldStats();
 initFirebase();
 fetchBMKGWeather();
 
-// Auto-refresh cuaca tiap 30 menit
 setInterval(fetchBMKGWeather, 30 * 60 * 1000);
-
 </script>
 </body>
 </html>
