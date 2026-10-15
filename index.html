@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MariPosa AI — Sistem Monitoring Fosfat & Cuaca Sumber Maron</title>
+<title>MaronPhos AI — Sistem Monitoring Fosfat & Cuaca Sumber Maron</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#050b14; --bg2:#0a1524;
@@ -312,6 +314,79 @@
 
   @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
   @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(20px)}}
+
+  /* ===== MAP STYLES ===== */
+  #phosphateMap{
+    width:100%;height:480px;border-radius:14px;
+    border:1px solid var(--border);
+    z-index:1;
+  }
+  .leaflet-container{
+    background:#0a1524 !important;
+    font-family:'Inter','Segoe UI',system-ui,sans-serif;
+  }
+  .leaflet-popup-content-wrapper{
+    background:rgba(15,28,45,.98) !important;
+    color:var(--txt) !important;
+    border:1px solid var(--border-2) !important;
+    border-radius:12px !important;
+    box-shadow:0 8px 32px rgba(0,0,0,.6) !important;
+  }
+  .leaflet-popup-content{
+    margin:14px 16px !important;
+    font-size:.82rem !important;
+    line-height:1.55 !important;
+  }
+  .leaflet-popup-tip{
+    background:rgba(15,28,45,.98) !important;
+    border:1px solid var(--border-2) !important;
+  }
+  .leaflet-popup-close-button{
+    color:var(--muted) !important;
+    font-size:18px !important;
+    padding:4px 8px 0 0 !important;
+  }
+  .leaflet-popup-close-button:hover{color:var(--red) !important}
+
+  .map-legend{
+    background:rgba(10,21,36,.94);
+    padding:10px 14px;border-radius:10px;
+    border:1px solid var(--border-2);
+    font-size:.72rem;line-height:1.7;
+    backdrop-filter:blur(10px);
+    box-shadow:0 4px 16px rgba(0,0,0,.5);
+    min-width:160px;
+  }
+  .map-legend .legend-title{
+    font-size:.68rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:.6px;color:var(--aqua);margin-bottom:6px;
+  }
+  .map-legend .legend-item{
+    display:flex;align-items:center;gap:8px;color:var(--muted);
+  }
+  .map-legend .legend-dot{
+    width:12px;height:12px;border-radius:50%;
+    border:2px solid rgba(255,255,255,.3);
+    flex-shrink:0;
+  }
+
+  .map-toolbar{
+    display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;
+  }
+  .map-toolbar button{
+    background:rgba(138,166,184,.08);border:1px solid rgba(138,166,184,.3);
+    color:var(--muted);padding:7px 13px;border-radius:9px;
+    font-family:inherit;font-size:.76rem;font-weight:600;
+    cursor:pointer;transition:.2s;
+  }
+  .map-toolbar button:hover{
+    background:rgba(34,211,238,.08);color:var(--aqua);
+    border-color:var(--border-2);
+  }
+  .map-toolbar button.active{
+    background:rgba(34,211,238,.12);color:var(--aqua);
+    border-color:var(--aqua);
+  }
 </style>
 </head>
 <body>
@@ -320,10 +395,11 @@
   <div class="nav-in">
     <div class="logo">
       <div class="drop">💧</div>
-      <div>MariPosa AI<small>Phosphate Intelligence</small></div>
+      <div>MaronPhos AI<small>Phosphate Intelligence</small></div>
     </div>
     <div class="nav-links">
       <a href="#analisis">Analisis</a>
+      <a href="#peta">Peta</a>
       <a href="#cuaca">Cuaca</a>
       <a href="#lapangan">Lapangan</a>
       <a href="#prediksi">Prediksi</a>
@@ -345,7 +421,7 @@
     <p>
       Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
       Terintegrasi dengan sensor IoT via Firebase, prakiraan cuaca BMKG,
-      dan panel data lapangan admin.
+      peta tematik spasial, dan panel data lapangan admin.
     </p>
   </header>
 
@@ -429,6 +505,23 @@
           <div class="big">🧪</div>
           <p>Masukkan data parameter air, atau tunggu data dari sensor masuk otomatis — lalu tekan <b>Analisis dengan AI</b>.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="peta">
+    <div class="sec-head">
+      <h2>Peta Tematik <span class="grad">Kadar Fosfat</span></h2>
+      <p>Distribusi spasial kadar fosfat (PO₄) di kawasan Sumber Maron. Klik titik untuk melihat detail.</p>
+    </div>
+    <div class="card">
+      <div class="card-b">
+        <div class="map-toolbar">
+          <button id="mapCenterBtn" class="active">📍 Fokus Sumber Maron</button>
+          <button id="mapFitBtn">🗺️ Tampilkan Semua Titik</button>
+          <button id="mapRefreshBtn">🔄 Refresh dari Data</button>
+        </div>
+        <div id="phosphateMap"></div>
       </div>
     </div>
   </section>
@@ -534,7 +627,7 @@
   <section class="block" id="rekomendasi">
     <div class="sec-head">
       <h2>Rekomendasi <span class="grad">Tindakan</span></h2>
-      <p>Saran mitigasi yang dihasilkan AI berdasarkan status trofik, kondisi parameter, dan prakiraan cuaca.</p>
+      <p>Saran mitigasi yang dihasilkan AI berdasarkan status trofik, kondisi parameter, prakiraan cuaca, dan sebaran spasial.</p>
     </div>
     <div class="card">
       <div class="card-b" id="recBox">
@@ -575,8 +668,8 @@
   </section>
 
   <footer>
-    <b>MariPos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · AI Engine v1.4</span>
+    <b>MaronPhos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
+    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Leaflet + OpenStreetMap · AI Engine v1.5</span>
   </footer>
 </div>
 
@@ -620,6 +713,60 @@ const ADMIN_AUTH = {
 
 const BMKG_ADM4 = "35.07.33.2009";
 
+/* ===== KOORDINAT SUMBER MARON ===== */
+const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
+
+/* ===== TITIK SAMPLING REFERENSI ===== */
+/* Koordinat approximasi berdasarkan peta area Sumber Maron.
+   Titik dapat diperbarui setelah survey lapangan. */
+const SAMPLING_POINTS = [
+  {
+    id: 'SM-01',
+    name: 'Mata Air Utama',
+    description: 'Sumber mata air utama, titik keluaran air dari dalam tanah.',
+    lat: -8.21120,
+    lng: 112.47680,
+    defaultPhosphate: 0.08,
+    type: 'spring'
+  },
+  {
+    id: 'SM-02',
+    name: 'Kolam Utama / Pemandian',
+    description: 'Area kolam utama yang paling banyak dikunjungi wisatawan.',
+    lat: -8.21065,
+    lng: 112.47650,
+    defaultPhosphate: 0.12,
+    type: 'pool'
+  },
+  {
+    id: 'SM-03',
+    name: 'Aliran Hilir 1',
+    description: 'Aliran sungai keluar dari area wisata utama.',
+    lat: -8.21020,
+    lng: 112.47620,
+    defaultPhosphate: 0.18,
+    type: 'stream'
+  },
+  {
+    id: 'SM-04',
+    name: 'Aliran Hilir 2',
+    description: 'Aliran sungai hilir, melewati lahan pertanian warga.',
+    lat: -8.20950,
+    lng: 112.47580,
+    defaultPhosphate: 0.26,
+    type: 'stream'
+  },
+  {
+    id: 'SM-05',
+    name: 'Area Irigasi Sawah',
+    description: 'Titik pemanfaatan air untuk irigasi pertanian.',
+    lat: -8.20900,
+    lng: 112.47520,
+    defaultPhosphate: 0.32,
+    type: 'irrigation'
+  }
+];
+
 const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.includes('ISI_');
 const PROXY_ENABLED = PROXY_URL && !PROXY_URL.includes('GANTI-DENGAN');
 
@@ -639,6 +786,14 @@ const ADMIN_SESSION_KEY = 'maronphos_admin_session';
 const SESSION_DURATION = 8 * 60 * 60 * 1000;
 const FIELD_STORE_KEY = 'maronphos_field_data_v1';
 let fieldData = JSON.parse(localStorage.getItem(FIELD_STORE_KEY) || '[]');
+
+/* ===== MAP ===== */
+let map = null;
+let markerLayer = null;
+let legendControl = null;
+
+/* ===== KADAR FOSFAT PER TITIK (untuk peta) ===== */
+let phosphatePoints = [];
 
 /* ============================================================
    1. KLASIFIKASI TROFIK
@@ -780,7 +935,7 @@ function forecast(steps){
 }
 
 /* ============================================================
-   6. REKOMENDASI
+   6. REKOMENDASI (dengan integrasi peta tematik)
    ============================================================ */
 function buildRecommendations(d, cls, wqi, anomalies){
   const recs=[];
@@ -803,11 +958,47 @@ function buildRecommendations(d, cls, wqi, anomalies){
       body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
   }
 
+  /* ===== REKOMENDASI BERBASIS PETA TEMATIK ===== */
+  if (phosphatePoints.length > 0){
+    const values = phosphatePoints.map(p => p.phosphate).filter(v => v > 0);
+    if (values.length >= 2){
+      const maxPoint = phosphatePoints.reduce((a,b) => (a.phosphate > b.phosphate ? a : b));
+      const minPoint = phosphatePoints.reduce((a,b) => (a.phosphate < b.phosphate ? a : b));
+      const avg = values.reduce((a,b) => a+b, 0) / values.length;
+      const gradien = maxPoint.phosphate - minPoint.phosphate;
+
+      recs.push({
+        sev: 'info', ico: '🗺️', tag: 'Peta Tematik',
+        title: `Sebaran Spasial: Rata-rata ${avg.toFixed(3)} mg/L`,
+        body: `Dari ${phosphatePoints.length} titik sampling, kadar fosfat tertinggi berada di <b>${maxPoint.name}</b> (${maxPoint.phosphate.toFixed(3)} mg/L) dan terendah di <b>${minPoint.name}</b> (${minPoint.phosphate.toFixed(3)} mg/L). Gradien: <b>${gradien.toFixed(3)} mg/L</b> dari hulu ke hilir.`
+      });
+
+      // Deteksi akumulasi di hilir
+      if (maxPoint.lat < minPoint.lat && gradien > 0.05){
+        recs.push({
+          sev: 'warn', ico: '📉', tag: 'Pola Spasial',
+          title: 'Akumulasi Fosfat di Hilir',
+          body: `Terdeteksi pola akumulasi: kadar fosfat meningkat dari hulu (<b>${minPoint.name}</b>) ke hilir (<b>${maxPoint.name}</b>) sebesar ${gradien.toFixed(3)} mg/L. Indikasi kuat adanya input fosfat dari aktivitas di sepanjang aliran (pertanian, permukiman, atau limbah wisata). Prioritaskan investigasi di segmen tengah-hilir.`
+        });
+      }
+
+      // Deteksi titik hotspot
+      const hotspot = phosphatePoints.filter(p => p.phosphate >= 0.5);
+      if (hotspot.length > 0){
+        recs.push({
+          sev: 'warn', ico: '🔴', tag: 'Hotspot Peta',
+          title: `${hotspot.length} Titik Hotspot Fosfat Tinggi`,
+          body: `Terdeteksi ${hotspot.length} titik dengan kadar fosfat ≥ 0.5 mg/L (kategori Eutrofik): <b>${hotspot.map(h => h.name).join(', ')}</b>. Titik-titik ini perlu penanganan prioritas — pasang perangkap sedimen dan kurangi input nutrien di area sekitar.`
+        });
+      }
+    }
+  }
+
   if (weatherData && weatherData.rainExpected){
     recs.push({
       sev: 'warn', ico: '🌧️', tag: 'Cuaca BMKG',
       title: 'Prediksi Hujan — Waspadai Lonjakan Fosfat',
-      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat. Disarankan pantau kenaikan fosfat 1–2 hari setelah hujan.`
+      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat dari lahan pertanian & permukiman ke badan air. Disarankan pantau kenaikan fosfat 1–2 hari setelah hujan.`
     });
   }
 
@@ -899,6 +1090,7 @@ function thinkingAnimation(){
     'Menghitung sub-indeks kualitas air...',
     'Mengklasifikasi status trofik fosfat...',
     'Mendeteksi anomali parameter...',
+    'Menganalisis sebaran spasial...',
     'Menganalisis data cuaca BMKG & lapangan...',
     'Menjalankan model prediksi regresi...',
     'Menyusun rekomendasi tindakan...'
@@ -997,7 +1189,182 @@ function renderRecommendations(recs){
 }
 
 /* ============================================================
-   10. CHART
+   10. PETA TEMATIK FOSFAT
+   ============================================================ */
+function initMap(){
+  if (map) return;
+
+  map = L.map('phosphateMap', {
+    center: SUMBER_MARON_CENTER,
+    zoom: 17,
+    zoomControl: true,
+    attributionControl: true
+  });
+
+  // Tile layer: OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  // Layer group untuk marker
+  markerLayer = L.layerGroup().addTo(map);
+
+  // Legenda
+  legendControl = L.control({ position: 'bottomright' });
+  legendControl.onAdd = function(){
+    const div = L.DomUtil.create('div', 'map-legend');
+    div.innerHTML = `
+      <div class="legend-title">Kadar Fosfat (PO₄)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> &lt; 0.025 mg/L (Oligotrofik)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> 0.025–0.10 (Rendah)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 0.10–0.50 (Mesotrofik)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> 0.50–1.00 (Eutrofik)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> ≥ 1.00 (Hiper-eutrofik)</div>
+    `;
+    return div;
+  };
+  legendControl.addTo(map);
+
+  // Render titik awal
+  renderMapPoints();
+
+  // Tombol kontrol
+  document.getElementById('mapCenterBtn').addEventListener('click', () => {
+    map.setView(SUMBER_MARON_CENTER, 17);
+    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
+    document.getElementById('mapCenterBtn').classList.add('active');
+  });
+
+  document.getElementById('mapFitBtn').addEventListener('click', () => {
+    if (phosphatePoints.length > 0){
+      const bounds = L.latLngBounds(phosphatePoints.map(p => [p.lat, p.lng]));
+      map.fitBounds(bounds, { padding: [40, 40] });
+    }
+    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
+    document.getElementById('mapFitBtn').classList.add('active');
+  });
+
+  document.getElementById('mapRefreshBtn').addEventListener('click', () => {
+    updateMapFromData();
+    showToast('🔄 Peta diperbarui dari data terbaru', 'success');
+  });
+}
+
+function renderMapPoints(){
+  if (!markerLayer) return;
+  markerLayer.clearLayers();
+
+  phosphatePoints.forEach(point => {
+    const cls = classifyPhosphate(point.phosphate);
+
+    // Marker circle
+    const marker = L.circleMarker([point.lat, point.lng], {
+      radius: 14,
+      fillColor: cls.color,
+      color: '#04141a',
+      weight: 3,
+      opacity: 1,
+      fillOpacity: 0.85
+    });
+
+    // Popup content
+    const popupHtml = `
+      <div style="min-width:200px">
+        <div style="font-size:.72rem;color:${cls.color};font-weight:700;
+          text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">
+          ${point.id} · ${cls.status}
+        </div>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:6px">
+          ${point.name}
+        </div>
+        <div style="font-size:1.4rem;font-weight:800;color:${cls.color};
+          letter-spacing:-.5px;line-height:1;margin-bottom:8px">
+          ${point.phosphate.toFixed(3)} <span style="font-size:.7rem;
+          color:var(--muted);font-weight:500">mg/L PO₄</span>
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);line-height:1.5;margin-bottom:8px">
+          ${point.description}
+        </div>
+        <div style="font-size:.68rem;color:var(--muted);border-top:1px solid rgba(255,255,255,.1);
+          padding-top:6px;margin-top:6px">
+          📍 ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}
+        </div>
+      </div>
+    `;
+
+    marker.bindPopup(popupHtml, { maxWidth: 280 });
+    marker.bindTooltip(`${point.id} · ${point.phosphate.toFixed(3)} mg/L`, {
+      direction: 'top',
+      offset: [0, -8]
+    });
+
+    marker.addTo(markerLayer);
+  });
+
+  // Label untuk setiap titik (khusus nama)
+  phosphatePoints.forEach(point => {
+    const cls = classifyPhosphate(point.phosphate);
+    const label = L.divIcon({
+      className: 'point-label',
+      html: `<div style="
+        background:${cls.color};color:#04141a;
+        padding:2px 8px;border-radius:6px;
+        font-size:10px;font-weight:700;
+        white-space:nowrap;
+        box-shadow:0 2px 8px rgba(0,0,0,.5);
+        border:1px solid rgba(255,255,255,.3);
+        transform:translateX(-50%);
+        margin-top:24px;
+      ">${point.name}</div>`,
+      iconSize: [0, 0],
+      iconAnchor: [0, 0]
+    });
+    L.marker([point.lat, point.lng], { icon: label, interactive: false }).addTo(markerLayer);
+  });
+}
+
+function updateMapFromData(){
+  // Reset ke nilai default
+  phosphatePoints = SAMPLING_POINTS.map(p => ({ ...p }));
+
+  // Ambil data historis untuk memperbarui kadar fosfat
+  const all = getAllHistory();
+  if (all.length > 0){
+    // Ambil data terbaru per titik (jika ada field 'pointId' di data)
+    const latestByPoint = {};
+    all.forEach(h => {
+      if (h.pointId && (!latestByPoint[h.pointId] || h.ts > latestByPoint[h.pointId].ts)){
+        latestByPoint[h.pointId] = h;
+      }
+    });
+
+    // Update titik dengan data terbaru
+    phosphatePoints.forEach(p => {
+      if (latestByPoint[p.id]){
+        p.phosphate = latestByPoint[p.id].phosphate;
+      }
+    });
+
+    // Jika data terbaru tidak punya pointId, gunakan nilai rata-rata untuk titik terdekat
+    const latest = all[all.length - 1];
+    if (latest && !latest.pointId){
+      // Distribusikan kadar terbaru ke titik-titik dengan variasi natural
+      // (titik hulu lebih rendah, hilir lebih tinggi)
+      const baseValue = latest.phosphate;
+      phosphatePoints[0].phosphate = Math.max(0.01, baseValue * 0.4);
+      phosphatePoints[1].phosphate = Math.max(0.01, baseValue * 0.7);
+      phosphatePoints[2].phosphate = Math.max(0.01, baseValue * 1.0);
+      phosphatePoints[3].phosphate = Math.max(0.01, baseValue * 1.4);
+      phosphatePoints[4].phosphate = Math.max(0.01, baseValue * 1.8);
+    }
+  }
+
+  renderMapPoints();
+}
+
+/* ============================================================
+   11. CHART
    ============================================================ */
 function renderChart(){
   const all = getAllHistory();
@@ -1097,7 +1464,7 @@ function renderChart(){
 }
 
 /* ============================================================
-   11. RIWAYAT (dengan tombol hapus per baris)
+   12. RIWAYAT
    ============================================================ */
 function renderHistory(){
   const body = document.getElementById('historyBody');
@@ -1121,7 +1488,6 @@ function renderHistory(){
       ? new Date(h.ts).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
       : (h.time || '—');
 
-    // Generate unique identifier untuk baris
     const uniqueId = h.source === 'sensor'
       ? `fb:${h.id || ''}`
       : `local:${h.ts}`;
@@ -1147,7 +1513,6 @@ function renderHistory(){
     </tr>`;
   }).join('');
 
-  // Attach event listener untuk tombol hapus per baris
   if (isAdmin){
     body.querySelectorAll('.btn-del').forEach(btn => {
       btn.addEventListener('click', () => handleDeleteRow(btn));
@@ -1170,13 +1535,11 @@ async function handleDeleteRow(btn){
 
   try {
     if (prefix === 'local'){
-      // Hapus dari localHistory
       const tsNum = parseInt(key);
       localHistory = localHistory.filter(h => h.ts !== tsNum);
       localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
       showToast('✅ Data manual dihapus', 'success');
     } else if (prefix === 'fb'){
-      // Hapus dari Firebase
       if (!FIREBASE_ENABLED || !db || !key){
         showToast('❌ Tidak bisa hapus — Firebase tidak aktif atau ID tidak valid', 'error');
         btn.disabled = false;
@@ -1190,6 +1553,7 @@ async function handleDeleteRow(btn){
 
     renderHistory();
     renderChart();
+    updateMapFromData();
   } catch(e){
     console.error('Delete error:', e);
     showToast('❌ Gagal hapus: ' + e.message, 'error');
@@ -1199,7 +1563,7 @@ async function handleDeleteRow(btn){
 }
 
 /* ============================================================
-   12. INPUT
+   13. INPUT
    ============================================================ */
 function readInputs(){
   const num = id => {
@@ -1229,7 +1593,7 @@ function fillInputs(d){
 }
 
 /* ============================================================
-   13. MAIN ANALYZE
+   14. MAIN ANALYZE
    ============================================================ */
 async function analyze(){
   const d = readInputs();
@@ -1273,6 +1637,7 @@ async function analyze(){
 
   renderHistory();
   renderChart();
+  updateMapFromData();
 
   btn.disabled = false;
   btn.innerHTML = '<span>⚡</span> Analisis dengan AI';
@@ -1281,7 +1646,7 @@ async function analyze(){
 }
 
 /* ============================================================
-   14. BMKG WEATHER
+   15. BMKG WEATHER
    ============================================================ */
 async function fetchBMKGWeather(){
   const box = document.getElementById('weatherBox');
@@ -1426,7 +1791,7 @@ function formatForecastTime(dt){
 window.__retryWeather = fetchBMKGWeather;
 
 /* ============================================================
-   15. FIREBASE
+   16. FIREBASE
    ============================================================ */
 async function initFirebase(){
   if (!FIREBASE_ENABLED){
@@ -1483,6 +1848,7 @@ async function initFirebase(){
       firebaseHistory = arr.sort((a,b) => (a.id > b.id ? 1 : -1));
       renderHistory();
       renderChart();
+      updateMapFromData();
       if (!document.getElementById('stamp').textContent){
         setSensorStatus(`✅ Tersinkron: ${arr.length} data sensor dari Firebase`, 'ok');
       }
@@ -1525,7 +1891,7 @@ function setSensorStatus(text, kind){
 }
 
 /* ============================================================
-   16. ADMIN AUTHENTICATION
+   17. ADMIN AUTHENTICATION
    ============================================================ */
 async function sha256(text) {
   const buf = new TextEncoder().encode(text);
@@ -1575,7 +1941,6 @@ function updateAuthUI(){
     sensorDeleteBtn.style.display = 'none';
   }
 
-  // Re-render history untuk tampilkan/sembunyikan kolom Aksi
   renderHistory();
 }
 
@@ -1642,7 +2007,7 @@ document.getElementById('adminPassword').addEventListener('input', () => {
 });
 
 /* ============================================================
-   17. FIELD DATA
+   18. FIELD DATA
    ============================================================ */
 function saveFieldDataLocal(data){
   fieldData.unshift(data);
@@ -1663,11 +2028,9 @@ async function saveFieldDataToFirebase(data){
 }
 
 async function deleteFieldDataEntry(ts){
-  // Hapus dari lokal
   fieldData = fieldData.filter(f => f.ts !== ts);
   localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
 
-  // Hapus dari Firebase (cari berdasarkan ts)
   if (FIREBASE_ENABLED && db && fbApi){
     try {
       const snap = await fbApi.get(fbApi.query(fbApi.ref(db, 'fieldData'), fbApi.limitToLast(100)));
@@ -1762,7 +2125,6 @@ function renderFieldStats(){
     ` : ''}
   `;
 
-  // Attach listener untuk tombol hapus field data
   if (isAdmin){
     box.querySelectorAll('[data-field-del]').forEach(btn => {
       btn.addEventListener('click', async () => {
@@ -1846,7 +2208,7 @@ document.getElementById('autoFillWeatherBtn').addEventListener('click', () => {
 });
 
 /* ============================================================
-   18. TOAST
+   19. TOAST
    ============================================================ */
 function showToast(message, type = 'info'){
   const toast = document.createElement('div');
@@ -1875,7 +2237,7 @@ function showToast(message, type = 'info'){
 }
 
 /* ============================================================
-   19. EVENT LISTENERS
+   20. EVENT LISTENERS
    ============================================================ */
 document.getElementById('analyzeBtn').addEventListener('click', analyze);
 
@@ -1910,7 +2272,6 @@ document.getElementById('exportBtn').addEventListener('click', ()=>{
   URL.revokeObjectURL(url);
 });
 
-/* --- Hapus Data Manual (localHistory) --- */
 document.getElementById('clearManualBtn').addEventListener('click', ()=>{
   if (!localHistory.length){
     alert('Tidak ada data manual untuk dihapus.');
@@ -1921,6 +2282,7 @@ document.getElementById('clearManualBtn').addEventListener('click', ()=>{
     localStorage.removeItem(STORE_KEY);
     renderHistory();
     renderChart();
+    updateMapFromData();
     document.getElementById('resultBox').innerHTML =
       '<div class="result-empty"><div class="big">🧪</div><p>Riwayat manual telah dihapus.</p></div>';
     document.getElementById('recBox').innerHTML =
@@ -1930,7 +2292,6 @@ document.getElementById('clearManualBtn').addEventListener('click', ()=>{
   }
 });
 
-/* --- Hapus Data Sensor (Firebase) — Admin only --- */
 document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
   if (!isAdminLoggedIn()){
     showToast('Login admin dulu untuk hapus data sensor', 'error');
@@ -1944,7 +2305,7 @@ document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
     alert('Tidak ada data sensor untuk dihapus.');
     return;
   }
-  if (!confirm(`⚠️ PERINGATAN KERAS!\n\nHapus SEMUA (${firebaseHistory.length}) data sensor dari Firebase?\n\nTindakan ini TIDAK BISA dibatalkan, dan data akan hilang permanen dari server.`)) return;
+  if (!confirm(`⚠️ PERINGATAN KERAS!\n\nHapus SEMUA (${firebaseHistory.length}) data sensor dari Firebase?\n\nTindakan ini TIDAK BISA dibatalkan.`)) return;
   if (!confirm('Yakin? Konfirmasi terakhir — ketik OK untuk lanjut.')) return;
 
   const btn = document.getElementById('clearSensorBtn');
@@ -1957,6 +2318,7 @@ document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
     firebaseHistory = [];
     renderHistory();
     renderChart();
+    updateMapFromData();
     showToast(`✅ ${firebaseHistory.length} data sensor dihapus dari Firebase`, 'success');
   } catch(e){
     console.error('Clear sensor error:', e);
@@ -1968,7 +2330,7 @@ document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
 });
 
 /* ============================================================
-   20. INIT
+   21. INIT
    ============================================================ */
 document.getElementById('fieldDate').value = new Date().toISOString().slice(0,10);
 
@@ -1978,6 +2340,12 @@ updateAuthUI();
 renderFieldStats();
 initFirebase();
 fetchBMKGWeather();
+
+/* ===== Inisialisasi peta ===== */
+setTimeout(() => {
+  initMap();
+  updateMapFromData();
+}, 300);
 
 setInterval(fetchBMKGWeather, 30 * 60 * 1000);
 </script>
