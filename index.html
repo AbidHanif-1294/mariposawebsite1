@@ -387,6 +387,16 @@
     background:rgba(34,211,238,.12);color:var(--aqua);
     border-color:var(--aqua);
   }
+
+  /* Batas area peta - indikator */
+  .map-area-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:.7rem;color:var(--muted);
+    background:rgba(34,211,238,.06);
+    border:1px solid rgba(34,211,238,.2);
+    padding:4px 10px;border-radius:99px;
+    margin-left:auto;
+  }
 </style>
 </head>
 <body>
@@ -520,6 +530,7 @@
           <button id="mapCenterBtn" class="active">📍 Fokus Sumber Maron</button>
           <button id="mapFitBtn">🗺️ Tampilkan Semua Titik</button>
           <button id="mapRefreshBtn">🔄 Refresh dari Data</button>
+          <span class="map-area-badge">🔒 Area terbatas: Sumber Maron (±1 km)</span>
         </div>
         <div id="phosphateMap"></div>
       </div>
@@ -713,12 +724,21 @@ const ADMIN_AUTH = {
 
 const BMKG_ADM4 = "35.07.33.2009";
 
-/* ===== KOORDINAT SUMBER MARON ===== */
+/* ===== KOORDINAT & BATAS AREA SUMBER MARON ===== */
 const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
 
+/* Batas area peta — hanya Sumber Maron (±1 km radius) */
+const MAP_BOUNDS = [
+  [-8.2250, 112.4600],   // Southwest
+  [-8.1970, 112.4930]    // Northeast
+];
+
+/* Zoom limits — biar tidak bisa zoom out sampai satu dunia */
+const MAP_MIN_ZOOM = 15;    // zoom out maksimal (level kelurahan)
+const MAP_MAX_ZOOM = 19;    // zoom in maksimal (level bangunan)
+const MAP_DEFAULT_ZOOM = 17; // zoom default
+
 /* ===== TITIK SAMPLING REFERENSI ===== */
-/* Koordinat approximasi berdasarkan peta area Sumber Maron.
-   Titik dapat diperbarui setelah survey lapangan. */
 const SAMPLING_POINTS = [
   {
     id: 'SM-01',
@@ -792,7 +812,7 @@ let map = null;
 let markerLayer = null;
 let legendControl = null;
 
-/* ===== KADAR FOSFAT PER TITIK (untuk peta) ===== */
+/* ===== KADAR FOSFAT PER TITIK ===== */
 let phosphatePoints = [];
 
 /* ============================================================
@@ -935,7 +955,7 @@ function forecast(steps){
 }
 
 /* ============================================================
-   6. REKOMENDASI (dengan integrasi peta tematik)
+   6. REKOMENDASI
    ============================================================ */
 function buildRecommendations(d, cls, wqi, anomalies){
   const recs=[];
@@ -958,7 +978,6 @@ function buildRecommendations(d, cls, wqi, anomalies){
       body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
   }
 
-  /* ===== REKOMENDASI BERBASIS PETA TEMATIK ===== */
   if (phosphatePoints.length > 0){
     const values = phosphatePoints.map(p => p.phosphate).filter(v => v > 0);
     if (values.length >= 2){
@@ -973,7 +992,6 @@ function buildRecommendations(d, cls, wqi, anomalies){
         body: `Dari ${phosphatePoints.length} titik sampling, kadar fosfat tertinggi berada di <b>${maxPoint.name}</b> (${maxPoint.phosphate.toFixed(3)} mg/L) dan terendah di <b>${minPoint.name}</b> (${minPoint.phosphate.toFixed(3)} mg/L). Gradien: <b>${gradien.toFixed(3)} mg/L</b> dari hulu ke hilir.`
       });
 
-      // Deteksi akumulasi di hilir
       if (maxPoint.lat < minPoint.lat && gradien > 0.05){
         recs.push({
           sev: 'warn', ico: '📉', tag: 'Pola Spasial',
@@ -982,7 +1000,6 @@ function buildRecommendations(d, cls, wqi, anomalies){
         });
       }
 
-      // Deteksi titik hotspot
       const hotspot = phosphatePoints.filter(p => p.phosphate >= 0.5);
       if (hotspot.length > 0){
         recs.push({
@@ -1189,14 +1206,18 @@ function renderRecommendations(recs){
 }
 
 /* ============================================================
-   10. PETA TEMATIK FOSFAT
+   10. PETA TEMATIK FOSFAT (DENGAN BATAS ZOOM)
    ============================================================ */
 function initMap(){
   if (map) return;
 
   map = L.map('phosphateMap', {
     center: SUMBER_MARON_CENTER,
-    zoom: 17,
+    zoom: MAP_DEFAULT_ZOOM,
+    minZoom: MAP_MIN_ZOOM,           // ← Batas zoom out minimal
+    maxZoom: MAP_MAX_ZOOM,           // ← Batas zoom in maksimal
+    maxBounds: MAP_BOUNDS,           // ← Batas area yang boleh dilihat
+    maxBoundsViscosity: 1.0,         // ← 1.0 = benar-benar tidak bisa keluar bounds
     zoomControl: true,
     attributionControl: true
   });
@@ -1204,7 +1225,9 @@ function initMap(){
   // Tile layer: OpenStreetMap
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    minZoom: 15,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    bounds: MAP_BOUNDS               // ← Batasi tile hanya di area ini
   }).addTo(map);
 
   // Layer group untuk marker
@@ -1216,11 +1239,11 @@ function initMap(){
     const div = L.DomUtil.create('div', 'map-legend');
     div.innerHTML = `
       <div class="legend-title">Kadar Fosfat (PO₄)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> &lt; 0.025 mg/L (Oligotrofik)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> 0.025–0.10 (Rendah)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 0.10–0.50 (Mesotrofik)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> 0.50–1.00 (Eutrofik)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> ≥ 1.00 (Hiper-eutrofik)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> &lt; 0.025 mg/L</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> 0.025–0.10</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 0.10–0.50</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> 0.50–1.00</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> ≥ 1.00</div>
     `;
     return div;
   };
@@ -1231,7 +1254,7 @@ function initMap(){
 
   // Tombol kontrol
   document.getElementById('mapCenterBtn').addEventListener('click', () => {
-    map.setView(SUMBER_MARON_CENTER, 17);
+    map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM);
     document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
     document.getElementById('mapCenterBtn').classList.add('active');
   });
@@ -1239,7 +1262,11 @@ function initMap(){
   document.getElementById('mapFitBtn').addEventListener('click', () => {
     if (phosphatePoints.length > 0){
       const bounds = L.latLngBounds(phosphatePoints.map(p => [p.lat, p.lng]));
-      map.fitBounds(bounds, { padding: [40, 40] });
+      // FitBounds tapi tetap dibatasi maxZoom agar tidak keluar area
+      map.fitBounds(bounds, {
+        padding: [40, 40],
+        maxZoom: MAP_DEFAULT_ZOOM   // ← Jangan zoom in lebih dari default
+      });
     }
     document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
     document.getElementById('mapFitBtn').classList.add('active');
@@ -1258,7 +1285,6 @@ function renderMapPoints(){
   phosphatePoints.forEach(point => {
     const cls = classifyPhosphate(point.phosphate);
 
-    // Marker circle
     const marker = L.circleMarker([point.lat, point.lng], {
       radius: 14,
       fillColor: cls.color,
@@ -1268,7 +1294,6 @@ function renderMapPoints(){
       fillOpacity: 0.85
     });
 
-    // Popup content
     const popupHtml = `
       <div style="min-width:200px">
         <div style="font-size:.72rem;color:${cls.color};font-weight:700;
@@ -1302,7 +1327,6 @@ function renderMapPoints(){
     marker.addTo(markerLayer);
   });
 
-  // Label untuk setiap titik (khusus nama)
   phosphatePoints.forEach(point => {
     const cls = classifyPhosphate(point.phosphate);
     const label = L.divIcon({
@@ -1325,13 +1349,10 @@ function renderMapPoints(){
 }
 
 function updateMapFromData(){
-  // Reset ke nilai default
   phosphatePoints = SAMPLING_POINTS.map(p => ({ ...p }));
 
-  // Ambil data historis untuk memperbarui kadar fosfat
   const all = getAllHistory();
   if (all.length > 0){
-    // Ambil data terbaru per titik (jika ada field 'pointId' di data)
     const latestByPoint = {};
     all.forEach(h => {
       if (h.pointId && (!latestByPoint[h.pointId] || h.ts > latestByPoint[h.pointId].ts)){
@@ -1339,18 +1360,14 @@ function updateMapFromData(){
       }
     });
 
-    // Update titik dengan data terbaru
     phosphatePoints.forEach(p => {
       if (latestByPoint[p.id]){
         p.phosphate = latestByPoint[p.id].phosphate;
       }
     });
 
-    // Jika data terbaru tidak punya pointId, gunakan nilai rata-rata untuk titik terdekat
     const latest = all[all.length - 1];
     if (latest && !latest.pointId){
-      // Distribusikan kadar terbaru ke titik-titik dengan variasi natural
-      // (titik hulu lebih rendah, hilir lebih tinggi)
       const baseValue = latest.phosphate;
       phosphatePoints[0].phosphate = Math.max(0.01, baseValue * 0.4);
       phosphatePoints[1].phosphate = Math.max(0.01, baseValue * 0.7);
@@ -2341,7 +2358,6 @@ renderFieldStats();
 initFirebase();
 fetchBMKGWeather();
 
-/* ===== Inisialisasi peta ===== */
 setTimeout(() => {
   initMap();
   updateMapFromData();
