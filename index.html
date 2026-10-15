@@ -317,7 +317,7 @@
 
   /* ===== MAP STYLES ===== */
   #phosphateMap{
-    width:100%;height:480px;border-radius:14px;
+    width:100%;height:520px;border-radius:14px;
     border:1px solid var(--border);
     z-index:1;
   }
@@ -355,7 +355,7 @@
     font-size:.72rem;line-height:1.7;
     backdrop-filter:blur(10px);
     box-shadow:0 4px 16px rgba(0,0,0,.5);
-    min-width:160px;
+    min-width:170px;
   }
   .map-legend .legend-title{
     font-size:.68rem;font-weight:700;text-transform:uppercase;
@@ -372,6 +372,7 @@
 
   .map-toolbar{
     display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;
+    align-items:center;
   }
   .map-toolbar button{
     background:rgba(138,166,184,.08);border:1px solid rgba(138,166,184,.3);
@@ -388,7 +389,6 @@
     border-color:var(--aqua);
   }
 
-  /* Batas area peta - indikator */
   .map-area-badge{
     display:inline-flex;align-items:center;gap:6px;
     font-size:.7rem;color:var(--muted);
@@ -431,7 +431,7 @@
     <p>
       Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
       Terintegrasi dengan sensor IoT via Firebase, prakiraan cuaca BMKG,
-      peta tematik spasial, dan panel data lapangan admin.
+      peta wisata & UMKM, dan panel data lapangan admin.
     </p>
   </header>
 
@@ -521,16 +521,17 @@
 
   <section class="block" id="peta">
     <div class="sec-head">
-      <h2>Peta Tematik <span class="grad">Kadar Fosfat</span></h2>
-      <p>Distribusi spasial kadar fosfat (PO₄) di kawasan Sumber Maron. Klik titik untuk melihat detail.</p>
+      <h2>Peta Wisata & <span class="grad">UMKM Sumber Maron</span></h2>
+      <p>Lokasi titik wisata, kuliner, dan UMKM di kawasan Sumber Maron (Desa Karangsuko, Pagelaran, Malang).</p>
     </div>
     <div class="card">
       <div class="card-b">
         <div class="map-toolbar">
           <button id="mapCenterBtn" class="active">📍 Fokus Sumber Maron</button>
           <button id="mapFitBtn">🗺️ Tampilkan Semua Titik</button>
-          <button id="mapRefreshBtn">🔄 Refresh dari Data</button>
-          <span class="map-area-badge">🔒 Area terbatas: Sumber Maron (±1 km)</span>
+          <button id="mapLayerWisata" class="active">🏞️ Wisata</button>
+          <button id="mapLayerUMKM" class="active">🛍️ UMKM & Kuliner</button>
+          <span class="map-area-badge">🔒 Area terbatas: Sumber Maron</span>
         </div>
         <div id="phosphateMap"></div>
       </div>
@@ -638,7 +639,7 @@
   <section class="block" id="rekomendasi">
     <div class="sec-head">
       <h2>Rekomendasi <span class="grad">Tindakan</span></h2>
-      <p>Saran mitigasi yang dihasilkan AI berdasarkan status trofik, kondisi parameter, prakiraan cuaca, dan sebaran spasial.</p>
+      <p>Saran mitigasi yang dihasilkan AI berdasarkan status trofik, kondisi parameter, prakiraan cuaca, dan data lapangan.</p>
     </div>
     <div class="card">
       <div class="card-b" id="recBox">
@@ -680,7 +681,7 @@
 
   <footer>
     <b>MaronPhos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Leaflet + OpenStreetMap · AI Engine v1.5</span>
+    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Leaflet + OpenStreetMap · AI Engine v1.6</span>
   </footer>
 </div>
 
@@ -727,63 +728,81 @@ const BMKG_ADM4 = "35.07.33.2009";
 /* ===== KOORDINAT & BATAS AREA SUMBER MARON ===== */
 const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
 
-/* Batas area peta — hanya Sumber Maron (±1 km radius) */
 const MAP_BOUNDS = [
-  [-8.2250, 112.4600],   // Southwest
-  [-8.1970, 112.4930]    // Northeast
+  [-8.2250, 112.4600],
+  [-8.1970, 112.4930]
 ];
 
-/* Zoom limits — biar tidak bisa zoom out sampai satu dunia */
-const MAP_MIN_ZOOM = 15;    // zoom out maksimal (level kelurahan)
-const MAP_MAX_ZOOM = 19;    // zoom in maksimal (level bangunan)
-const MAP_DEFAULT_ZOOM = 17; // zoom default
+const MAP_MIN_ZOOM = 15;
+const MAP_MAX_ZOOM = 19;
+const MAP_DEFAULT_ZOOM = 17;
 
-/* ===== TITIK SAMPLING REFERENSI ===== */
-const SAMPLING_POINTS = [
+/* ============================================================
+   DATA TITIK WISATA & UMKM SUMBER MARON
+   ============================================================ */
+const SUMBER_MARON_POINTS = [
+  // --- WISATA ---
   {
-    id: 'SM-01',
-    name: 'Mata Air Utama',
+    id: 'W-01', name: 'Grojogan Sewu (Air Terjun)', category: 'wisata',
+    description: 'Air terjun mini setinggi ±5 meter, ikon utama wisata Sumber Maron.',
+    lat: -8.21150, lng: 112.47700, icon: '💧'
+  },
+  {
+    id: 'W-02', name: 'Area River Tubing', category: 'wisata',
+    description: 'Aliran sungai untuk aktivitas river tubing sepanjang ±500 meter.',
+    lat: -8.21065, lng: 112.47630, icon: '🛶'
+  },
+  {
+    id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata',
+    description: 'Pemandian alami dengan air jernih dari mata air Sumber Maron.',
+    lat: -8.21020, lng: 112.47600, icon: '🏊'
+  },
+  {
+    id: 'W-04', name: 'Mata Air Utama', category: 'wisata',
     description: 'Sumber mata air utama, titik keluaran air dari dalam tanah.',
-    lat: -8.21120,
-    lng: 112.47680,
-    defaultPhosphate: 0.08,
-    type: 'spring'
+    lat: -8.21180, lng: 112.47680, icon: '⛲'
   },
   {
-    id: 'SM-02',
-    name: 'Kolam Utama / Pemandian',
-    description: 'Area kolam utama yang paling banyak dikunjungi wisatawan.',
-    lat: -8.21065,
-    lng: 112.47650,
-    defaultPhosphate: 0.12,
-    type: 'pool'
+    id: 'W-05', name: 'Edukasi PLTMH', category: 'wisata',
+    description: 'Pembangkit Listrik Tenaga Mikrohidro sebagai wisata edukasi.',
+    lat: -8.21000, lng: 112.47550, icon: '⚡'
   },
   {
-    id: 'SM-03',
-    name: 'Aliran Hilir 1',
-    description: 'Aliran sungai keluar dari area wisata utama.',
-    lat: -8.21020,
-    lng: 112.47620,
-    defaultPhosphate: 0.18,
-    type: 'stream'
+    id: 'W-06', name: 'Area Outbound & Spot Foto', category: 'wisata',
+    description: 'Area outbound dan spot foto dengan latar persawahan dan sungai.',
+    lat: -8.20950, lng: 112.47580, icon: '📸'
+  },
+
+  // --- UMKM & KULINER ---
+  {
+    id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm',
+    description: 'Deretan warung bakso dan jajanan khas di area wisata.',
+    lat: -8.21080, lng: 112.47650, icon: '🍜'
   },
   {
-    id: 'SM-04',
-    name: 'Aliran Hilir 2',
-    description: 'Aliran sungai hilir, melewati lahan pertanian warga.',
-    lat: -8.20950,
-    lng: 112.47580,
-    defaultPhosphate: 0.26,
-    type: 'stream'
+    id: 'U-02', name: 'Lapak Belimbing & Buah Segar', category: 'umkm',
+    description: 'Belimbing khas Malang dan buah-buahan segar hasil kebun petani setempat.',
+    lat: -8.21050, lng: 112.47620, icon: '🍈'
   },
   {
-    id: 'SM-05',
-    name: 'Area Irigasi Sawah',
-    description: 'Titik pemanfaatan air untuk irigasi pertanian.',
-    lat: -8.20900,
-    lng: 112.47520,
-    defaultPhosphate: 0.32,
-    type: 'irrigation'
+    id: 'U-03', name: 'Toko Oleh-oleh & Souvenir', category: 'umkm',
+    description: 'Toko yang menjual oleh-oleh, pakaian, dan perlengkapan wisata.',
+    lat: -8.21030, lng: 112.47590, icon: '🎁'
+  },
+  {
+    id: 'U-04', name: 'Warung Mie Pedas', category: 'umkm',
+    description: 'Warung mie pedas dengan tekstur kenyal dan kuah gurih di Jl. Sumber Maron No.30.',
+    lat: -8.21000, lng: 112.47560, icon: '🌶️'
+  },
+  {
+    id: 'U-05', name: 'Area Parkir & Ojek Wisata', category: 'umkm',
+    description: 'Area parkir luas dan layanan ojek wisata untuk menuju lokasi.',
+    lat: -8.20980, lng: 112.47540, icon: '🅿️'
+  },
+  {
+    id: 'U-06', name: 'Sentra Jajanan Pasar', category: 'umkm',
+    description: 'Aneka jajanan pasar dan camilan ringan khas desa.',
+    lat: -8.20920, lng: 112.47500, icon: '🍢'
   }
 ];
 
@@ -811,9 +830,8 @@ let fieldData = JSON.parse(localStorage.getItem(FIELD_STORE_KEY) || '[]');
 let map = null;
 let markerLayer = null;
 let legendControl = null;
-
-/* ===== KADAR FOSFAT PER TITIK ===== */
-let phosphatePoints = [];
+let showWisata = true;
+let showUMKM = true;
 
 /* ============================================================
    1. KLASIFIKASI TROFIK
@@ -978,39 +996,6 @@ function buildRecommendations(d, cls, wqi, anomalies){
       body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
   }
 
-  if (phosphatePoints.length > 0){
-    const values = phosphatePoints.map(p => p.phosphate).filter(v => v > 0);
-    if (values.length >= 2){
-      const maxPoint = phosphatePoints.reduce((a,b) => (a.phosphate > b.phosphate ? a : b));
-      const minPoint = phosphatePoints.reduce((a,b) => (a.phosphate < b.phosphate ? a : b));
-      const avg = values.reduce((a,b) => a+b, 0) / values.length;
-      const gradien = maxPoint.phosphate - minPoint.phosphate;
-
-      recs.push({
-        sev: 'info', ico: '🗺️', tag: 'Peta Tematik',
-        title: `Sebaran Spasial: Rata-rata ${avg.toFixed(3)} mg/L`,
-        body: `Dari ${phosphatePoints.length} titik sampling, kadar fosfat tertinggi berada di <b>${maxPoint.name}</b> (${maxPoint.phosphate.toFixed(3)} mg/L) dan terendah di <b>${minPoint.name}</b> (${minPoint.phosphate.toFixed(3)} mg/L). Gradien: <b>${gradien.toFixed(3)} mg/L</b> dari hulu ke hilir.`
-      });
-
-      if (maxPoint.lat < minPoint.lat && gradien > 0.05){
-        recs.push({
-          sev: 'warn', ico: '📉', tag: 'Pola Spasial',
-          title: 'Akumulasi Fosfat di Hilir',
-          body: `Terdeteksi pola akumulasi: kadar fosfat meningkat dari hulu (<b>${minPoint.name}</b>) ke hilir (<b>${maxPoint.name}</b>) sebesar ${gradien.toFixed(3)} mg/L. Indikasi kuat adanya input fosfat dari aktivitas di sepanjang aliran (pertanian, permukiman, atau limbah wisata). Prioritaskan investigasi di segmen tengah-hilir.`
-        });
-      }
-
-      const hotspot = phosphatePoints.filter(p => p.phosphate >= 0.5);
-      if (hotspot.length > 0){
-        recs.push({
-          sev: 'warn', ico: '🔴', tag: 'Hotspot Peta',
-          title: `${hotspot.length} Titik Hotspot Fosfat Tinggi`,
-          body: `Terdeteksi ${hotspot.length} titik dengan kadar fosfat ≥ 0.5 mg/L (kategori Eutrofik): <b>${hotspot.map(h => h.name).join(', ')}</b>. Titik-titik ini perlu penanganan prioritas — pasang perangkap sedimen dan kurangi input nutrien di area sekitar.`
-        });
-      }
-    }
-  }
-
   if (weatherData && weatherData.rainExpected){
     recs.push({
       sev: 'warn', ico: '🌧️', tag: 'Cuaca BMKG',
@@ -1107,7 +1092,6 @@ function thinkingAnimation(){
     'Menghitung sub-indeks kualitas air...',
     'Mengklasifikasi status trofik fosfat...',
     'Mendeteksi anomali parameter...',
-    'Menganalisis sebaran spasial...',
     'Menganalisis data cuaca BMKG & lapangan...',
     'Menjalankan model prediksi regresi...',
     'Menyusun rekomendasi tindakan...'
@@ -1206,7 +1190,7 @@ function renderRecommendations(recs){
 }
 
 /* ============================================================
-   10. PETA TEMATIK FOSFAT (DENGAN BATAS ZOOM)
+   10. PETA WISATA & UMKM SUMBER MARON
    ============================================================ */
 function initMap(){
   if (map) return;
@@ -1214,45 +1198,40 @@ function initMap(){
   map = L.map('phosphateMap', {
     center: SUMBER_MARON_CENTER,
     zoom: MAP_DEFAULT_ZOOM,
-    minZoom: MAP_MIN_ZOOM,           // ← Batas zoom out minimal
-    maxZoom: MAP_MAX_ZOOM,           // ← Batas zoom in maksimal
-    maxBounds: MAP_BOUNDS,           // ← Batas area yang boleh dilihat
-    maxBoundsViscosity: 1.0,         // ← 1.0 = benar-benar tidak bisa keluar bounds
+    minZoom: MAP_MIN_ZOOM,
+    maxZoom: MAP_MAX_ZOOM,
+    maxBounds: MAP_BOUNDS,
+    maxBoundsViscosity: 1.0,
     zoomControl: true,
     attributionControl: true
   });
 
-  // Tile layer: OpenStreetMap
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     minZoom: 15,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    bounds: MAP_BOUNDS               // ← Batasi tile hanya di area ini
+    bounds: MAP_BOUNDS
   }).addTo(map);
 
-  // Layer group untuk marker
   markerLayer = L.layerGroup().addTo(map);
 
-  // Legenda
   legendControl = L.control({ position: 'bottomright' });
   legendControl.onAdd = function(){
     const div = L.DomUtil.create('div', 'map-legend');
     div.innerHTML = `
-      <div class="legend-title">Kadar Fosfat (PO₄)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> &lt; 0.025 mg/L</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> 0.025–0.10</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 0.10–0.50</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> 0.50–1.00</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> ≥ 1.00</div>
+      <div class="legend-title">Keterangan Peta</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> 🏞️ Wisata</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 🛍️ UMKM & Kuliner</div>
+      <div style="margin-top:6px;font-size:.65rem;color:#8aa6b8">
+        Klik titik untuk detail
+      </div>
     `;
     return div;
   };
   legendControl.addTo(map);
 
-  // Render titik awal
   renderMapPoints();
 
-  // Tombol kontrol
   document.getElementById('mapCenterBtn').addEventListener('click', () => {
     map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM);
     document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
@@ -1260,21 +1239,33 @@ function initMap(){
   });
 
   document.getElementById('mapFitBtn').addEventListener('click', () => {
-    if (phosphatePoints.length > 0){
-      const bounds = L.latLngBounds(phosphatePoints.map(p => [p.lat, p.lng]));
-      // FitBounds tapi tetap dibatasi maxZoom agar tidak keluar area
-      map.fitBounds(bounds, {
-        padding: [40, 40],
-        maxZoom: MAP_DEFAULT_ZOOM   // ← Jangan zoom in lebih dari default
-      });
+    const visiblePoints = getVisiblePoints();
+    if (visiblePoints.length > 0){
+      const bounds = L.latLngBounds(visiblePoints.map(p => [p.lat, p.lng]));
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: MAP_DEFAULT_ZOOM });
     }
     document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
     document.getElementById('mapFitBtn').classList.add('active');
   });
 
-  document.getElementById('mapRefreshBtn').addEventListener('click', () => {
-    updateMapFromData();
-    showToast('🔄 Peta diperbarui dari data terbaru', 'success');
+  document.getElementById('mapLayerWisata').addEventListener('click', (e) => {
+    showWisata = !showWisata;
+    e.target.classList.toggle('active', showWisata);
+    renderMapPoints();
+  });
+
+  document.getElementById('mapLayerUMKM').addEventListener('click', (e) => {
+    showUMKM = !showUMKM;
+    e.target.classList.toggle('active', showUMKM);
+    renderMapPoints();
+  });
+}
+
+function getVisiblePoints(){
+  return SUMBER_MARON_POINTS.filter(p => {
+    if (p.category === 'wisata' && !showWisata) return false;
+    if (p.category === 'umkm' && !showUMKM) return false;
+    return true;
   });
 }
 
@@ -1282,44 +1273,41 @@ function renderMapPoints(){
   if (!markerLayer) return;
   markerLayer.clearLayers();
 
-  phosphatePoints.forEach(point => {
-    const cls = classifyPhosphate(point.phosphate);
+  const visible = getVisiblePoints();
+
+  visible.forEach(point => {
+    const color = point.category === 'wisata' ? '#22d3ee' : '#fbbf24';
 
     const marker = L.circleMarker([point.lat, point.lng], {
-      radius: 14,
-      fillColor: cls.color,
+      radius: 12,
+      fillColor: color,
       color: '#04141a',
       weight: 3,
       opacity: 1,
-      fillOpacity: 0.85
+      fillOpacity: 0.9
     });
 
     const popupHtml = `
-      <div style="min-width:200px">
-        <div style="font-size:.72rem;color:${cls.color};font-weight:700;
+      <div style="min-width:220px">
+        <div style="font-size:.68rem;color:${color};font-weight:700;
           text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">
-          ${point.id} · ${cls.status}
+          ${point.id} · ${point.category === 'wisata' ? 'Wisata' : 'UMKM & Kuliner'}
         </div>
         <div style="font-size:1rem;font-weight:800;margin-bottom:6px">
-          ${point.name}
+          ${point.icon} ${point.name}
         </div>
-        <div style="font-size:1.4rem;font-weight:800;color:${cls.color};
-          letter-spacing:-.5px;line-height:1;margin-bottom:8px">
-          ${point.phosphate.toFixed(3)} <span style="font-size:.7rem;
-          color:var(--muted);font-weight:500">mg/L PO₄</span>
-        </div>
-        <div style="font-size:.76rem;color:var(--muted);line-height:1.5;margin-bottom:8px">
+        <div style="font-size:.78rem;color:#8aa6b8;line-height:1.55;margin-bottom:8px">
           ${point.description}
         </div>
-        <div style="font-size:.68rem;color:var(--muted);border-top:1px solid rgba(255,255,255,.1);
+        <div style="font-size:.68rem;color:#8aa6b8;border-top:1px solid rgba(255,255,255,.1);
           padding-top:6px;margin-top:6px">
           📍 ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}
         </div>
       </div>
     `;
 
-    marker.bindPopup(popupHtml, { maxWidth: 280 });
-    marker.bindTooltip(`${point.id} · ${point.phosphate.toFixed(3)} mg/L`, {
+    marker.bindPopup(popupHtml, { maxWidth: 300 });
+    marker.bindTooltip(`${point.icon} ${point.name}`, {
       direction: 'top',
       offset: [0, -8]
     });
@@ -1327,57 +1315,25 @@ function renderMapPoints(){
     marker.addTo(markerLayer);
   });
 
-  phosphatePoints.forEach(point => {
-    const cls = classifyPhosphate(point.phosphate);
+  visible.forEach(point => {
+    const color = point.category === 'wisata' ? '#22d3ee' : '#fbbf24';
     const label = L.divIcon({
       className: 'point-label',
       html: `<div style="
-        background:${cls.color};color:#04141a;
+        background:${color};color:#04141a;
         padding:2px 8px;border-radius:6px;
         font-size:10px;font-weight:700;
         white-space:nowrap;
         box-shadow:0 2px 8px rgba(0,0,0,.5);
         border:1px solid rgba(255,255,255,.3);
         transform:translateX(-50%);
-        margin-top:24px;
+        margin-top:22px;
       ">${point.name}</div>`,
       iconSize: [0, 0],
       iconAnchor: [0, 0]
     });
     L.marker([point.lat, point.lng], { icon: label, interactive: false }).addTo(markerLayer);
   });
-}
-
-function updateMapFromData(){
-  phosphatePoints = SAMPLING_POINTS.map(p => ({ ...p }));
-
-  const all = getAllHistory();
-  if (all.length > 0){
-    const latestByPoint = {};
-    all.forEach(h => {
-      if (h.pointId && (!latestByPoint[h.pointId] || h.ts > latestByPoint[h.pointId].ts)){
-        latestByPoint[h.pointId] = h;
-      }
-    });
-
-    phosphatePoints.forEach(p => {
-      if (latestByPoint[p.id]){
-        p.phosphate = latestByPoint[p.id].phosphate;
-      }
-    });
-
-    const latest = all[all.length - 1];
-    if (latest && !latest.pointId){
-      const baseValue = latest.phosphate;
-      phosphatePoints[0].phosphate = Math.max(0.01, baseValue * 0.4);
-      phosphatePoints[1].phosphate = Math.max(0.01, baseValue * 0.7);
-      phosphatePoints[2].phosphate = Math.max(0.01, baseValue * 1.0);
-      phosphatePoints[3].phosphate = Math.max(0.01, baseValue * 1.4);
-      phosphatePoints[4].phosphate = Math.max(0.01, baseValue * 1.8);
-    }
-  }
-
-  renderMapPoints();
 }
 
 /* ============================================================
@@ -1570,7 +1526,6 @@ async function handleDeleteRow(btn){
 
     renderHistory();
     renderChart();
-    updateMapFromData();
   } catch(e){
     console.error('Delete error:', e);
     showToast('❌ Gagal hapus: ' + e.message, 'error');
@@ -1654,7 +1609,6 @@ async function analyze(){
 
   renderHistory();
   renderChart();
-  updateMapFromData();
 
   btn.disabled = false;
   btn.innerHTML = '<span>⚡</span> Analisis dengan AI';
@@ -1865,7 +1819,6 @@ async function initFirebase(){
       firebaseHistory = arr.sort((a,b) => (a.id > b.id ? 1 : -1));
       renderHistory();
       renderChart();
-      updateMapFromData();
       if (!document.getElementById('stamp').textContent){
         setSensorStatus(`✅ Tersinkron: ${arr.length} data sensor dari Firebase`, 'ok');
       }
@@ -2299,7 +2252,6 @@ document.getElementById('clearManualBtn').addEventListener('click', ()=>{
     localStorage.removeItem(STORE_KEY);
     renderHistory();
     renderChart();
-    updateMapFromData();
     document.getElementById('resultBox').innerHTML =
       '<div class="result-empty"><div class="big">🧪</div><p>Riwayat manual telah dihapus.</p></div>';
     document.getElementById('recBox').innerHTML =
@@ -2335,7 +2287,6 @@ document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
     firebaseHistory = [];
     renderHistory();
     renderChart();
-    updateMapFromData();
     showToast(`✅ ${firebaseHistory.length} data sensor dihapus dari Firebase`, 'success');
   } catch(e){
     console.error('Clear sensor error:', e);
@@ -2360,7 +2311,6 @@ fetchBMKGWeather();
 
 setTimeout(() => {
   initMap();
-  updateMapFromData();
 }, 300);
 
 setInterval(fetchBMKGWeather, 30 * 60 * 1000);
