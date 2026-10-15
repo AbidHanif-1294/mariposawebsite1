@@ -325,12 +325,19 @@
     background:#0a1524 !important;
     font-family:'Inter','Segoe UI',system-ui,sans-serif;
   }
+
+  /* Sedikit boost kontras untuk tile satelit */
+  .leaflet-tile-pane{
+    filter:brightness(1.05) contrast(1.05);
+  }
+
   .leaflet-popup-content-wrapper{
-    background:rgba(15,28,45,.98) !important;
+    background:rgba(10,21,36,.98) !important;
     color:var(--txt) !important;
     border:1px solid var(--border-2) !important;
     border-radius:12px !important;
-    box-shadow:0 8px 32px rgba(0,0,0,.6) !important;
+    backdrop-filter:blur(14px);
+    box-shadow:0 12px 40px rgba(0,0,0,.85), 0 0 0 1px rgba(34,211,238,.25) !important;
   }
   .leaflet-popup-content{
     margin:14px 16px !important;
@@ -338,7 +345,7 @@
     line-height:1.55 !important;
   }
   .leaflet-popup-tip{
-    background:rgba(15,28,45,.98) !important;
+    background:rgba(10,21,36,.98) !important;
     border:1px solid var(--border-2) !important;
   }
   .leaflet-popup-close-button{
@@ -397,6 +404,12 @@
     padding:4px 10px;border-radius:99px;
     margin-left:auto;
   }
+
+  /* Label marker lebih kontras di atas satelit */
+  .point-label > div{
+    text-shadow:0 1px 3px rgba(0,0,0,.8);
+    box-shadow:0 3px 12px rgba(0,0,0,.7) !important;
+  }
 </style>
 </head>
 <body>
@@ -431,7 +444,7 @@
     <p>
       Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
       Terintegrasi dengan sensor IoT via Firebase, prakiraan cuaca BMKG,
-      peta wisata & UMKM, dan panel data lapangan admin.
+      peta satelit wisata & UMKM, dan panel data lapangan admin.
     </p>
   </header>
 
@@ -529,6 +542,8 @@
         <div class="map-toolbar">
           <button id="mapCenterBtn" class="active">📍 Fokus Sumber Maron</button>
           <button id="mapFitBtn">🗺️ Tampilkan Semua Titik</button>
+          <button id="mapLayerSatelit" class="active">🛰️ Satelit</button>
+          <button id="mapLayerJalan">🛣️ Jalan</button>
           <button id="mapLayerWisata" class="active">🏞️ Wisata</button>
           <button id="mapLayerUMKM" class="active">🛍️ UMKM & Kuliner</button>
           <span class="map-area-badge">🔒 Area terbatas: Sumber Maron</span>
@@ -681,7 +696,7 @@
 
   <footer>
     <b>MaronPhos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Leaflet + OpenStreetMap · AI Engine v1.6</span>
+    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Esri World Imagery + OpenStreetMap · AI Engine v1.7</span>
   </footer>
 </div>
 
@@ -832,6 +847,9 @@ let markerLayer = null;
 let legendControl = null;
 let showWisata = true;
 let showUMKM = true;
+let currentTileLayer = 'satellite';
+let satelliteLayer = null;
+let streetLayer = null;
 
 /* ============================================================
    1. KLASIFIKASI TROFIK
@@ -1190,7 +1208,7 @@ function renderRecommendations(recs){
 }
 
 /* ============================================================
-   10. PETA WISATA & UMKM SUMBER MARON
+   10. PETA WISATA & UMKM SUMBER MARON (SATELLITE VIEW)
    ============================================================ */
 function initMap(){
   if (map) return;
@@ -1206,12 +1224,38 @@ function initMap(){
     attributionControl: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    minZoom: 15,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    bounds: MAP_BOUNDS
-  }).addTo(map);
+  /* ============================================
+     LAYER 1: SATELIT (ESRI WORLD IMAGERY)
+     Menampilkan kenampakan asli dari citra satelit:
+     pohon, sungai, rumah, sawah, jalan, dll.
+     ============================================ */
+  satelliteLayer = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      maxZoom: 19,
+      minZoom: 15,
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+      bounds: MAP_BOUNDS
+    }
+  );
+
+  /* ============================================
+     LAYER 2: JALAN (OPENSTREETMAP)
+     Menampilkan nama jalan, batas wilayah, POI.
+     ============================================ */
+  streetLayer = L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom: 19,
+      minZoom: 15,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      bounds: MAP_BOUNDS
+    }
+  );
+
+  // Default: satelit
+  satelliteLayer.addTo(map);
+  currentTileLayer = 'satellite';
 
   markerLayer = L.layerGroup().addTo(map);
 
@@ -1232,6 +1276,8 @@ function initMap(){
 
   renderMapPoints();
 
+  /* ===== TOMBOL KONTROL ===== */
+
   document.getElementById('mapCenterBtn').addEventListener('click', () => {
     map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM);
     document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
@@ -1248,6 +1294,28 @@ function initMap(){
     document.getElementById('mapFitBtn').classList.add('active');
   });
 
+  /* ===== TOGGLE LAYER: SATELIT ↔ JALAN ===== */
+  document.getElementById('mapLayerSatelit').addEventListener('click', () => {
+    if (currentTileLayer === 'satellite') return;
+    map.removeLayer(streetLayer);
+    satelliteLayer.addTo(map);
+    satelliteLayer.bringToBack();
+    currentTileLayer = 'satellite';
+    document.getElementById('mapLayerSatelit').classList.add('active');
+    document.getElementById('mapLayerJalan').classList.remove('active');
+  });
+
+  document.getElementById('mapLayerJalan').addEventListener('click', () => {
+    if (currentTileLayer === 'street') return;
+    map.removeLayer(satelliteLayer);
+    streetLayer.addTo(map);
+    streetLayer.bringToBack();
+    currentTileLayer = 'street';
+    document.getElementById('mapLayerJalan').classList.add('active');
+    document.getElementById('mapLayerSatelit').classList.remove('active');
+  });
+
+  /* ===== TOGGLE LAYER: WISATA & UMKM ===== */
   document.getElementById('mapLayerWisata').addEventListener('click', (e) => {
     showWisata = !showWisata;
     e.target.classList.toggle('active', showWisata);
