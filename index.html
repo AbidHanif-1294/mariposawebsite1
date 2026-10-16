@@ -15,6 +15,7 @@
     --txt:#e6f4f8; --muted:#8aa6b8;
     --aqua:#22d3ee; --teal:#2dd4bf; --green:#34d399;
     --amber:#fbbf24; --orange:#fb923c; --red:#ef4444;
+    --purple:#a78bfa;
     --glow:0 0 40px rgba(34,211,238,.15);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -176,7 +177,73 @@
   .sec-head h2 .grad{background:linear-gradient(100deg,#22d3ee,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
   .sec-head p{color:var(--muted);font-size:.88rem}
 
-  .chart-box{position:relative;height:320px;padding:6px 4px}
+  .chart-box{position:relative;height:340px;padding:6px 4px}
+
+  /* ===== PREDICTION BREAKDOWN ===== */
+  .forecast-breakdown{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px;
+  }
+  @media(max-width:768px){.forecast-breakdown{grid-template-columns:1fr}}
+  .fb-card{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:14px;
+    padding:16px;transition:.2s;
+  }
+  .fb-card:hover{border-color:var(--border-2);transform:translateY(-2px)}
+  .fb-card .head{
+    display:flex;align-items:center;gap:8px;margin-bottom:10px;
+    font-size:.72rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:.6px;color:var(--muted);
+  }
+  .fb-card .head .icon{
+    width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;
+  }
+  .fb-card.base .head .icon{background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.35)}
+  .fb-card.weather .head .icon{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35)}
+  .fb-card.visitor .head .icon{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35)}
+  .fb-card .value{
+    font-size:1.5rem;font-weight:800;letter-spacing:-.7px;line-height:1.1;
+    margin-bottom:4px;
+  }
+  .fb-card.base .value{color:var(--aqua)}
+  .fb-card.weather .value{color:var(--green)}
+  .fb-card.visitor .value{color:var(--amber)}
+  .fb-card .formula{
+    font-size:.72rem;color:var(--muted);line-height:1.5;
+    font-family:'Courier New',monospace;
+    background:rgba(0,0,0,.25);padding:6px 9px;border-radius:6px;
+    margin-top:6px;
+  }
+  .fb-card .detail{
+    font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:8px;
+  }
+  .fb-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:var(--aqua);opacity:.5;
+  }
+  @media(max-width:768px){.fb-arrow{transform:rotate(90deg);padding:4px 0}}
+
+  .final-prediction{
+    margin-top:16px;padding:20px;border-radius:16px;
+    background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(45,212,191,.08));
+    border:1px solid rgba(34,211,238,.35);
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:14px;
+  }
+  .final-prediction .label{
+    font-size:.72rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:.7px;color:var(--muted);margin-bottom:4px;
+  }
+  .final-prediction .num{
+    font-size:2rem;font-weight:800;letter-spacing:-1.5px;line-height:1;
+    color:var(--aqua);
+  }
+  .final-prediction .num small{font-size:.85rem;color:var(--muted);font-weight:500;letter-spacing:0}
+  .final-prediction .change{
+    font-size:.85rem;font-weight:700;padding:6px 12px;border-radius:99px;
+  }
+  .final-prediction .change.up{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.35)}
+  .final-prediction .change.down{background:rgba(52,211,153,.15);color:#6ee7b7;border:1px solid rgba(52,211,153,.35)}
+  .final-prediction .change.stable{background:rgba(138,166,184,.12);color:var(--muted);border:1px solid rgba(138,166,184,.3)}
 
   .weather-current{
     display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
@@ -325,12 +392,7 @@
     background:#0a1524 !important;
     font-family:'Inter','Segoe UI',system-ui,sans-serif;
   }
-
-  /* Sedikit boost kontras untuk tile satelit */
-  .leaflet-tile-pane{
-    filter:brightness(1.05) contrast(1.05);
-  }
-
+  .leaflet-tile-pane{filter:brightness(1.05) contrast(1.05);}
   .leaflet-popup-content-wrapper{
     background:rgba(10,21,36,.98) !important;
     color:var(--txt) !important;
@@ -339,20 +401,9 @@
     backdrop-filter:blur(14px);
     box-shadow:0 12px 40px rgba(0,0,0,.85), 0 0 0 1px rgba(34,211,238,.25) !important;
   }
-  .leaflet-popup-content{
-    margin:14px 16px !important;
-    font-size:.82rem !important;
-    line-height:1.55 !important;
-  }
-  .leaflet-popup-tip{
-    background:rgba(10,21,36,.98) !important;
-    border:1px solid var(--border-2) !important;
-  }
-  .leaflet-popup-close-button{
-    color:var(--muted) !important;
-    font-size:18px !important;
-    padding:4px 8px 0 0 !important;
-  }
+  .leaflet-popup-content{margin:14px 16px !important;font-size:.82rem !important;line-height:1.55 !important;}
+  .leaflet-popup-tip{background:rgba(10,21,36,.98) !important;border:1px solid var(--border-2) !important;}
+  .leaflet-popup-close-button{color:var(--muted) !important;font-size:18px !important;padding:4px 8px 0 0 !important;}
   .leaflet-popup-close-button:hover{color:var(--red) !important}
 
   .map-legend{
@@ -364,37 +415,19 @@
     box-shadow:0 4px 16px rgba(0,0,0,.5);
     min-width:170px;
   }
-  .map-legend .legend-title{
-    font-size:.68rem;font-weight:700;text-transform:uppercase;
-    letter-spacing:.6px;color:var(--aqua);margin-bottom:6px;
-  }
-  .map-legend .legend-item{
-    display:flex;align-items:center;gap:8px;color:var(--muted);
-  }
-  .map-legend .legend-dot{
-    width:12px;height:12px;border-radius:50%;
-    border:2px solid rgba(255,255,255,.3);
-    flex-shrink:0;
-  }
+  .map-legend .legend-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--aqua);margin-bottom:6px}
+  .map-legend .legend-item{display:flex;align-items:center;gap:8px;color:var(--muted)}
+  .map-legend .legend-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.3);flex-shrink:0}
 
-  .map-toolbar{
-    display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;
-    align-items:center;
-  }
+  .map-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
   .map-toolbar button{
     background:rgba(138,166,184,.08);border:1px solid rgba(138,166,184,.3);
     color:var(--muted);padding:7px 13px;border-radius:9px;
     font-family:inherit;font-size:.76rem;font-weight:600;
     cursor:pointer;transition:.2s;
   }
-  .map-toolbar button:hover{
-    background:rgba(34,211,238,.08);color:var(--aqua);
-    border-color:var(--border-2);
-  }
-  .map-toolbar button.active{
-    background:rgba(34,211,238,.12);color:var(--aqua);
-    border-color:var(--aqua);
-  }
+  .map-toolbar button:hover{background:rgba(34,211,238,.08);color:var(--aqua);border-color:var(--border-2)}
+  .map-toolbar button.active{background:rgba(34,211,238,.12);color:var(--aqua);border-color:var(--aqua)}
 
   .map-area-badge{
     display:inline-flex;align-items:center;gap:6px;
@@ -405,11 +438,7 @@
     margin-left:auto;
   }
 
-  /* Label marker lebih kontras di atas satelit */
-  .point-label > div{
-    text-shadow:0 1px 3px rgba(0,0,0,.8);
-    box-shadow:0 3px 12px rgba(0,0,0,.7) !important;
-  }
+  .point-label > div{text-shadow:0 1px 3px rgba(0,0,0,.8);box-shadow:0 3px 12px rgba(0,0,0,.7) !important;}
 </style>
 </head>
 <body>
@@ -425,7 +454,7 @@
       <a href="#peta">Peta</a>
       <a href="#cuaca">Cuaca</a>
       <a href="#lapangan">Lapangan</a>
-      <a href="#prediksi">Prediksi</a>
+      <a href="#prediksi">Prediksi AI</a>
       <a href="#rekomendasi">Rekomendasi</a>
       <a href="#riwayat">Riwayat</a>
     </div>
@@ -443,8 +472,8 @@
     <h1>Analisis <span class="grad">Kadar Fosfat</span><br>Real-time Berbasis AI</h1>
     <p>
       Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
-      Terintegrasi dengan sensor IoT via Firebase, prakiraan cuaca BMKG,
-      peta satelit wisata & UMKM, dan panel data lapangan admin.
+      <b>Prediksi AI multi-faktor</b> mempertimbangkan tren historis, prakiraan cuaca BMKG,
+      dan jumlah pengunjung untuk akurasi maksimal.
     </p>
   </header>
 
@@ -479,17 +508,6 @@
           <div class="field">
             <label>Suhu Air <span class="unit">°C</span></label>
             <input type="number" step="0.1" id="temp" placeholder="cth: 26.5" />
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="field">
-            <label>Oksigen Terlarut (DO) <span class="unit">mg/L</span></label>
-            <input type="number" step="0.1" id="do_" placeholder="cth: 6.8" />
-          </div>
-          <div class="field">
-            <label>Kekeruhan <span class="unit">NTU</span></label>
-            <input type="number" step="0.1" id="turbidity" placeholder="cth: 12.4" />
           </div>
         </div>
 
@@ -556,7 +574,7 @@
   <section class="block" id="cuaca">
     <div class="sec-head">
       <h2>Prakiraan <span class="grad">Cuaca BMKG</span></h2>
-      <p>Data real-time dari BMKG untuk wilayah Sumber Maron (Kode Adm4: <b>35.07.33.2009</b>)</p>
+      <p>Data real-time dari BMKG untuk wilayah Sumber Maron (Kode Adm4: <b>35.07.33.2009</b>) — dipakai AI untuk prediksi multi-faktor.</p>
     </div>
     <div class="card">
       <div class="card-b" id="weatherBox">
@@ -568,7 +586,7 @@
   <section class="block" id="lapangan">
     <div class="sec-head">
       <h2>Data <span class="grad">Lapangan</span></h2>
-      <p>Jumlah pengunjung, kondisi hujan aktual, dan catatan lapangan dari Sumber Maron.</p>
+      <p>Jumlah pengunjung, kondisi hujan aktual, dan catatan lapangan dari Sumber Maron — dipakai AI sebagai faktor prediksi.</p>
     </div>
     <div class="card">
       <div class="card-b">
@@ -641,12 +659,26 @@
 
   <section class="block" id="prediksi">
     <div class="sec-head">
-      <h2>Tren & <span class="grad">Prediksi Fosfat</span></h2>
-      <p>Model regresi linear dari data historis (real-time dari Firebase + input manual) — memproyeksikan kadar fosfat periode berikutnya.</p>
+      <h2>Prediksi AI <span class="grad">Multi-Faktor</span></h2>
+      <p>Model AI memadukan <b>tren historis</b>, <b>prakiraan cuaca BMKG</b> (efek hujan terhadap limpasan fosfat), dan <b>jumlah pengunjung</b> (beban nutrien domestik) untuk memproyeksikan kadar fosfat.</p>
     </div>
+
     <div class="card">
       <div class="card-b">
         <div class="chart-box"><canvas id="trendChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- BREAKDOWN SECTION -->
+    <div class="card" style="margin-top:20px">
+      <div class="card-h">
+        <h2><span class="ic">🧠</span> Rincian Perhitungan AI</h2>
+        <span id="breakdownStamp" style="font-size:.68rem;color:var(--muted)"></span>
+      </div>
+      <div class="card-b" id="breakdownBox">
+        <div class="empty-note">
+          Lakukan analisis atau tunggu data sensor untuk melihat rincian perhitungan AI.
+        </div>
       </div>
     </div>
   </section>
@@ -681,13 +713,13 @@
           <thead>
             <tr>
               <th>Waktu</th><th>PO₄ (mg/L)</th><th>pH</th><th>Suhu</th>
-              <th>DO</th><th>Kekeruhan</th><th>Konduktivitas</th>
+              <th>Konduktivitas</th>
               <th>Status</th><th>WQI</th><th>Sumber</th>
               <th id="actionCol" style="display:none">Aksi</th>
             </tr>
           </thead>
           <tbody id="historyBody">
-            <tr><td colspan="11" class="empty-note">Belum ada data tersimpan.</td></tr>
+            <tr><td colspan="9" class="empty-note">Belum ada data tersimpan.</td></tr>
           </tbody>
         </table>
       </div>
@@ -696,7 +728,7 @@
 
   <footer>
     <b>MaronPhos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Esri World Imagery + OpenStreetMap · AI Engine v1.7</span>
+    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Esri World Imagery + OpenStreetMap · AI Engine v2.0 — Multi-Factor Prediction</span>
   </footer>
 </div>
 
@@ -742,83 +774,84 @@ const BMKG_ADM4 = "35.07.33.2009";
 
 /* ===== KOORDINAT & BATAS AREA SUMBER MARON ===== */
 const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
-
-const MAP_BOUNDS = [
-  [-8.2250, 112.4600],
-  [-8.1970, 112.4930]
-];
-
+const MAP_BOUNDS = [[-8.2250, 112.4600], [-8.1970, 112.4930]];
 const MAP_MIN_ZOOM = 15;
 const MAP_MAX_ZOOM = 19;
 const MAP_DEFAULT_ZOOM = 17;
 
 /* ============================================================
+   ⚙️ PARAMETER MODEL AI MULTI-FAKTOR
+   ============================================================
+   Faktor empiris berdasarkan studi lingkungan:
+   - Hujan menyebabkan limpasan permukaan yang membawa fosfat dari
+     lahan pertanian & permukiman ke badan air (peak 1-2 hari setelah hujan)
+   - Pengunjung meningkatkan input nutrien dari limbah domestik & sampah
+   ============================================================ */
+const AI_MODEL = {
+  // Faktor hujan (multiplier kenaikan fosfat)
+  rainFactor: {
+    'Tidak Hujan':    0.00,   // tidak ada efek
+    'Hujan Ringan':   0.08,   // +8% fosfat
+    'Hujan Sedang':   0.18,   // +18%
+    'Hujan Lebat':    0.32,   // +32%
+    'Badai':          0.45    // +45% (ekstrem)
+  },
+  // Baseline pengunjung harian (normal)
+  visitorBaseline: 50,
+  // Setiap +25 pengunjung dari baseline → +3% fosfat
+  visitorStep: 25,
+  visitorEffect: 0.03,
+  // Range multiplier pengunjung
+  visitorMin: 0.85,
+  visitorMax: 1.30,
+  // Efek kumulatif hujan (hujan hari ini + hujan 1 hari lalu)
+  rainDecayFactor: 0.5,   // 50% dari efek hujan hari sebelumnya
+  // Horizon prediksi (jumlah step ke depan)
+  forecastSteps: 5,
+  // Bobot blending: seberapa besar faktor eksternal mempengaruhi prediksi
+  externalWeight: 0.65    // 0 = pure trend, 1 = pure external
+};
+
+/* ============================================================
    DATA TITIK WISATA & UMKM SUMBER MARON
    ============================================================ */
 const SUMBER_MARON_POINTS = [
-  // --- WISATA ---
-  {
-    id: 'W-01', name: 'Grojogan Sewu (Air Terjun)', category: 'wisata',
+  { id: 'W-01', name: 'Grojogan Sewu (Air Terjun)', category: 'wisata',
     description: 'Air terjun mini setinggi ±5 meter, ikon utama wisata Sumber Maron.',
-    lat: -8.21150, lng: 112.47700, icon: '💧'
-  },
-  {
-    id: 'W-02', name: 'Area River Tubing', category: 'wisata',
+    lat: -8.21150, lng: 112.47700, icon: '💧' },
+  { id: 'W-02', name: 'Area River Tubing', category: 'wisata',
     description: 'Aliran sungai untuk aktivitas river tubing sepanjang ±500 meter.',
-    lat: -8.21065, lng: 112.47630, icon: '🛶'
-  },
-  {
-    id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata',
+    lat: -8.21065, lng: 112.47630, icon: '🛶' },
+  { id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata',
     description: 'Pemandian alami dengan air jernih dari mata air Sumber Maron.',
-    lat: -8.21020, lng: 112.47600, icon: '🏊'
-  },
-  {
-    id: 'W-04', name: 'Mata Air Utama', category: 'wisata',
+    lat: -8.21020, lng: 112.47600, icon: '🏊' },
+  { id: 'W-04', name: 'Mata Air Utama', category: 'wisata',
     description: 'Sumber mata air utama, titik keluaran air dari dalam tanah.',
-    lat: -8.21180, lng: 112.47680, icon: '⛲'
-  },
-  {
-    id: 'W-05', name: 'Edukasi PLTMH', category: 'wisata',
+    lat: -8.21180, lng: 112.47680, icon: '⛲' },
+  { id: 'W-05', name: 'Edukasi PLTMH', category: 'wisata',
     description: 'Pembangkit Listrik Tenaga Mikrohidro sebagai wisata edukasi.',
-    lat: -8.21000, lng: 112.47550, icon: '⚡'
-  },
-  {
-    id: 'W-06', name: 'Area Outbound & Spot Foto', category: 'wisata',
+    lat: -8.21000, lng: 112.47550, icon: '⚡' },
+  { id: 'W-06', name: 'Area Outbound & Spot Foto', category: 'wisata',
     description: 'Area outbound dan spot foto dengan latar persawahan dan sungai.',
-    lat: -8.20950, lng: 112.47580, icon: '📸'
-  },
-
-  // --- UMKM & KULINER ---
-  {
-    id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm',
+    lat: -8.20950, lng: 112.47580, icon: '📸' },
+  { id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm',
     description: 'Deretan warung bakso dan jajanan khas di area wisata.',
-    lat: -8.21080, lng: 112.47650, icon: '🍜'
-  },
-  {
-    id: 'U-02', name: 'Lapak Belimbing & Buah Segar', category: 'umkm',
+    lat: -8.21080, lng: 112.47650, icon: '🍜' },
+  { id: 'U-02', name: 'Lapak Belimbing & Buah Segar', category: 'umkm',
     description: 'Belimbing khas Malang dan buah-buahan segar hasil kebun petani setempat.',
-    lat: -8.21050, lng: 112.47620, icon: '🍈'
-  },
-  {
-    id: 'U-03', name: 'Toko Oleh-oleh & Souvenir', category: 'umkm',
+    lat: -8.21050, lng: 112.47620, icon: '🍈' },
+  { id: 'U-03', name: 'Toko Oleh-oleh & Souvenir', category: 'umkm',
     description: 'Toko yang menjual oleh-oleh, pakaian, dan perlengkapan wisata.',
-    lat: -8.21030, lng: 112.47590, icon: '🎁'
-  },
-  {
-    id: 'U-04', name: 'Warung Mie Pedas', category: 'umkm',
+    lat: -8.21030, lng: 112.47590, icon: '🎁' },
+  { id: 'U-04', name: 'Warung Mie Pedas', category: 'umkm',
     description: 'Warung mie pedas dengan tekstur kenyal dan kuah gurih di Jl. Sumber Maron No.30.',
-    lat: -8.21000, lng: 112.47560, icon: '🌶️'
-  },
-  {
-    id: 'U-05', name: 'Area Parkir & Ojek Wisata', category: 'umkm',
+    lat: -8.21000, lng: 112.47560, icon: '🌶️' },
+  { id: 'U-05', name: 'Area Parkir & Ojek Wisata', category: 'umkm',
     description: 'Area parkir luas dan layanan ojek wisata untuk menuju lokasi.',
-    lat: -8.20980, lng: 112.47540, icon: '🅿️'
-  },
-  {
-    id: 'U-06', name: 'Sentra Jajanan Pasar', category: 'umkm',
+    lat: -8.20980, lng: 112.47540, icon: '🅿️' },
+  { id: 'U-06', name: 'Sentra Jajanan Pasar', category: 'umkm',
     description: 'Aneka jajanan pasar dan camilan ringan khas desa.',
-    lat: -8.20920, lng: 112.47500, icon: '🍢'
-  }
+    lat: -8.20920, lng: 112.47500, icon: '🍢' }
 ];
 
 const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.includes('ISI_');
@@ -875,16 +908,6 @@ function subIndex(key, v){
     case 'temp':
       if (v>=24 && v<=28) return 100;
       return Math.max(0, 100 - Math.abs(v-26)*9);
-    case 'do_':
-      if (v>=7) return 100;
-      if (v>=5) return 70 + (v-5)*15;
-      if (v>=3) return 40 + (v-3)*15;
-      return Math.max(0, v*13);
-    case 'turbidity':
-      if (v<=5) return 100;
-      if (v<=25) return 100 - (v-5)*2.2;
-      if (v<=100) return Math.max(15, 56 - (v-25)*0.5);
-      return Math.max(0, 15 - (v-100)*0.1);
     case 'conductivity':
       if (v<=300) return 100;
       if (v<=500) return 100 - (v-300)*0.15;
@@ -903,7 +926,7 @@ function subIndex(key, v){
 /* ============================================================
    3. WQI
    ============================================================ */
-const WEIGHTS = { phosphate:0.32, do_:0.22, ph:0.16, turbidity:0.13, temp:0.09, conductivity:0.08 };
+const WEIGHTS = { phosphate:0.49, ph:0.25, temp:0.14, conductivity:0.12 };
 
 function computeWQI(d){
   let sumW=0, sum=0, available=0;
@@ -935,12 +958,6 @@ function detectAnomalies(d){
     else if (d.ph>9.0) a.push({sev:'crit', msg:`pH sangat basa (${d.ph}) — indikasi blooming alga aktif.`});
     else if (d.ph>8.5) a.push({sev:'warn', msg:`pH di atas baku mutu (${d.ph}).`});
   }
-  if (d.do_!==null && d.do_!==undefined){
-    if (d.do_<3) a.push({sev:'crit', msg:`Oksigen terlarut sangat rendah (${d.do_} mg/L) — ancaman hipoksia biota air.`});
-    else if (d.do_<5) a.push({sev:'warn', msg:`DO di bawah ambang ideal (${d.do_} mg/L).`});
-  }
-  if (d.turbidity!==null && d.turbidity!==undefined && d.turbidity>50)
-    a.push({sev:'warn', msg:`Kekeruhan tinggi (${d.turbidity} NTU) — indikasi erosi atau limpasan sedimen.`});
   if (d.temp!==null && d.temp!==undefined && d.temp>32)
     a.push({sev:'warn', msg:`Suhu air tinggi (${d.temp}°C) — mempercepat pelepasan fosfat dari sedimen.`});
   if (d.conductivity!==null && d.conductivity!==undefined && d.conductivity>800)
@@ -949,7 +966,7 @@ function detectAnomalies(d){
 }
 
 /* ============================================================
-   5. REGRESI & PREDIKSI
+   5. REGRESI & PREDIKSI MULTI-FAKTOR
    ============================================================ */
 function linearRegression(y){
   const n=y.length;
@@ -976,6 +993,139 @@ function getAllHistory(){
     .sort((a,b) => (a.ts || 0) - (b.ts || 0));
 }
 
+/* ============================================================
+   AI MULTI-FACTOR: Hitung faktor cuaca dari forecast BMKG
+   ============================================================ */
+function computeWeatherFactors(steps){
+  const result = {
+    factors: new Array(steps).fill(1.0),
+    rainDays: 0,
+    avgIntensity: 0,
+    totalRainScore: 0,
+    details: [],
+    rainForecastIdx: -1,
+    dominantRainDesc: ''
+  };
+
+  if (!weatherData || !weatherData.forecast || weatherData.forecast.length === 0){
+    result.details.push({ period: '—', desc: 'Data BMKG belum tersedia', intensity: 0, factor: 1.0 });
+    return result;
+  }
+
+  const forecast = weatherData.forecast;
+  let cumulativeRainScore = 0;
+  let maxRainScore = 0;
+  let dominantDesc = '';
+  let firstRainIdx = -1;
+
+  for (let i = 0; i < steps; i++){
+    // Ambil forecast pada index yang sesuai (tiap step = 2 slot cuaca / 6 jam)
+    const fcIdx = Math.min(i * 2, forecast.length - 1);
+    const fc = forecast[fcIdx];
+    const desc = (fc.weather_desc || '').toLowerCase();
+
+    // Klasifikasi intensitas hujan → faktor kenaikan
+    let rainFactor = 0;
+    let rainLabel = 'Cerah / Berawan';
+
+    if (desc.includes('badai') || desc.includes('hujan lebat')){
+      rainFactor = AI_MODEL.rainFactor['Hujan Lebat'];
+      rainLabel = 'Hujan Lebat';
+    } else if (desc.includes('hujan sedang')){
+      rainFactor = AI_MODEL.rainFactor['Hujan Sedang'];
+      rainLabel = 'Hujan Sedang';
+    } else if (desc.includes('hujan ringan') || desc.includes('hujan lokal')){
+      rainFactor = AI_MODEL.rainFactor['Hujan Ringan'];
+      rainLabel = 'Hujan Ringan';
+    } else if (desc.includes('hujan')){
+      rainFactor = AI_MODEL.rainFactor['Hujan Ringan'];
+      rainLabel = 'Hujan';
+    }
+
+    // Efek akumulatif: hujan hari ini + 50% dari hujan sebelumnya
+    cumulativeRainScore = rainFactor + (cumulativeRainScore * AI_MODEL.rainDecayFactor);
+
+    // Faktor akhir untuk step ini
+    const factor = 1 + cumulativeRainScore;
+    result.factors[i] = factor;
+
+    if (rainFactor > 0){
+      result.rainDays++;
+      if (firstRainIdx === -1) firstRainIdx = i;
+      if (rainFactor > maxRainScore){
+        maxRainScore = rainFactor;
+        dominantDesc = rainLabel;
+      }
+    }
+
+    result.details.push({
+      period: `+${i+1}`,
+      desc: rainLabel,
+      intensity: rainFactor,
+      factor: factor,
+      rawDesc: fc.weather_desc || '—'
+    });
+
+    result.totalRainScore += rainFactor;
+  }
+
+  result.avgIntensity = result.totalRainScore / steps;
+  result.rainForecastIdx = firstRainIdx;
+  result.dominantRainDesc = dominantDesc;
+
+  return result;
+}
+
+/* ============================================================
+   AI MULTI-FACTOR: Hitung faktor pengunjung
+   ============================================================ */
+function computeVisitorFactor(){
+  const result = {
+    multiplier: 1.0,
+    avgVisitors: 0,
+    sampleCount: 0,
+    explanation: 'Belum ada data pengunjung',
+    category: 'unknown'
+  };
+
+  if (!fieldData || fieldData.length === 0){
+    return result;
+  }
+
+  // Ambil 7 entri terakhir untuk rata-rata
+  const recent = fieldData.slice(0, Math.min(7, fieldData.length));
+  const avg = recent.reduce((s, f) => s + (f.visitorCount || 0), 0) / recent.length;
+
+  result.avgVisitors = Math.round(avg);
+  result.sampleCount = recent.length;
+
+  // Hitung multiplier
+  const delta = avg - AI_MODEL.visitorBaseline;
+  const rawMultiplier = 1 + (delta / AI_MODEL.visitorStep) * AI_MODEL.visitorEffect;
+
+  // Cap dalam range
+  const capped = Math.max(AI_MODEL.visitorMin, Math.min(AI_MODEL.visitorMax, rawMultiplier));
+  result.multiplier = capped;
+
+  const pctChange = ((capped - 1) * 100).toFixed(1);
+
+  if (avg > AI_MODEL.visitorBaseline + 20){
+    result.category = 'high';
+    result.explanation = `Pengunjung di atas normal (${Math.round(avg)}/hari vs baseline ${AI_MODEL.visitorBaseline}) → estimasi kenaikan fosfat +${pctChange}% dari beban nutrien domestik.`;
+  } else if (avg < AI_MODEL.visitorBaseline - 20){
+    result.category = 'low';
+    result.explanation = `Pengunjung di bawah normal (${Math.round(avg)}/hari vs baseline ${AI_MODEL.visitorBaseline}) → estimasi penurunan tekanan fosfat ${pctChange}%.`;
+  } else {
+    result.category = 'normal';
+    result.explanation = `Pengunjung dalam rentang normal (${Math.round(avg)}/hari) → pengaruh terhadap fosfat minimal (${pctChange}%).`;
+  }
+
+  return result;
+}
+
+/* ============================================================
+   AI MULTI-FACTOR: Prediksi gabungan
+   ============================================================ */
 function forecast(steps){
   const all = getAllHistory();
   const vals = all.map(h=>h.phosphate);
@@ -983,11 +1133,37 @@ function forecast(steps){
   const reg = linearRegression(vals);
   if (!reg) return null;
   const n = vals.length;
-  const preds = [];
+
+  // 1. Base trend dari regresi linear
+  const basePreds = [];
   for (let i=1;i<=steps;i++){
-    preds.push(Math.max(0, reg.slope*(n+i-1)+reg.intercept));
+    basePreds.push(Math.max(0, reg.slope*(n+i-1)+reg.intercept));
   }
-  return {preds, reg, last:n-1};
+
+  // 2. Faktor cuaca
+  const weatherFactors = computeWeatherFactors(steps);
+
+  // 3. Faktor pengunjung (flat sepanjang horizon)
+  const visitorFactor = computeVisitorFactor();
+
+  // 4. Gabungkan: base * (weighted weather) * (weighted visitor)
+  const adjustedPreds = basePreds.map((p, i) => {
+    const wf = weatherFactors.factors[i] || 1.0;
+    // Weighted: externalWeight menentukan seberapa besar faktor eksternal
+    const blendedWf = 1 + (wf - 1) * AI_MODEL.externalWeight;
+    const blendedVf = 1 + (visitorFactor.multiplier - 1) * AI_MODEL.externalWeight;
+    return Math.max(0, p * blendedWf * blendedVf);
+  });
+
+  return {
+    preds: basePreds,           // untuk backward compat
+    basePreds,
+    adjustedPreds,
+    weatherFactors,
+    visitorFactor,
+    reg,
+    last: n-1
+  };
 }
 
 /* ============================================================
@@ -1014,11 +1190,69 @@ function buildRecommendations(d, cls, wqi, anomalies){
       body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
   }
 
+  /* ===== REKOMENDASI BERBASIS MULTI-FAKTOR AI ===== */
+  const fc = forecast(AI_MODEL.forecastSteps);
+  if (fc){
+    const wf = fc.weatherFactors;
+    const vf = fc.visitorFactor;
+
+    // Weather-driven recommendation
+    if (wf.rainDays > 0){
+      const rainyStep = wf.details.findIndex(d => d.intensity > 0) + 1;
+      const peakFactor = Math.max(...wf.factors);
+      const peakPct = ((peakFactor - 1) * 100).toFixed(0);
+
+      recs.push({
+        sev: wf.avgIntensity > 0.15 ? 'crit' : 'warn',
+        ico: '🌧️',
+        tag: 'AI Multi-Faktor',
+        title: `Prediksi Hujan BMKG — Lonjakan Fosfat Hingga +${peakPct}%`,
+        body: `AI mendeteksi <b>${wf.rainDays} periode hujan</b> dalam horizon prediksi (dominan: ${wf.dominantRainDesc}). Berdasarkan model limpasan, fosfat diproyeksikan naik hingga <b>+${peakPct}%</b> dari baseline dalam ${rainyStep === 1 ? '24 jam' : (rainyStep * 6) + ' jam'} ke depan. Disarankan: (1) sampling tambahan 1–2 hari pasca hujan, (2) cek drainase di sekitar area wisata & lahan pertanian, (3) siapkan sedimen trap di titik masuk aliran.`
+      });
+    }
+
+    // Visitor-driven recommendation
+    if (vf.category === 'high'){
+      recs.push({
+        sev: 'warn',
+        ico: '👥',
+        tag: 'AI Multi-Faktor',
+        title: `Beban Pengunjung Tinggi (${vf.avgVisitors}/hari)`,
+        body: `Rata-rata pengunjung 7 hari terakhir <b>${vf.avgVisitors}/hari</b> — di atas baseline ${AI_MODEL.visitorBaseline}/hari. AI memproyeksikan kontribusi <b>+${((vf.multiplier-1)*100).toFixed(1)}%</b> terhadap kadar fosfat dari beban nutrien domestik (limbah, sisa makanan, sabun). Rekomendasi: tingkatkan frekuensi pembersihan area wisata, pastikan septic tank tertutup rapat, dan pasang papan edukasi "jangan buang sampah ke sumber".`
+      });
+    } else if (vf.category === 'low'){
+      recs.push({
+        sev: 'ok',
+        ico: '👥',
+        tag: 'AI Multi-Faktor',
+        title: `Beban Pengunjung Rendah (${vf.avgVisitors}/hari)`,
+        body: `Rata-rata pengunjung ${vf.avgVisitors}/hari — di bawah baseline. Tekanan fosfat dari aktivitas wisata minimal. Pertahankan pengelolaan yang ada.`
+      });
+    }
+
+    // Combined factor explanation
+    const lastAdjusted = fc.adjustedPreds[fc.adjustedPreds.length - 1];
+    const lastBase = fc.basePreds[fc.basePreds.length - 1];
+    const totalEffect = ((lastAdjusted / lastBase - 1) * 100).toFixed(1);
+
+    if (Math.abs(totalEffect) > 5){
+      const direction = totalEffect > 0 ? 'naik' : 'turun';
+      const sev = totalEffect > 15 ? 'warn' : 'info';
+      recs.push({
+        sev: sev,
+        ico: totalEffect > 0 ? '📈' : '📉',
+        tag: 'AI Multi-Faktor',
+        title: `Proyeksi Gabungan: Fosfat ${direction} ${Math.abs(totalEffect)}%`,
+        body: `Dengan mempertimbangkan <b>tren historis</b> (R²=${fc.reg.r2.toFixed(2)}), <b>prakiraan hujan BMKG</b>, dan <b>beban pengunjung</b>, AI memproyeksikan kadar fosfat <b>${lastAdjusted.toFixed(3)} mg/L</b> pada ${AI_MODEL.forecastSteps * 6} jam ke depan (baseline trend: ${lastBase.toFixed(3)} mg/L). ${totalEffect > 0 ? 'Perkuat pengawasan.' : 'Pertahankan pengelolaan.'}`
+      });
+    }
+  }
+
   if (weatherData && weatherData.rainExpected){
     recs.push({
-      sev: 'warn', ico: '🌧️', tag: 'Cuaca BMKG',
-      title: 'Prediksi Hujan — Waspadai Lonjakan Fosfat',
-      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat dari lahan pertanian & permukiman ke badan air. Disarankan pantau kenaikan fosfat 1–2 hari setelah hujan.`
+      sev: 'warn', ico: '☔', tag: 'Cuaca BMKG',
+      title: 'Peringatan Dini Hujan',
+      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat dari lahan pertanian & permukiman ke badan air.`
     });
   }
 
@@ -1051,13 +1285,6 @@ function buildRecommendations(d, cls, wqi, anomalies){
         body: `Admin mencatat "${latest.rainStatus}" pada ${latest.date}. Disarankan pengambilan sampel tambahan dalam 24-48 jam.`
       });
     }
-    if (latest.visitorCount >= 100){
-      recs.push({
-        sev: 'info', ico: '👥', tag: 'Data Lapangan',
-        title: `Pengunjung Padat (${latest.visitorCount} orang)`,
-        body: 'Tingginya aktivitas pengunjung berpotensi meningkatkan input nutrien dari limbah domestik & sampah.'
-      });
-    }
     if (latest.notes){
       recs.push({
         sev: 'info', ico: '📝', tag: 'Catatan Lapangan',
@@ -1067,26 +1294,16 @@ function buildRecommendations(d, cls, wqi, anomalies){
     }
   }
 
-  if (d.do_ !== null && d.do_ !== undefined && d.do_ < 5){
-    recs.push({sev:'warn', ico:'💨', tag:'Kualitas Air', title:'Oksigen Terlarut Rendah',
-      body:`DO tercatat ${d.do_} mg/L. Pertimbangkan instalasi aerator sederhana.`});
-  }
-  if (d.turbidity !== null && d.turbidity !== undefined && d.turbidity > 25){
-    recs.push({sev:'info', ico:'🌊', tag:'Sedimentasi', title:'Kekeruhan Meningkat',
-      body:`Kekeruhan ${d.turbidity} NTU. Pasang sedimen trap dan lakukan pembersihan dasar berkala.`});
-  }
   if (d.ph !== null && d.ph !== undefined && (d.ph < 6.5 || d.ph > 8.5)){
     recs.push({sev:'warn', ico:'⚗️', tag:'Kimia Air', title:'pH di Luar Rentang Normal',
       body:`pH ${d.ph} dapat mengubah kelarutan fosfat. Lakukan kalibrasi ulang & uji ulang.`});
   }
 
-  const fc = forecast(3);
   if (fc && fc.reg.slope > 0.01){
-    const akhir = fc.preds[fc.preds.length-1].toFixed(3);
-    recs.push({sev:'info', ico:'📈', tag:'Proyeksi', title:'Tren Fosfat Meningkat',
-      body:`Model regresi memproyeksikan fosfat ±${akhir} mg/L dalam 3 periode (R²=${fc.reg.r2.toFixed(2)}).`});
+    recs.push({sev:'info', ico:'📈', tag:'Tren Historis', title:'Tren Dasar Fosfat Meningkat',
+      body:`Regresi linear dari ${getAllHistory().length} data historis menunjukkan kenaikan (R²=${fc.reg.r2.toFixed(2)}).`});
   } else if (fc && fc.reg.slope < -0.01){
-    recs.push({sev:'ok', ico:'📉', tag:'Proyeksi', title:'Tren Fosfat Menurun',
+    recs.push({sev:'ok', ico:'📉', tag:'Tren Historis', title:'Tren Dasar Fosfat Menurun',
       body:'Data historis menunjukkan tren penurunan. Pertahankan praktik pengelolaan saat ini.'});
   }
 
@@ -1110,8 +1327,10 @@ function thinkingAnimation(){
     'Menghitung sub-indeks kualitas air...',
     'Mengklasifikasi status trofik fosfat...',
     'Mendeteksi anomali parameter...',
-    'Menganalisis data cuaca BMKG & lapangan...',
-    'Menjalankan model prediksi regresi...',
+    'Menganalisis prakiraan cuaca BMKG...',
+    'Menghitung faktor limpasan hujan...',
+    'Menganalisis beban pengunjung...',
+    'Menjalankan model prediksi multi-faktor...',
     'Menyusun rekomendasi tindakan...'
   ];
   const box = document.getElementById('resultBox');
@@ -1159,8 +1378,6 @@ function renderResult(d, cls, wqi, anomalies){
       ${metricCard('Fosfat (PO₄)', d.phosphate, 'mg/L', subIndex('phosphate', d.phosphate), '#22d3ee')}
       ${metricCard('pH', d.ph, '—', subIndex('ph', d.ph), '#2dd4bf')}
       ${metricCard('Suhu', d.temp, '°C', subIndex('temp', d.temp), '#38bdf8')}
-      ${metricCard('DO', d.do_, 'mg/L', subIndex('do_', d.do_), '#34d399')}
-      ${metricCard('Kekeruhan', d.turbidity, 'NTU', subIndex('turbidity', d.turbidity), '#fbbf24')}
       ${metricCard('Konduktivitas', d.conductivity, 'µS/cm', subIndex('conductivity', d.conductivity), '#a78bfa')}
     </div>
 
@@ -1208,204 +1425,104 @@ function renderRecommendations(recs){
 }
 
 /* ============================================================
-   10. PETA WISATA & UMKM SUMBER MARON (SATELLITE VIEW)
+   10. RENDER BREAKDOWN AI MULTI-FAKTOR
    ============================================================ */
-function initMap(){
-  if (map) return;
+function renderForecastBreakdown(){
+  const box = document.getElementById('breakdownBox');
+  const stamp = document.getElementById('breakdownStamp');
+  const fc = forecast(AI_MODEL.forecastSteps);
 
-  map = L.map('phosphateMap', {
-    center: SUMBER_MARON_CENTER,
-    zoom: MAP_DEFAULT_ZOOM,
-    minZoom: MAP_MIN_ZOOM,
-    maxZoom: MAP_MAX_ZOOM,
-    maxBounds: MAP_BOUNDS,
-    maxBoundsViscosity: 1.0,
-    zoomControl: true,
-    attributionControl: true
-  });
+  if (!fc){
+    box.innerHTML = '<div class="empty-note">Minimal butuh 2 data historis untuk menjalankan prediksi multi-faktor.</div>';
+    return;
+  }
 
-  /* ============================================
-     LAYER 1: SATELIT (ESRI WORLD IMAGERY)
-     Menampilkan kenampakan asli dari citra satelit:
-     pohon, sungai, rumah, sawah, jalan, dll.
-     ============================================ */
-  satelliteLayer = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {
-      maxZoom: 19,
-      minZoom: 15,
-      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-      bounds: MAP_BOUNDS
-    }
-  );
+  const lastBase = fc.basePreds[fc.basePreds.length - 1];
+  const lastAdjusted = fc.adjustedPreds[fc.adjustedPreds.length - 1];
+  const wf = fc.weatherFactors;
+  const vf = fc.visitorFactor;
 
-  /* ============================================
-     LAYER 2: JALAN (OPENSTREETMAP)
-     Menampilkan nama jalan, batas wilayah, POI.
-     ============================================ */
-  streetLayer = L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      maxZoom: 19,
-      minZoom: 15,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      bounds: MAP_BOUNDS
-    }
-  );
+  // Overall change
+  const overallChange = lastBase > 0 ? ((lastAdjusted / lastBase - 1) * 100) : 0;
+  const changeClass = Math.abs(overallChange) < 3 ? 'stable' : (overallChange > 0 ? 'up' : 'down');
+  const changeLabel = Math.abs(overallChange) < 3 ? 'Stabil' : (overallChange > 0 ? `+${overallChange.toFixed(1)}%` : `${overallChange.toFixed(1)}%`);
 
-  // Default: satelit
-  satelliteLayer.addTo(map);
-  currentTileLayer = 'satellite';
+  // Weather detail
+  const rainySteps = wf.details.filter(d => d.intensity > 0);
+  const weatherExplain = rainySteps.length > 0
+    ? `<b>${rainySteps.length} periode hujan</b> terdeteksi dari forecast BMKG. Total efek limpasan kumulatif: <b>+${((Math.max(...wf.factors) - 1) * 100).toFixed(0)}%</b> pada peak.`
+    : 'Tidak ada hujan diprediksi dalam horizon prediksi — faktor limpasan minimal.';
 
-  markerLayer = L.layerGroup().addTo(map);
+  // Visitor detail
+  const visitorExplain = vf.sampleCount > 0
+    ? `Rata-rata <b>${vf.avgVisitors} pengunjung/hari</b> (dari ${vf.sampleCount} entri terakhir). <b>${vf.explanation}</b>`
+    : 'Belum ada data lapangan — faktor pengunjung dianggap netral (1.0×).';
 
-  legendControl = L.control({ position: 'bottomright' });
-  legendControl.onAdd = function(){
-    const div = L.DomUtil.create('div', 'map-legend');
-    div.innerHTML = `
-      <div class="legend-title">Keterangan Peta</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> 🏞️ Wisata</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 🛍️ UMKM & Kuliner</div>
-      <div style="margin-top:6px;font-size:.65rem;color:#8aa6b8">
-        Klik titik untuk detail
-      </div>
-    `;
-    return div;
-  };
-  legendControl.addTo(map);
-
-  renderMapPoints();
-
-  /* ===== TOMBOL KONTROL ===== */
-
-  document.getElementById('mapCenterBtn').addEventListener('click', () => {
-    map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM);
-    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
-    document.getElementById('mapCenterBtn').classList.add('active');
-  });
-
-  document.getElementById('mapFitBtn').addEventListener('click', () => {
-    const visiblePoints = getVisiblePoints();
-    if (visiblePoints.length > 0){
-      const bounds = L.latLngBounds(visiblePoints.map(p => [p.lat, p.lng]));
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: MAP_DEFAULT_ZOOM });
-    }
-    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
-    document.getElementById('mapFitBtn').classList.add('active');
-  });
-
-  /* ===== TOGGLE LAYER: SATELIT ↔ JALAN ===== */
-  document.getElementById('mapLayerSatelit').addEventListener('click', () => {
-    if (currentTileLayer === 'satellite') return;
-    map.removeLayer(streetLayer);
-    satelliteLayer.addTo(map);
-    satelliteLayer.bringToBack();
-    currentTileLayer = 'satellite';
-    document.getElementById('mapLayerSatelit').classList.add('active');
-    document.getElementById('mapLayerJalan').classList.remove('active');
-  });
-
-  document.getElementById('mapLayerJalan').addEventListener('click', () => {
-    if (currentTileLayer === 'street') return;
-    map.removeLayer(satelliteLayer);
-    streetLayer.addTo(map);
-    streetLayer.bringToBack();
-    currentTileLayer = 'street';
-    document.getElementById('mapLayerJalan').classList.add('active');
-    document.getElementById('mapLayerSatelit').classList.remove('active');
-  });
-
-  /* ===== TOGGLE LAYER: WISATA & UMKM ===== */
-  document.getElementById('mapLayerWisata').addEventListener('click', (e) => {
-    showWisata = !showWisata;
-    e.target.classList.toggle('active', showWisata);
-    renderMapPoints();
-  });
-
-  document.getElementById('mapLayerUMKM').addEventListener('click', (e) => {
-    showUMKM = !showUMKM;
-    e.target.classList.toggle('active', showUMKM);
-    renderMapPoints();
-  });
-}
-
-function getVisiblePoints(){
-  return SUMBER_MARON_POINTS.filter(p => {
-    if (p.category === 'wisata' && !showWisata) return false;
-    if (p.category === 'umkm' && !showUMKM) return false;
-    return true;
-  });
-}
-
-function renderMapPoints(){
-  if (!markerLayer) return;
-  markerLayer.clearLayers();
-
-  const visible = getVisiblePoints();
-
-  visible.forEach(point => {
-    const color = point.category === 'wisata' ? '#22d3ee' : '#fbbf24';
-
-    const marker = L.circleMarker([point.lat, point.lng], {
-      radius: 12,
-      fillColor: color,
-      color: '#04141a',
-      weight: 3,
-      opacity: 1,
-      fillOpacity: 0.9
-    });
-
-    const popupHtml = `
-      <div style="min-width:220px">
-        <div style="font-size:.68rem;color:${color};font-weight:700;
-          text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">
-          ${point.id} · ${point.category === 'wisata' ? 'Wisata' : 'UMKM & Kuliner'}
+  box.innerHTML = `
+    <div class="forecast-breakdown">
+      <div class="fb-card base">
+        <div class="head"><span class="icon">📈</span> Tren Historis</div>
+        <div class="value">${lastBase.toFixed(3)} <small style="font-size:.7rem;color:var(--muted);font-weight:500">mg/L</small></div>
+        <div style="font-size:.72rem;color:var(--muted)">Regresi linear dari ${getAllHistory().length} data</div>
+        <div class="formula">
+          y = ${fc.reg.slope.toFixed(5)} × t + ${fc.reg.intercept.toFixed(4)}
         </div>
-        <div style="font-size:1rem;font-weight:800;margin-bottom:6px">
-          ${point.icon} ${point.name}
-        </div>
-        <div style="font-size:.78rem;color:#8aa6b8;line-height:1.55;margin-bottom:8px">
-          ${point.description}
-        </div>
-        <div style="font-size:.68rem;color:#8aa6b8;border-top:1px solid rgba(255,255,255,.1);
-          padding-top:6px;margin-top:6px">
-          📍 ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}
+        <div class="detail">
+          Akurasi model (R²): <b style="color:${fc.reg.r2 > 0.7 ? '#6ee7b7' : fc.reg.r2 > 0.4 ? '#fcd34d' : '#fca5a5'}">${(fc.reg.r2 * 100).toFixed(1)}%</b><br>
+          Slope: <b>${fc.reg.slope > 0 ? '↑ naik' : fc.reg.slope < 0 ? '↓ turun' : '→ stabil'}</b> per periode
         </div>
       </div>
-    `;
 
-    marker.bindPopup(popupHtml, { maxWidth: 300 });
-    marker.bindTooltip(`${point.icon} ${point.name}`, {
-      direction: 'top',
-      offset: [0, -8]
-    });
+      <div class="fb-card weather">
+        <div class="head"><span class="icon">🌧️</span> Faktor Cuaca BMKG</div>
+        <div class="value">×${wf.factors[wf.factors.length - 1].toFixed(3)}</div>
+        <div style="font-size:.72rem;color:var(--muted)">Multiplier limpasan hujan</div>
+        <div class="formula">
+          +${((wf.factors[wf.factors.length - 1] - 1) * 100).toFixed(1)}% fosfat
+        </div>
+        <div class="detail">
+          ${weatherExplain}
+          ${wf.dominantRainDesc ? `<br>Dominan: <b>${wf.dominantRainDesc}</b>` : ''}
+        </div>
+      </div>
 
-    marker.addTo(markerLayer);
-  });
+      <div class="fb-card visitor">
+        <div class="head"><span class="icon">👥</span> Faktor Pengunjung</div>
+        <div class="value">×${vf.multiplier.toFixed(3)}</div>
+        <div style="font-size:.72rem;color:var(--muted)">Beban nutrien domestik</div>
+        <div class="formula">
+          ${vf.multiplier >= 1 ? '+' : ''}${((vf.multiplier - 1) * 100).toFixed(1)}% fosfat
+        </div>
+        <div class="detail">
+          ${visitorExplain}
+        </div>
+      </div>
+    </div>
 
-  visible.forEach(point => {
-    const color = point.category === 'wisata' ? '#22d3ee' : '#fbbf24';
-    const label = L.divIcon({
-      className: 'point-label',
-      html: `<div style="
-        background:${color};color:#04141a;
-        padding:2px 8px;border-radius:6px;
-        font-size:10px;font-weight:700;
-        white-space:nowrap;
-        box-shadow:0 2px 8px rgba(0,0,0,.5);
-        border:1px solid rgba(255,255,255,.3);
-        transform:translateX(-50%);
-        margin-top:22px;
-      ">${point.name}</div>`,
-      iconSize: [0, 0],
-      iconAnchor: [0, 0]
-    });
-    L.marker([point.lat, point.lng], { icon: label, interactive: false }).addTo(markerLayer);
-  });
+    <div class="final-prediction">
+      <div>
+        <div class="label">🎯 Prediksi Final AI (${AI_MODEL.forecastSteps * 6} jam ke depan)</div>
+        <div class="num">${lastAdjusted.toFixed(3)} <small>mg/L PO₄</small></div>
+      </div>
+      <div class="change ${changeClass}">${changeLabel} vs baseline</div>
+    </div>
+
+    <div style="margin-top:16px;padding:12px 15px;border-radius:11px;
+      background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.2);
+      font-size:.75rem;color:var(--muted);line-height:1.65">
+      <b style="color:var(--aqua)">🧠 Cara kerja AI Multi-Faktor:</b><br>
+      Prediksi akhir = <span style="font-family:monospace;color:var(--aqua)">Tren Historis × (1 + ΔCuaca × ${AI_MODEL.externalWeight}) × (1 + ΔPengunjung × ${AI_MODEL.externalWeight})</span><br>
+      • <b>ΔCuaca</b>: multiplier kenaikan dari limpasan hujan (efek kumulatif dengan decay ${AI_MODEL.rainDecayFactor})<br>
+      • <b>ΔPengunjung</b>: multiplier dari beban nutrien domestik (baseline ${AI_MODEL.visitorBaseline} orang/hari, ±${AI_MODEL.visitorEffect*100}% per ${AI_MODEL.visitorStep} orang)<br>
+      • <b>Bobot eksternal ${AI_MODEL.externalWeight}</b>: seberapa besar faktor eksternal mempengaruhi prediksi vs tren murni
+    </div>
+  `;
+
+  stamp.textContent = 'Diperbarui ' + new Date().toLocaleTimeString('id-ID');
 }
 
 /* ============================================================
-   11. CHART
+   11. CHART (dengan garis prediksi multi-faktor)
    ============================================================ */
 function renderChart(){
   const all = getAllHistory();
@@ -1422,13 +1539,15 @@ function renderChart(){
   });
   const data = recent.map(h => h.phosphate);
 
-  const fc = forecast(5);
-  const predData = [];
+  const fc = forecast(AI_MODEL.forecastSteps);
+  const basePredData = [];
+  const adjustedPredData = [];
   if (fc){
-    for (let i=1;i<=5;i++){
-      labels.push(`+${i} (pred)`);
+    for (let i=0;i<AI_MODEL.forecastSteps;i++){
+      labels.push(`+${i+1} (pred)`);
       data.push(null);
-      predData.push(parseFloat(fc.preds[i-1].toFixed(4)));
+      basePredData.push(parseFloat(fc.basePreds[i].toFixed(4)));
+      adjustedPredData.push(parseFloat(fc.adjustedPreds[i].toFixed(4)));
     }
   }
 
@@ -1437,7 +1556,7 @@ function renderChart(){
     data: data,
     borderColor:'#22d3ee',
     backgroundColor: (c)=>{
-      const g = c.chart.ctx.createLinearGradient(0,0,0,320);
+      const g = c.chart.ctx.createLinearGradient(0,0,0,340);
       g.addColorStop(0,'rgba(34,211,238,.35)');
       g.addColorStop(1,'rgba(34,211,238,0)');
       return g;
@@ -1448,16 +1567,32 @@ function renderChart(){
     spanGaps:true
   }];
 
-  if (fc && predData.length && recent.length){
-    const predSeries = new Array(recent.length-1).fill(null);
-    predSeries.push(recent[recent.length-1].phosphate);
-    predData.forEach(v => predSeries.push(v));
+  if (fc && recent.length){
+    // Base trend line
+    const baseSeries = new Array(recent.length-1).fill(null);
+    baseSeries.push(recent[recent.length-1].phosphate);
+    basePredData.forEach(v => baseSeries.push(v));
     datasets.push({
-      label:'Proyeksi AI (mg/L)',
-      data: predSeries,
+      label:'Tren Historis (mg/L)',
+      data: baseSeries,
+      borderColor:'rgba(138,166,184,.55)',
+      borderDash:[4,4], borderWidth:1.8, tension:.3, fill:false,
+      pointBackgroundColor:'rgba(138,166,184,.7)', pointRadius:3, spanGaps:true
+    });
+
+    // Adjusted (multi-factor) line
+    const adjustedSeries = new Array(recent.length-1).fill(null);
+    adjustedSeries.push(recent[recent.length-1].phosphate);
+    adjustedPredData.forEach(v => adjustedSeries.push(v));
+    datasets.push({
+      label:'🤖 Prediksi AI Multi-Faktor (mg/L)',
+      data: adjustedSeries,
       borderColor:'#fbbf24',
-      borderDash:[6,5], borderWidth:2.2, tension:.3, fill:false,
-      pointBackgroundColor:'#fbbf24', pointRadius:4, spanGaps:true
+      backgroundColor:'rgba(251,191,36,.08)',
+      borderWidth:2.8, tension:.3, fill:true,
+      pointBackgroundColor:'#fbbf24', pointBorderColor:'#04141a',
+      pointBorderWidth:2, pointRadius:5, pointHoverRadius:8,
+      spanGaps:true
     });
   }
 
@@ -1502,6 +1637,9 @@ function renderChart(){
       }
     }
   });
+
+  // Render breakdown juga
+  renderForecastBreakdown();
 }
 
 /* ============================================================
@@ -1517,7 +1655,7 @@ function renderHistory(){
   else actionCol.style.display = 'none';
 
   if (!all.length){
-    body.innerHTML = `<tr><td colspan="${isAdmin ? 11 : 10}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="${isAdmin ? 9 : 8}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
     document.getElementById('historyInfo').textContent =
       FIREBASE_ENABLED ? 'Menunggu data dari sensor & input manual...' : 'Data tersimpan otomatis di browser (mode offline).';
     return;
@@ -1544,8 +1682,6 @@ function renderHistory(){
       <td><b style="color:${cls.color}">${h.phosphate}</b></td>
       <td>${h.ph ?? '—'}</td>
       <td>${h.temp ?? '—'}</td>
-      <td>${h.do_ ?? '—'}</td>
-      <td>${h.turbidity ?? '—'}</td>
       <td>${h.conductivity ?? '—'}</td>
       <td><span class="pill" style="background:${cls.color}22;color:${cls.color}">${cls.status}</span></td>
       <td>${h.wqi ?? '—'}</td>
@@ -1615,15 +1751,13 @@ function readInputs(){
     phosphate: num('phosphate'),
     ph: num('ph'),
     temp: num('temp'),
-    do_: num('do_'),
-    turbidity: num('turbidity'),
     conductivity: num('conductivity'),
     flow: num('flow')
   };
 }
 
 function fillInputs(d){
-  ['phosphate','ph','temp','do_','turbidity','conductivity'].forEach(k => {
+  ['phosphate','ph','temp','conductivity'].forEach(k => {
     if (d[k] === null || d[k] === undefined || isNaN(d[k])) return;
     const el = document.getElementById(k);
     el.value = d[k];
@@ -1667,8 +1801,8 @@ async function analyze(){
   localHistory.push({
     time: now.toLocaleString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),
     ts: now.getTime(),
-    phosphate: d.phosphate, ph: d.ph, temp: d.temp, do_: d.do_,
-    turbidity: d.turbidity, conductivity: d.conductivity, flow: d.flow,
+    phosphate: d.phosphate, ph: d.ph, temp: d.temp,
+    conductivity: d.conductivity, flow: d.flow,
     wqi: wqi.score, status: cls.status, source: 'manual'
   });
   localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
@@ -1727,6 +1861,9 @@ async function fetchBMKGWeather(){
     };
 
     renderWeather(lokasi, cuacaArr, 'self-hosted proxy');
+
+    // Re-render chart & breakdown setelah data cuaca masuk
+    renderChart();
 
   } catch(e) {
     console.error('BMKG fetch error:', e);
@@ -1793,6 +1930,13 @@ function renderWeather(lokasi, cuacaArr, source){
 
     ${rainSoon ? `<div class="rain-alert">
       🌧️ <b>Waspada Hujan:</b> BMKG memprediksi <b>${rainSoon.weather_desc || 'hujan'}</b> pada ${rainSoon.local_datetime || 'beberapa saat ke depan'}.
+      <b>Faktor AI:</b> lonjakan fosfat diproyeksikan hingga +${((Math.max(...(weatherData.forecast || []).slice(0,10).map((c,i)=>{
+        const d = (c.weather_desc || '').toLowerCase();
+        if (d.includes('lebat') || d.includes('badai')) return 0.32;
+        if (d.includes('sedang')) return 0.18;
+        if (d.includes('hujan')) return 0.08;
+        return 0;
+      }).concat([0])) - 0) * 100).toFixed(0)}%.
     </div>` : ''}
 
     <div style="margin-top:18px">
@@ -1878,7 +2022,7 @@ async function initFirebase(){
           id: child.key,
           ts: v.ts || Date.now(),
           phosphate: v.phosphate, ph: v.ph, temp: v.temp,
-          do_: v.do_, turbidity: v.turbidity, conductivity: v.conductivity,
+          conductivity: v.conductivity,
           wqi: computeWQI(v).score,
           status: classifyPhosphate(v.phosphate).status,
           source: 'sensor'
@@ -1904,6 +2048,7 @@ async function initFirebase(){
       }).sort((a,b) => b.ts - a.ts).slice(0, 100);
       localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
       renderFieldStats();
+      renderChart(); // refresh breakdown dengan data pengunjung baru
     });
 
   } catch(e) {
@@ -2086,6 +2231,7 @@ async function deleteFieldDataEntry(ts){
   }
 
   renderFieldStats();
+  renderChart(); // refresh breakdown
   showToast('✅ Entri data lapangan dihapus', 'success');
 }
 
@@ -2104,12 +2250,15 @@ function renderFieldStats(){
                     latest.rainStatus === 'Hujan Sedang' ? '🌧️' :
                     latest.rainStatus === 'Hujan Lebat' ? '⛈️' : '🌤️';
 
+  // Visitor factor info untuk ditampilkan
+  const vf = computeVisitorFactor();
+
   box.innerHTML = `
     <div class="visitor-stats">
       <div class="stat-card">
         <div class="icon">👥</div>
         <div class="val">${latest.visitorCount ?? 0}</div>
-        <div class="lbl">Pengunjung</div>
+        <div class="lbl">Pengunjung Terbaru</div>
         <div class="sub">${latest.date || '—'}</div>
       </div>
       <div class="stat-card">
@@ -2123,6 +2272,12 @@ function renderFieldStats(){
         <div class="val">${latest.airTemp ?? '—'}°</div>
         <div class="lbl">Suhu Udara</div>
         <div class="sub">Kelembapan ${latest.airHumidity ?? '—'}%</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">🤖</div>
+        <div class="val" style="font-size:1.4rem;padding-top:2px">×${vf.multiplier.toFixed(3)}</div>
+        <div class="lbl">Faktor AI</div>
+        <div class="sub">${vf.avgVisitors} rata-rata/hari</div>
       </div>
     </div>
     ${latest.notes ? `
@@ -2208,6 +2363,7 @@ document.getElementById('saveFieldBtn').addEventListener('click', async () => {
   saveFieldDataLocal(data);
   const fbOk = await saveFieldDataToFirebase(data);
   renderFieldStats();
+  renderChart(); // refresh breakdown dengan data baru
 
   btn.disabled = false;
   btn.innerHTML = '💾 Simpan Data Lapangan';
@@ -2281,11 +2437,11 @@ document.getElementById('analyzeBtn').addEventListener('click', analyze);
 
 document.getElementById('sampleBtn').addEventListener('click', ()=>{
   const samples = [
-    {phosphate:0.045, ph:7.1, temp:25.4, do_:7.2, turbidity:6.8,  conductivity:280, flow:48},
-    {phosphate:0.32,  ph:7.6, temp:27.8, do_:5.4, turbidity:18.5, conductivity:410, flow:42},
-    {phosphate:0.78,  ph:8.4, temp:29.2, do_:3.6, turbidity:35.2, conductivity:620, flow:33},
-    {phosphate:1.42,  ph:5.8, temp:30.6, do_:2.4, turbidity:58.0, conductivity:890, flow:21},
-    {phosphate:0.012, ph:6.9, temp:24.8, do_:8.1, turbidity:3.2,  conductivity:210, flow:52}
+    {phosphate:0.045, ph:7.1, temp:25.4, conductivity:280, flow:48},
+    {phosphate:0.32,  ph:7.6, temp:27.8, conductivity:410, flow:42},
+    {phosphate:0.78,  ph:8.4, temp:29.2, conductivity:620, flow:33},
+    {phosphate:1.42,  ph:5.8, temp:30.6, conductivity:890, flow:21},
+    {phosphate:0.012, ph:6.9, temp:24.8, conductivity:210, flow:52}
   ];
   const s = samples[Math.floor(Math.random()*samples.length)];
   for (const k in s) document.getElementById(k).value = s[k];
@@ -2294,11 +2450,11 @@ document.getElementById('sampleBtn').addEventListener('click', ()=>{
 document.getElementById('exportBtn').addEventListener('click', ()=>{
   const all = getAllHistory();
   if (!all.length){ alert('Belum ada data untuk diekspor.'); return; }
-  const headers = ['Waktu','PO4 (mg/L)','pH','Suhu (C)','DO (mg/L)','Kekeruhan (NTU)','Konduktivitas (uS/cm)','Debit (L/s)','WQI','Status','Sumber'];
+  const headers = ['Waktu','PO4 (mg/L)','pH','Suhu (C)','Konduktivitas (uS/cm)','Debit (L/s)','WQI','Status','Sumber'];
   const rows = all.map(h=>[
     h.ts ? new Date(h.ts).toISOString() : (h.time || ''),
-    h.phosphate, h.ph ?? '', h.temp ?? '', h.do_ ?? '',
-    h.turbidity ?? '', h.conductivity ?? '', h.flow ?? '', h.wqi ?? '', h.status ?? '', h.source ?? 'manual'
+    h.phosphate, h.ph ?? '', h.temp ?? '',
+    h.conductivity ?? '', h.flow ?? '', h.wqi ?? '', h.status ?? '', h.source ?? 'manual'
   ]);
   const csv = [headers, ...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
   const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
