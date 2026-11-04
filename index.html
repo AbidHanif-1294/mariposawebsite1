@@ -19,7 +19,7 @@
   html{scroll-behavior:smooth}
   body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 22px}
-  nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(255,255,255,.9);border-bottom:1px solid var(--border)}
+  nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(255,255,255,.85);border-bottom:1px solid var(--border)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:1280px;margin:0 auto;gap:14px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;font-size:1.05rem;color:var(--txt)}
   .logo .drop{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(140deg,var(--aqua),var(--teal));box-shadow:0 4px 12px rgba(14,165,233,.3);font-size:17px;color:white}
@@ -32,20 +32,10 @@
   .live.offline{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
   .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 currentColor}50%{opacity:.6;box-shadow:0 0 0 7px transparent}}
-  
-  .btn-login,.btn-lang{display:flex;align-items:center;gap:6px;font-size:.78rem;padding:7px 14px;border-radius:9px;cursor:pointer;background:rgba(100,116,139,.08);border:1px solid rgba(100,116,139,.25);color:var(--txt);font-family:inherit;font-weight:700;transition:.2s}
+  .btn-login,.btn-lang{display:flex;align-items:center;gap:6px;font-size:.78rem;padding:7px 13px;border-radius:9px;cursor:pointer;background:rgba(100,116,139,.08);border:1px solid rgba(100,116,139,.2);color:var(--txt);font-family:inherit;font-weight:600;transition:.2s}
   .btn-login:hover,.btn-lang:hover{background:rgba(14,165,233,.1);color:var(--aqua);border-color:var(--border-2)}
-  .btn-login.admin{background:rgba(16,185,129,.15);color:var(--green);border-color:rgba(16,185,129,.4)}
-
-  /* ADMIN GATEWAY BANNER */
-  .gateway-banner{margin-top:20px;padding:12px 18px;border-radius:12px;font-size:.82rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;transition:.3s}
-  .gateway-banner.public{background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);color:#0369a1}
-  .gateway-banner.active{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#065f46}
-  .gateway-banner .badge{font-weight:700;padding:4px 10px;border-radius:99px;font-size:.74rem;display:inline-flex;align-items:center;gap:6px}
-  .gateway-banner.public .badge{background:rgba(14,165,233,.15);color:#0284c7}
-  .gateway-banner.active .badge{background:rgba(16,185,129,.2);color:#047857}
-
-  .dashboard-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px;margin-bottom:24px}
+  .btn-login.admin{background:rgba(16,185,129,.1);color:var(--green);border-color:rgba(16,185,129,.3)}
+  .dashboard-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:30px;margin-bottom:24px}
   .dash-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--glow);transition:.3s;position:relative;overflow:hidden}
   .dash-card:hover{transform:translateY(-4px);box-shadow:var(--glow-hover)}
   .dash-card .title{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -60,13 +50,11 @@
   .wqi-circle-progress{fill:none;stroke:var(--aqua);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.2,0.8,0.2,1),stroke .4s ease}
   .dash-card.ai-pred{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-color:var(--aqua)}
   .dash-card.ai-pred .main-val{color:var(--aqua)}
-  
   .quick-input-group{display:flex;gap:8px;margin-top:10px;width:100%}
   .quick-input-group input{flex:1 1 0%;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--border-2);font-family:inherit;font-size:1rem;font-weight:700;color:var(--txt);outline:none}
   .quick-input-group input:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
   .quick-input-group button{flex:0 0 auto;white-space:nowrap;background:var(--aqua);color:white;border:none;border-radius:10px;padding:0 16px;font-weight:700;cursor:pointer;transition:.2s}
   .quick-input-group button:hover{background:var(--teal)}
-
   .split-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;margin-bottom:40px}
   @media(max-width:960px){.split-layout{grid-template-columns:1fr}}
   .panel-left{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:32px;box-shadow:var(--glow);display:flex;flex-direction:column;justify-content:center}
@@ -79,12 +67,10 @@
   .btn-mitigasi:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(249,115,22,.5)}
   .btn-mitigasi.critical{background:linear-gradient(100deg,#ef4444,#dc2626);box-shadow:0 6px 20px rgba(239,68,68,.4);animation:pulse-red 2s infinite}
   @keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7)}70%{box-shadow:0 0 0 15px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
-
   .panel-right{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--glow);display:flex;flex-direction:column}
   .panel-right .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 10px}
   .panel-right .chart-header h3{font-size:1rem;font-weight:700;color:var(--txt)}
   .panel-right .chart-box{flex:1;position:relative;min-height:320px;width:100%}
-
   .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:20px;margin-top:22px}
   @media(max-width:960px){.grid{grid-template-columns:1fr}}
   .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--glow);overflow:hidden}
@@ -92,7 +78,6 @@
   .card-h h2{font-size:.95rem;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:9px}
   .card-h h2 .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;background:rgba(14,165,233,.1);color:var(--aqua);border:1px solid var(--border-2)}
   .card-b{padding:20px}
-
   .field{margin-bottom:15px}
   .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
   .field label .unit{color:var(--aqua);font-size:.7rem;font-weight:500;text-transform:none;letter-spacing:0}
@@ -100,29 +85,21 @@
   .field textarea{resize:vertical;min-height:80px;line-height:1.5}
   .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(14,165,233,.15);background:var(--panel)}
-  .field input::placeholder,.field textarea::placeholder{color:#94a3b8}
-  .field input.from-sensor{background:rgba(16,185,129,.08)!important;border-color:rgba(16,185,129,.4)!important}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
   @media(max-width:520px){.row2{grid-template-columns:1fr}}
-
   .btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.92rem;letter-spacing:.2px;background:linear-gradient(100deg,var(--aqua),var(--teal));color:#ffffff;transition:.22s;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 4px 14px rgba(14,165,233,.3)}
   .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(14,165,233,.4)}
   .btn:disabled{opacity:.55;cursor:wait;transform:none}
   .btn.ghost{background:transparent;color:var(--aqua);border:1px solid var(--border-2);box-shadow:none;font-size:.82rem;padding:10px}
   .btn.ghost:hover{background:rgba(14,165,233,.08);transform:none}
-  .btn.danger{color:#ef4444;border-color:rgba(239,68,68,.3)}
-  .btn.danger:hover{background:rgba(239,68,68,.08)}
   .btn-row{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-top:6px}
-
-  .result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 24px;text-align:center;color:var(--muted);gap:14px;min-height:280px}
-  .result-empty .big{font-size:46px;opacity:.35;animation:float 4s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;color:var(--muted);gap:14px;min-height:300px}
+  .result-empty .big{font-size:48px;opacity:.35;animation:float 4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
   .result-empty p{font-size:.88rem;max-width:300px}
-
   .verdict h3{font-size:1.15rem;font-weight:800;margin-bottom:5px;letter-spacing:-.4px}
   .verdict .status{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 11px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:9px}
   .verdict p{font-size:.83rem;color:var(--muted);line-height:1.6}
-
   .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:16px}
   .metric{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px 13px}
   .metric .lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;font-weight:600}
@@ -130,13 +107,12 @@
   .metric .sub{font-size:.66rem;color:var(--muted);margin-top:2px}
   .bar{height:6px;border-radius:99px;background:rgba(0,0,0,.06);overflow:hidden;margin-top:7px}
   .bar i{display:block;height:100%;border-radius:99px;transition:width .8s cubic-bezier(.2,.9,.3,1)}
-
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   section.block{margin-top:56px}
   .sec-head{margin-bottom:20px}
   .sec-head h2{font-size:1.5rem;font-weight:800;letter-spacing:-.7px;margin-bottom:6px;color:var(--txt)}
   .sec-head h2 .grad{background:linear-gradient(100deg,var(--aqua),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
   .sec-head p{color:var(--muted);font-size:.88rem}
-
   .forecast-breakdown{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px}
   @media(max-width:768px){.forecast-breakdown{grid-template-columns:1fr}}
   .fb-card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:16px;transition:.2s}
@@ -151,7 +127,6 @@
   .fb-card.weather .value{color:var(--green)}
   .fb-card.visitor .value{color:var(--amber)}
   .fb-card .formula{font-size:.72rem;color:var(--muted);line-height:1.5;font-family:'Courier New',monospace;background:rgba(255,255,255,.6);padding:6px 9px;border-radius:6px;margin-top:6px;border:1px solid var(--border)}
-
   .final-prediction{margin-top:16px;padding:20px;border-radius:16px;background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(2,132,199,.05));border:1px solid var(--border-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
   .final-prediction .label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:4px}
   .final-prediction .num{font-size:2rem;font-weight:800;letter-spacing:-1.5px;line-height:1;color:var(--aqua)}
@@ -160,43 +135,33 @@
   .final-prediction .change.up{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.2)}
   .final-prediction .change.down{background:rgba(16,185,129,.1);color:#059669;border:1px solid rgba(16,185,129,.2)}
   .final-prediction .change.stable{background:rgba(100,116,139,.1);color:var(--muted);border:1px solid rgba(100,116,139,.2)}
-
-  /* BMKG WEATHER STYLES */
   .weather-current{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:20px;border-radius:16px;background:var(--panel-2);border:1px solid var(--border);margin-bottom:16px}
   @media(max-width:520px){.weather-current{grid-template-columns:1fr;text-align:center}}
-  .weather-icon{width:88px;height:88px;filter:drop-shadow(0 4px 10px rgba(14,165,233,.2))}
   .weather-main h3{font-size:2.4rem;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:6px;color:var(--txt)}
   .weather-main .desc{font-size:.95rem;color:var(--aqua);font-weight:600;margin-bottom:4px}
   .weather-main .loc{font-size:.78rem;color:var(--muted)}
   .weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:14px}
-  .weather-item{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;box-shadow:0 2px 5px rgba(0,0,0,.02)}
+  .weather-item{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
   .weather-item .lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px}
   .weather-item .val{font-size:.95rem;font-weight:700;color:var(--txt)}
   .forecast-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px}
   .forecast-scroll::-webkit-scrollbar{height:6px}
   .forecast-scroll::-webkit-scrollbar-thumb{background:rgba(14,165,233,.2);border-radius:9px}
-  .forecast-item{flex:0 0 auto;width:96px;text-align:center;padding:12px 8px;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;transition:.2s}
+  .forecast-item{flex:0 0 auto;width:92px;text-align:center;padding:12px 8px;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;transition:.2s}
   .forecast-item:hover{border-color:var(--border-2);transform:translateY(-3px);background:var(--panel)}
   .forecast-item .time{font-size:.68rem;color:var(--muted);margin-bottom:6px;font-weight:600}
-  .forecast-item img{width:40px;height:40px;margin:0 auto 4px;display:block}
   .forecast-item .temp{font-size:.92rem;font-weight:800;letter-spacing:-.3px;color:var(--txt)}
-  .forecast-item .desc{font-size:.62rem;color:var(--muted);line-height:1.3;margin-top:3px;min-height:24px}
-  .rain-alert{padding:12px 16px;border-radius:12px;font-size:.8rem;line-height:1.6;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:#b45309;margin-top:14px}
-
-  /* FIELD DATA */
+  .forecast-item .desc{font-size:.6rem;color:var(--muted);line-height:1.3;margin-top:3px;min-height:24px}
   .visitor-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
   .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:.2s}
   .stat-card:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:var(--glow)}
   .stat-card .icon{font-size:26px;margin-bottom:6px;line-height:1}
   .stat-card .val{font-size:1.9rem;font-weight:800;letter-spacing:-1px;color:var(--aqua);line-height:1.1}
-  .stat-card .val.txt{font-size:1rem;padding-top:8px}
   .stat-card .lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
-
-  .admin-panel{margin-top:22px;padding:20px;border-radius:14px;background:var(--panel-2);border:1px solid var(--border-2)}
-  .admin-panel.locked{display:none}
+  .admin-panel{display:none;margin-top:22px;padding-top:22px;border-top:1px dashed var(--border-2)}
+  .admin-panel.show{display:block;animation:fadeUp .4s}
   .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
   .admin-badge{font-size:.7rem;color:var(--green);background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);padding:4px 10px;border-radius:99px;font-weight:700}
-
   .modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
   .modal-overlay.show{display:flex}
   .modal{background:var(--panel);border:1px solid var(--border-2);border-radius:18px;max-width:420px;width:100%;padding:28px;position:relative;box-shadow:0 24px 70px rgba(0,0,0,.15);animation:modalIn .3s ease}
@@ -208,32 +173,42 @@
   .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
   .modal-error{padding:10px 13px;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#dc2626;font-size:.78rem;margin-bottom:12px;display:none}
   .modal-error.show{display:block}
-
   .rec{display:flex;gap:14px;padding:16px;border-radius:14px;background:var(--panel-2);border:1px solid var(--border);margin-bottom:11px;transition:.2s}
   .rec:hover{border-color:var(--border-2);transform:translateX(4px);box-shadow:0 4px 10px rgba(0,0,0,.03)}
   .rec .ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:17px;flex-shrink:0}
   .rec .ico.crit{background:rgba(239,68,68,.1);color:#dc2626}
   .rec .ico.warn{background:rgba(245,158,11,.1);color:#d97706}
   .rec .ico.ok{background:rgba(16,185,129,.1);color:#059669}
-  .rec h4{font-size:.9rem;font-weight:700;margin-bottom:4px;color:var(--txt)}
+  .rec .ico.info{background:rgba(14,165,233,.1);color:var(--aqua)}
+  .rec h4{font-size:.9rem;font-weight:700;margin-bottom:4px;letter-spacing:-.2px;color:var(--txt)}
   .rec p{font-size:.81rem;color:var(--muted);line-height:1.6}
   .rec .tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:2px 8px;border-radius:5px;margin-bottom:6px}
   .tag.crit{background:rgba(239,68,68,.1);color:#dc2626}
   .tag.warn{background:rgba(245,158,11,.1);color:#d97706}
   .tag.ok{background:rgba(16,185,129,.1);color:#059669}
-
+  .tag.info{background:rgba(14,165,233,.1);color:var(--aqua)}
   table{width:100%;border-collapse:collapse;font-size:.82rem}
   th{text-align:left;padding:11px 12px;color:var(--muted);font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
   td{padding:11px 12px;border-bottom:1px solid var(--border);white-space:nowrap;color:var(--txt)}
   tr:hover td{background:rgba(14,165,233,.03)}
   .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:700}
   .table-scroll{max-height:400px;overflow:auto}
-  .btn-del{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#dc2626;padding:5px 10px;border-radius:7px;cursor:pointer;font-family:inherit;font-size:.72rem;font-weight:600;transition:.2s}
+  .table-scroll::-webkit-scrollbar{width:7px;height:7px}
+  .table-scroll::-webkit-scrollbar-thumb{background:rgba(14,165,233,.2);border-radius:9px}
   .empty-note{text-align:center;padding:34px;color:var(--muted);font-size:.85rem}
   footer{margin-top:70px;padding:28px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem;text-align:center}
   footer b{color:var(--aqua)}
+  .disclaimer{margin-top:16px;padding:13px 16px;border-radius:12px;font-size:.75rem;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);color:#b45309;line-height:1.6}
+  .status-box{padding:12px 14px;border-radius:11px;font-size:.78rem;background:var(--panel-2);border:1px solid var(--border);color:var(--muted);margin-bottom:12px;transition:.3s;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .status-box.ok{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2);color:#059669}
+  .config-warn{padding:12px 16px;border-radius:11px;font-size:.78rem;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:#b45309;line-height:1.65;margin-bottom:16px}
   #phosphateMap{width:100%;height:520px;border-radius:14px;border:1px solid var(--border);z-index:1}
   .leaflet-container{background:#e2e8f0 !important;font-family:'Inter','Segoe UI',system-ui,sans-serif}
+  .map-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+  .map-toolbar button{background:var(--panel-2);border:1px solid var(--border);color:var(--muted);padding:7px 13px;border-radius:9px;font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;transition:.2s}
+  .map-toolbar button:hover{background:rgba(14,165,233,.08);color:var(--aqua);border-color:var(--border-2)}
+  .map-toolbar button.active{background:rgba(14,165,233,.1);color:var(--aqua);border-color:var(--aqua)}
+  .map-area-badge{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);background:rgba(14,165,233,.05);border:1px solid rgba(14,165,233,.15);padding:4px 10px;border-radius:99px;margin-left:auto}
   .slide-up{animation:slideUpAnim .8s cubic-bezier(0.16,1,0.3,1) forwards;opacity:0;transform:translateY(20px)}
   @keyframes slideUpAnim{to{opacity:1;transform:translateY(0)}}
   .mitigasi-list{list-style:none;padding:0;margin:0}
@@ -247,48 +222,37 @@
   <div class="nav-in">
     <div class="logo">
       <div class="drop">💧</div>
-      <div>MaronPhos AI<small>Phosphate Intelligence</small></div>
+      <div>MaronPhos AI<small data-i18n="logo.sub">Phosphate Intelligence</small></div>
     </div>
     <div class="nav-links">
-      <a href="#analisis">Analisis</a>
-      <a href="#peta">Peta</a>
-      <a href="#cuaca">Cuaca BMKG</a>
-      <a href="#lapangan">Data Lapangan</a>
-      <a href="#rekomendasi">Rekomendasi</a>
-      <a href="#riwayat">Riwayat</a>
+      <a href="#analisis" data-i18n="nav.analysis">Analisis</a>
+      <a href="#peta" data-i18n="nav.map">Peta</a>
+      <a href="#cuaca" data-i18n="nav.weather">Cuaca</a>
+      <a href="#lapangan" data-i18n="nav.field">Lapangan</a>
+      <a href="#rekomendasi" data-i18n="nav.recommendation">Rekomendasi</a>
+      <a href="#riwayat" data-i18n="nav.history">Riwayat</a>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <button class="btn-lang" id="langSwitch">🇬🇧 EN</button>
-      <button class="btn-login" id="loginBtn">🔐 Gateway Admin</button>
-      <div class="live" id="liveIndicator"><span class="dot"></span> <span>Online</span></div>
+      <button class="btn-login" id="loginBtn" data-i18n="btn.login">🔐 Login Admin</button>
+      <div class="live offline" id="liveIndicator"><span class="dot"></span> <span>Memuat...</span></div>
     </div>
   </div>
 </nav>
 
 <div class="wrap">
-  <!-- GATEWAY STATUS BANNER -->
-  <div class="gateway-banner public" id="gatewayBanner">
-    <div>
-      <span class="badge" id="gatewayBadge">👁️ Mode Publik</span>
-      <span id="gatewayMsg" style="margin-left:8px;">Anda sedang melihat dashboard publik & simulasi live. Masuk ke <b>Gateway Admin</b> untuk menyimpan data resmi pengukuran atau tiket.</span>
-    </div>
-    <button class="btn ghost" id="gatewayActionBtn" style="width:auto;padding:6px 14px;font-size:.78rem">🔑 Buka Gateway Admin</button>
-  </div>
-
-  <!-- TOP DASHBOARD -->
   <section class="dashboard-top">
     <div class="dash-card slide-up" style="animation-delay: 0.1s">
-      <div class="title">📍 Fosfat Saat Ini</div>
+      <div class="title" data-i18n="dash.current">📍 Fosfat Saat Ini</div>
       <div class="main-val" id="dashCurrentPhosphate">- <small>mg/L</small></div>
-      <div class="sub-val" id="dashCurrentStatus">Menunggu data...</div>
+      <div class="sub-val" id="dashCurrentStatus" data-i18n="dash.wait_data">Menunggu data...</div>
     </div>
-
     <div class="dash-card slide-up" style="animation-delay: 0.2s">
-      <div class="title">💧 Skor WQI</div>
+      <div class="title" data-i18n="dash.wqi">💧 Skor WQI</div>
       <div class="wqi-circle-wrap">
         <div>
           <div class="main-val" id="dashWqiLabel" style="font-size: 1.2rem;">-</div>
-          <div class="sub-val">Kualitas Air</div>
+          <div class="sub-val" data-i18n="dash.quality">Kualitas Air</div>
         </div>
         <div class="wqi-svg-container">
           <svg viewBox="0 0 100 100">
@@ -299,239 +263,227 @@
         </div>
       </div>
     </div>
-
     <div class="dash-card ai-pred slide-up" style="animation-delay: 0.3s">
-      <div class="title">🔮 Prediksi AI (30 Jam)</div>
+      <div class="title" data-i18n="dash.ai_pred">🔮 Prediksi AI (30 Jam)</div>
       <div class="main-val" id="dashAiPrediction">- <small>mg/L</small></div>
-      <div class="sub-val" id="dashAiPredDesc">Menghitung tren...</div>
+      <div class="sub-val" id="dashAiPredDesc" data-i18n="dash.calc_trend">Menghitung tren...</div>
     </div>
-
     <div class="dash-card slide-up" style="animation-delay: 0.4s">
-      <div class="title">🎟️ Input Tiket / Pengunjung <span id="ticketLockBadge" style="font-size:.65rem;color:var(--muted);margin-left:auto">🔒 Admin</span></div>
+      <div class="title" data-i18n="dash.ticket">🎟️ Input Tiket / Pengunjung</div>
       <div class="quick-input-group">
         <input type="number" id="quickVisitorInput" min="0" placeholder="Jumlah org..." />
-        <button id="quickVisitorBtn">Set</button>
+        <button id="quickVisitorBtn" data-i18n="dash.set">Set</button>
       </div>
-      <div class="sub-val" style="margin-top:8px;">Mempengaruhi faktor prediksi nutrien AI.</div>
+      <div class="sub-val" style="margin-top:8px;" data-i18n="dash.ticket_desc">Data langsung masuk ke AI.</div>
     </div>
   </section>
 
-  <!-- SPLIT LAYOUT -->
   <section class="split-layout">
     <div class="panel-left slide-up" style="animation-delay: 0.5s">
-      <h1><span>Analisis</span> <span class="grad">Kadar Fosfat</span><br><span>Real-time Berbasis AI</span></h1>
-      <p>
-        Sistem monitoring parameter fosfat (PO₄) Sumber Maron.
-        <b>Prediksi AI multi-faktor</b> memadukan tren historis, prakiraan cuaca BMKG,
-        dan beban pengunjung secara simultan.
-      </p>
+      <h1><span data-i18n="hero.title1">Analisis</span> <span class="grad" data-i18n="hero.title2">Kadar Fosfat</span><br><span data-i18n="hero.title3">Real-time Berbasis AI</span></h1>
+      <p data-i18n="hero.desc">Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron. Prediksi AI multi-faktor mempertimbangkan tren historis, prakiraan cuaca BMKG, dan jumlah pengunjung untuk akurasi maksimal.</p>
       <div id="mitigationArea">
-        <button class="btn-mitigasi" id="mitigationBtn">
-          <span>🚨</span> <span>Tindakan Mitigasi Darurat</span>
-        </button>
+        <button class="btn-mitigasi" id="mitigationBtn"><span>🚨</span> <span data-i18n="btn.mitigation">Tindakan Mitigasi Darurat</span></button>
       </div>
     </div>
-
     <div class="panel-right slide-up" style="animation-delay: 0.6s">
       <div class="chart-header">
-        <h3>Tren & Prediksi Kadar Fosfat</h3>
-        <span style="font-size:.7rem; color:var(--muted);">Historis + Live Input + AI Multi-Faktor</span>
+        <h3 data-i18n="chart.title">Tren & Prediksi Kadar Fosfat</h3>
+        <span style="font-size:.7rem; color:var(--muted);" data-i18n="chart.sub">Data Historis + AI</span>
       </div>
       <div class="chart-box"><canvas id="trendChart"></canvas></div>
     </div>
   </section>
 
-  <!-- MAIN GRID -->
   <section class="grid" id="analisis">
     <div class="card slide-up" style="animation-delay: 0.7s">
       <div class="card-h">
-        <h2><span class="ic">📋</span> <span>Input Data Parameter</span></h2>
-        <span id="paramModeBadge" style="font-size:.7rem;color:var(--muted)">Mode: <b>Simulasi Live</b></span>
+        <h2><span class="ic">📋</span> <span data-i18n="form.title">Input Data Parameter</span></h2>
+        <span style="font-size:.68rem;color:var(--muted)" data-i18n="form.sub">Manual / Sensor IoT</span>
       </div>
       <div class="card-b">
+        <div id="configWarning" class="config-warn" style="display:none"></div>
+        <div class="status-box" id="sensorStatus">
+          <span>📡</span>
+          <span id="sensorStatusText" data-i18n="form.wait_sensor">Menunggu koneksi sensor...</span>
+        </div>
         <div class="field">
-          <label><span>Kadar Fosfat (PO₄)</span> <span class="unit">mg/L</span></label>
+          <label><span data-i18n="form.phosphate">Kadar Fosfat (PO₄)</span> <span class="unit">mg/L</span></label>
           <input type="number" step="0.001" min="0" id="phosphate" placeholder="cth: 0.35" />
         </div>
         <div class="row2">
           <div class="field">
-            <label><span>pH Air</span> <span class="unit">—</span></label>
+            <label><span data-i18n="form.ph">pH</span> <span class="unit">—</span></label>
             <input type="number" step="0.1" id="ph" placeholder="cth: 7.2" />
           </div>
           <div class="field">
-            <label><span>Suhu Air</span> <span class="unit">°C</span></label>
+            <label><span data-i18n="form.temp">Suhu Air</span> <span class="unit">°C</span></label>
             <input type="number" step="0.1" id="temp" placeholder="cth: 26.5" />
           </div>
         </div>
         <div class="row2">
           <div class="field">
-            <label><span>Konduktivitas</span> <span class="unit">µS/cm</span></label>
+            <label><span data-i18n="form.cond">Konduktivitas</span> <span class="unit">µS/cm</span></label>
             <input type="number" step="1" id="conductivity" placeholder="cth: 320" />
           </div>
           <div class="field">
-            <label><span>Debit Air</span> <span class="unit">L/s</span></label>
+            <label><span data-i18n="form.flow">Debit Air</span> <span class="unit">L/s</span></label>
             <input type="number" step="0.1" id="flow" placeholder="cth: 45.0" />
           </div>
         </div>
         <div class="btn-row">
-          <button class="btn" id="analyzeBtn">
-            <span>💾</span> <span id="analyzeBtnTxt">Simpan Pengukuran Resmi (Admin)</span>
-          </button>
-          <button class="btn ghost" id="sampleBtn">Data Contoh</button>
+          <button class="btn" id="analyzeBtn"><span>⚡</span> <span data-i18n="form.btn_analyze">Analisis dengan AI</span></button>
+          <button class="btn ghost" id="sampleBtn" data-i18n="form.btn_sample">Data Contoh</button>
         </div>
-        <div class="disclaimer" style="margin-top:12px;font-size:.75rem;color:var(--muted)">
-          💡 <i>Ketik angka pada form untuk simulasi live chart dan WQI secara instan. Penyimpanan data resmi ke riwayat memerlukan akses Gateway Admin.</i>
-        </div>
+        <div class="disclaimer" data-i18n="form.disclaimer">⚠️ Hasil analisis bersifat pendukung keputusan penelitian. Validasi laboratorium tetap diperlukan.</div>
       </div>
     </div>
 
     <div class="card slide-up" style="animation-delay: 0.8s">
       <div class="card-h">
-        <h2><span class="ic">🤖</span> <span>Hasil Analisis AI</span></h2>
+        <h2><span class="ic">🤖</span> <span data-i18n="result.title">Hasil Analisis AI</span></h2>
         <span id="stamp" style="font-size:.68rem;color:var(--muted)"></span>
       </div>
       <div class="card-b" id="resultBox">
         <div class="result-empty">
           <div class="big">🧪</div>
-          <p>Masukkan data parameter air lalu amati kalkulasi live di dashboard.</p>
+          <p data-i18n="result.empty">Masukkan data parameter air lalu amati perubahan live di dashboard dan chart.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PREDIKSI AI BREAKDOWN -->
   <section class="block" id="prediksi">
     <div class="sec-head slide-up">
-      <h2><span>Rincian Perhitungan</span> <span class="grad">AI Multi-Faktor</span></h2>
-      <p>Model AI memadukan <b>tren historis</b>, <b>prakiraan cuaca BMKG</b>, dan <b>jumlah pengunjung</b>.</p>
+      <h2><span data-i18n="breakdown.title1">Rincian Perhitungan</span> <span class="grad" data-i18n="breakdown.title2">AI Multi-Faktor</span></h2>
+      <p data-i18n="breakdown.desc">Model AI memadukan tren historis, prakiraan cuaca BMKG, dan jumlah pengunjung.</p>
     </div>
     <div class="card slide-up" style="margin-top:20px">
       <div class="card-h">
-        <h2><span class="ic">🧠</span> <span>Detail Faktor AI</span></h2>
+        <h2><span class="ic">🧠</span> <span data-i18n="breakdown.detail">Detail Faktor AI</span></h2>
         <span id="breakdownStamp" style="font-size:.68rem;color:var(--muted)"></span>
       </div>
       <div class="card-b" id="breakdownBox">
-        <div class="empty-note">Ketik data untuk melihat rincian kalkulasi AI.</div>
+        <div class="empty-note" data-i18n="breakdown.empty">Masukkan data untuk melihat rincian perhitungan AI.</div>
       </div>
     </div>
   </section>
 
-  <!-- PETA -->
   <section class="block" id="peta">
     <div class="sec-head slide-up">
-      <h2><span>Peta Titik Wisata &</span> <span class="grad">Fosfat Sumber Maron</span></h2>
-      <p>Sebaran kadar fosfat pada titik aliran dan mata air utama Sumber Maron.</p>
+      <h2><span data-i18n="map.title1">Peta Wisata &</span> <span class="grad" data-i18n="map.title2">UMKM Sumber Maron</span></h2>
+      <p data-i18n="map.desc">Lokasi titik wisata, kuliner, dan UMKM di kawasan Sumber Maron.</p>
     </div>
     <div class="card slide-up">
       <div class="card-b">
+        <div class="map-toolbar">
+          <button id="mapCenterBtn" class="active" data-i18n="map.btn_center">📍 Fokus Sumber Maron</button>
+          <button id="mapLayerSatelit" class="active" data-i18n="map.btn_sat">🛰️ Satelit</button>
+          <button id="mapLayerJalan" data-i18n="map.btn_street">🛣️ Jalan</button>
+          <span class="map-area-badge" data-i18n="map.badge">🔒 Area terbatas: Sumber Maron</span>
+        </div>
         <div id="phosphateMap"></div>
       </div>
     </div>
   </section>
 
-  <!-- CUACA BMKG -->
   <section class="block" id="cuaca">
     <div class="sec-head slide-up">
-      <h2><span>Prakiraan</span> <span class="grad">Cuaca BMKG Real-Time</span></h2>
-      <p>Data langsung dari BMKG untuk Desa Karangsuko, Pagelaran, Malang (Kode Adm4: 35.07.33.2009).</p>
+      <h2><span data-i18n="weather.title1">Prakiraan</span> <span class="grad" data-i18n="weather.title2">Cuaca BMKG</span></h2>
+      <p data-i18n="weather.desc">Data real-time dari BMKG untuk wilayah Sumber Maron (Kode: 35.07.33.2009).</p>
     </div>
     <div class="card slide-up">
       <div class="card-b" id="weatherBox">
-        <div class="empty-note">🔄 Menghubungkan ke layanan cuaca BMKG...</div>
+        <div class="empty-note" data-i18n="weather.loading">🔄 Memuat data cuaca dari BMKG...</div>
       </div>
     </div>
   </section>
 
-  <!-- DATA LAPANGAN (GATEWAY ADMIN PANEL) -->
   <section class="block" id="lapangan">
     <div class="sec-head slide-up">
-      <h2><span>Data</span> <span class="grad">Lapangan & Pengunjung</span></h2>
-      <p>Catatan riil kondisi pengunjung, cuaca lapangan, dan observasi dari pengelola.</p>
+      <h2><span data-i18n="field.title1">Data</span> <span class="grad" data-i18n="field.title2">Lapangan</span></h2>
+      <p data-i18n="field.desc">Jumlah pengunjung, kondisi hujan aktual, dan catatan lapangan dari Sumber Maron.</p>
     </div>
     <div class="card slide-up">
       <div class="card-b">
-        <div id="fieldStatsBox"><div class="empty-note">Belum ada data lapangan.</div></div>
-        
-        <!-- ADMIN GATEWAY FIELD INPUT -->
+        <div id="fieldStatsBox"><div class="empty-note" data-i18n="field.empty">Belum ada data lapangan.</div></div>
         <div class="admin-panel" id="adminPanel">
           <div class="admin-header">
-            <h3 style="font-size:1rem;font-weight:700;">✏️ Input Data Lapangan Resmi (Admin)</h3>
-            <span class="admin-badge" id="adminBadgeStatus">● Gateway Admin Terbuka</span>
+            <h3 style="font-size:1rem;font-weight:700;" data-i18n="field.admin_title">✏️ Input Data Lapangan</h3>
+            <span class="admin-badge" data-i18n="field.admin_badge">● Admin Aktif</span>
           </div>
           <div class="row2">
             <div class="field">
-              <label><span>Tanggal</span></label>
+              <label><span data-i18n="field.date">Tanggal</span></label>
               <input type="date" id="fieldDate" />
             </div>
             <div class="field">
-              <label><span>Jumlah Pengunjung</span> <span class="unit">orang</span></label>
+              <label><span data-i18n="field.visitor">Jumlah Pengunjung</span> <span class="unit">orang</span></label>
               <input type="number" id="visitorCount" min="0" placeholder="cth: 45" />
             </div>
           </div>
           <div class="row2">
             <div class="field">
-              <label><span>Kondisi Hujan Lapangan</span></label>
+              <label><span data-i18n="field.rain">Kondisi Hujan</span></label>
               <select id="rainStatus">
-                <option value="Tidak Hujan">☀️ Tidak Hujan</option>
-                <option value="Hujan Ringan">🌦️ Hujan Ringan</option>
-                <option value="Hujan Sedang">🌧️ Hujan Sedang</option>
-                <option value="Hujan Lebat">⛈️ Hujan Lebat</option>
+                <option value="Tidak Hujan" data-i18n="field.rain_0">☀️ Tidak Hujan</option>
+                <option value="Hujan Ringan" data-i18n="field.rain_1">🌦️ Hujan Ringan</option>
+                <option value="Hujan Sedang" data-i18n="field.rain_2">🌧️ Hujan Sedang</option>
+                <option value="Hujan Lebat" data-i18n="field.rain_3">⛈️ Hujan Lebat</option>
               </select>
             </div>
             <div class="field">
-              <label><span>Kondisi Cuaca</span></label>
+              <label><span data-i18n="field.weather">Kondisi Cuaca</span></label>
               <select id="weatherCond">
-                <option value="Cerah">☀️ Cerah</option>
-                <option value="Berawan">⛅ Berawan</option>
-                <option value="Mendung">☁️ Mendung</option>
-                <option value="Hujan">🌧️ Hujan</option>
+                <option value="Cerah" data-i18n="field.weather_0">☀️ Cerah</option>
+                <option value="Berawan" data-i18n="field.weather_1">⛅ Berawan</option>
+                <option value="Mendung" data-i18n="field.weather_2">☁️ Mendung</option>
+                <option value="Hujan" data-i18n="field.weather_3">🌧️ Hujan</option>
               </select>
             </div>
           </div>
           <div class="row2">
             <div class="field">
-              <label><span>Suhu Udara</span> <span class="unit">°C</span></label>
+              <label><span data-i18n="field.air_temp">Suhu Udara</span> <span class="unit">°C</span></label>
               <input type="number" step="0.1" id="airTemp" placeholder="cth: 28.5" />
             </div>
             <div class="field">
-              <label><span>Kelembapan Udara</span> <span class="unit">%</span></label>
+              <label><span data-i18n="field.air_hum">Kelembapan Udara</span> <span class="unit">%</span></label>
               <input type="number" step="1" min="0" max="100" id="airHumidity" placeholder="cth: 75" />
             </div>
           </div>
           <div class="field">
-            <label><span>Catatan Tambahan Pengelola</span></label>
-            <textarea id="fieldNotes" rows="2" placeholder="cth: Volume pengunjung ramai, aliran jernih..."></textarea>
+            <label><span data-i18n="field.notes">Catatan Tambahan</span></label>
+            <textarea id="fieldNotes" rows="3" placeholder="cth: Air terlihat keruh..."></textarea>
           </div>
           <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:10px;margin-top:6px">
-            <button class="btn" id="saveFieldBtn">💾 Simpan Data Lapangan</button>
-            <button class="btn ghost" id="autoFillWeatherBtn">🌤️ Isi Otomatis dari BMKG</button>
+            <button class="btn" id="saveFieldBtn" data-i18n="field.btn_save">💾 Simpan Data Lapangan</button>
+            <button class="btn ghost" id="autoFillWeatherBtn" data-i18n="field.btn_bmkg">🌤️ Isi dari BMKG</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- REKOMENDASI -->
   <section class="block" id="rekomendasi">
     <div class="sec-head slide-up">
-      <h2><span>Rekomendasi</span> <span class="grad">Tindakan Mitigasi</span></h2>
-      <p>Arahan teknis dinamis berbasis status trofik perairan Sumber Maron.</p>
+      <h2><span data-i18n="rec.title1">Rekomendasi</span> <span class="grad" data-i18n="rec.title2">Tindakan</span></h2>
+      <p data-i18n="rec.desc">Saran mitigasi dinamis berdasarkan status trofik dan parameter yang diinput.</p>
     </div>
     <div class="card slide-up">
-      <div class="card-b" id="recBox"><div class="empty-note">Belum ada rekomendasi.</div></div>
+      <div class="card-b" id="recBox"><div class="empty-note" data-i18n="rec.empty">Belum ada rekomendasi.</div></div>
     </div>
   </section>
 
-  <!-- RIWAYAT PENGUKURAN -->
   <section class="block" id="riwayat">
     <div class="sec-head slide-up" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
       <div>
-        <h2><span>Riwayat</span> <span class="grad">Pengukuran Fosfat</span></h2>
-        <p id="historyInfo">Tersimpan di browser & database cloud.</p>
+        <h2><span data-i18n="history.title1">Riwayat</span> <span class="grad" data-i18n="history.title2">Pengukuran</span></h2>
+        <p id="historyInfo" data-i18n="history.info">Data tersinkronisasi real-time dari Supabase.</p>
       </div>
       <div style="display:flex;gap:9px;flex-wrap:wrap">
-        <button class="btn ghost" id="exportBtn" style="width:auto;padding:10px 18px">⬇ Export CSV</button>
-        <button class="btn ghost danger" id="clearManualBtn" style="width:auto;padding:10px 18px">🗑 Hapus Riwayat (Admin)</button>
+        <button class="btn ghost" id="exportBtn" style="width:auto;padding:10px 18px" data-i18n="history.btn_export">⬇ Export CSV</button>
+        <button class="btn ghost" id="clearManualBtn" style="width:auto;padding:10px 18px" data-i18n="history.btn_clear_manual">🔄 Muat Ulang</button>
       </div>
     </div>
     <div class="card slide-up">
@@ -539,12 +491,12 @@
         <table>
           <thead>
             <tr>
-              <th>Waktu</th><th>PO₄ (mg/L)</th><th>pH</th><th>Suhu</th>
-              <th>Konduktivitas</th><th>Status</th><th>WQI</th><th>Sumber</th><th id="actionCol" style="display:none">Aksi</th>
+              <th data-i18n="table.time">Waktu</th><th data-i18n="table.phos">PO₄ (mg/L)</th><th data-i18n="table.ph">pH</th><th data-i18n="table.temp">Suhu</th>
+              <th data-i18n="table.cond">Konduktivitas</th><th data-i18n="table.status">Status</th><th data-i18n="table.wqi">WQI</th><th data-i18n="table.source">Sumber</th>
             </tr>
           </thead>
           <tbody id="historyBody">
-            <tr><td colspan="9" class="empty-note">Belum ada data tersimpan.</td></tr>
+            <tr><td colspan="8" class="empty-note" data-i18n="table.empty">Belum ada data tersimpan.</td></tr>
           </tbody>
         </table>
       </div>
@@ -552,55 +504,57 @@
   </section>
 
   <footer>
-    <b>MaronPhos AI</b> · <span>Sistem Analisis Fosfat Perairan Sumber Maron</span><br>
-    <span style="opacity:.6">Data cuaca bersumber dari BMKG · Peta: Esri World Imagery · AI Multi-Factor Engine v3.3</span>
+    <b>MaronPhos AI</b> · <span data-i18n="footer.title">Sistem Analisis Fosfat Perairan Sumber Maron</span><br>
+    <span style="opacity:.6" data-i18n="footer.desc">Data cuaca bersumber dari BMKG · Peta: Esri World Imagery + OpenStreetMap · Storage: Supabase (Postgres) · AI Engine v4.1</span>
   </footer>
 </div>
 
-<!-- MODAL LOGIN ADMIN GATEWAY -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
     <button class="modal-close" id="closeLogin">✕</button>
-    <h3>🔐 Gateway Khusus Admin</h3>
-    <p class="sub">Masukkan password otentikasi admin untuk membuka hak akses pencatatan pengukuran dan data lapangan.</p>
+    <h3 data-i18n="login.title">🔐 Login Admin</h3>
+    <p class="sub" data-i18n="login.desc">Masukkan password untuk input data lapangan.</p>
     <div class="modal-error" id="loginError"></div>
     <div class="field">
-      <label><span>Password Admin</span></label>
+      <label><span data-i18n="login.pass">Password</span></label>
       <input type="password" id="adminPassword" placeholder="••••••••" />
     </div>
     <div class="modal-actions">
-      <button class="btn ghost" id="cancelLogin">Batal</button>
-      <button class="btn" id="submitLogin">Masuk Gateway</button>
-    </div>
-    <div style="margin-top:14px;text-align:center;font-size:.72rem;color:var(--muted)">
-      Password bawaan: <code style="background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px">maronphos2024</code>
+      <button class="btn ghost" id="cancelLogin" data-i18n="login.cancel">Batal</button>
+      <button class="btn" id="submitLogin" data-i18n="login.submit">Masuk</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL MITIGASI DARURAT -->
 <div class="modal-overlay" id="mitigationModal">
   <div class="modal" style="max-width: 500px;">
     <button class="modal-close" id="closeMitigation">✕</button>
-    <h3 style="color: #ef4444;">🚨 Tindakan Mitigasi Darurat</h3>
-    <p class="sub">Kadar fosfat melebihi ambang batas aman. Segera lakukan langkah berikut:</p>
+    <h3 style="color: #ef4444;" data-i18n="mitigasi.title">🚨 Tindakan Mitigasi Darurat</h3>
+    <p class="sub" data-i18n="mitigasi.desc">AI mendeteksi kadar fosfat tinggi. Lakukan langkah berikut:</p>
     <div id="mitigationContent"></div>
     <div class="modal-actions" style="grid-template-columns: 1fr;">
-      <button class="btn ghost" id="closeMitigationBtn">Saya Mengerti</button>
+      <button class="btn ghost" id="closeMitigationBtn" data-i18n="mitigasi.close">Saya Mengerti</button>
     </div>
   </div>
 </div>
 
 <script type="module">
-/* ============================================================
-   ⚙️ KONFIGURASI SISTEM
-   ============================================================ */
-const ADMIN_AUTH = { password: "maronphos2024" };
-const ADMIN_SESSION_KEY = 'maronphos_admin_session';
-const SESSION_DURATION = 8 * 60 * 60 * 1000;
+/* ═══════════════════════════════════════════════════════════════
+   ⚙️ KONFIGURASI — ISI KREDENSIAL SUPABASE
+   ═══════════════════════════════════════════════════════════════ */
+const SUPABASE_CONFIG = {
+  url: "https://uyhxyebslzbcubqfeden.supabase.co",       // ex: https://xyzabc.supabase.co
+  anonKey: "sb_publishable_Lshvq7o4n-BAU9jpk6Rlpg_ta-8_m7-"   // ex: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+};
 
+const BMKG_ADM4 = "35.07.33.2009";
 const PROXY_URL = "https://mariposaproxy.vercel.app";
-const BMKG_ADM4 = "35.07.33.2009"; // Desa Karangsuko, Pagelaran, Malang
+const ADMIN_AUTH = { password: "maronphos2024" };
+
+// Spreadsheet backup (opsional, default OFF)
+const ENABLE_SPREADSHEET_BACKUP = false;
+const SPREADSHEET_URL = "";
+
 const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
 const MAP_BOUNDS = [[-8.2250, 112.4600], [-8.1970, 112.4930]];
 const MAP_MIN_ZOOM = 15; const MAP_MAX_ZOOM = 19; const MAP_DEFAULT_ZOOM = 17;
@@ -611,198 +565,522 @@ const AI_MODEL = {
   rainDecayFactor: 0.5, forecastSteps: 5, externalWeight: 0.65
 };
 
-const STORE_KEY = 'maronphos_history_v1';
-const FIELD_STORE_KEY = 'maronphos_field_data_v1';
+// Local cache keys (offline-first)
+const CACHE_MEASUREMENTS = 'maronphos_cache_measurements_v2';
+const CACHE_FIELD        = 'maronphos_cache_field_v2';
+const QUEUE_OFFLINE      = 'maronphos_offline_queue_v2';
 
-// Seed baseline awal terukur agar tidak kosong
-const SEED_DATA = [
-  { time: '02 Nov 08:00', ts: Date.now() - 48*3600*1000, phosphate: 0.16, ph: 7.2, temp: 25.4, conductivity: 290, flow: 45.0, wqi: 86.4, status: 'Oligotrofik–Mesotrofik', source: 'sensor' },
-  { time: '02 Nov 16:00', ts: Date.now() - 40*3600*1000, phosphate: 0.19, ph: 7.4, temp: 26.8, conductivity: 315, flow: 44.2, wqi: 83.1, status: 'Oligotrofik–Mesotrofik', source: 'sensor' },
-  { time: '03 Nov 08:00', ts: Date.now() - 24*3600*1000, phosphate: 0.23, ph: 7.3, temp: 25.9, conductivity: 340, flow: 43.0, wqi: 79.8, status: 'Mesotrofik', source: 'sensor' },
-  { time: '03 Nov 16:00', ts: Date.now() - 16*3600*1000, phosphate: 0.28, ph: 7.5, temp: 27.2, conductivity: 360, flow: 42.5, wqi: 76.5, status: 'Mesotrofik', source: 'sensor' },
-  { time: '04 Nov 08:00', ts: Date.now() - 2*3600*1000,  phosphate: 0.32, ph: 7.4, temp: 26.5, conductivity: 380, flow: 41.0, wqi: 73.2, status: 'Mesotrofik', source: 'sensor' }
-];
+/* ═══════════════════════════════════════════════════════════════
+   🌐 i18n
+   ═══════════════════════════════════════════════════════════════ */
+const i18n = {
+  id: {
+    "logo.sub":"Phosphate Intelligence","nav.analysis":"Analisis","nav.map":"Peta","nav.weather":"Cuaca","nav.field":"Lapangan","nav.recommendation":"Rekomendasi","nav.history":"Riwayat",
+    "btn.login":"Login Admin","status.checking":"Cek koneksi...","dash.current":"📍 Fosfat Saat Ini","dash.wait_data":"Menunggu data...","dash.wqi":"💧 Skor WQI","dash.quality":"Kualitas Air",
+    "dash.ai_pred":"🔮 Prediksi AI (30 Jam)","dash.calc_trend":"Menghitung tren...","dash.ticket":"🎟️ Input Tiket / Pengunjung","dash.set":"Set","dash.ticket_desc":"Data langsung masuk ke AI.","dash.input_placeholder":"Jumlah org...",
+    "hero.title1":"Analisis","hero.title2":"Kadar Fosfat","hero.title3":"Real-time Berbasis AI","hero.desc":"Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron. Prediksi AI multi-faktor mempertimbangkan tren historis, prakiraan cuaca BMKG, dan jumlah pengunjung untuk akurasi maksimal.",
+    "btn.mitigation":"Tindakan Mitigasi Darurat","chart.title":"Tren & Prediksi Kadar Fosfat","chart.sub":"Data Historis + AI","chart.live_input":"Input Live",
+    "form.title":"Input Data Parameter","form.sub":"Manual / Sensor IoT","form.wait_sensor":"Menunggu koneksi sensor...","form.phosphate":"Kadar Fosfat (PO₄)","form.ph":"pH","form.temp":"Suhu Air","form.cond":"Konduktivitas","form.flow":"Debit Air",
+    "form.btn_analyze":"Analisis dengan AI","form.btn_sample":"Data Contoh","form.disclaimer":"⚠️ Hasil analisis bersifat pendukung keputusan penelitian.","result.title":"Hasil Analisis AI","result.empty":"Masukkan data parameter air lalu amati perubahan live di dashboard dan chart.",
+    "breakdown.title1":"Rincian Perhitungan","breakdown.title2":"AI Multi-Faktor","breakdown.desc":"Model AI memadukan tren historis, prakiraan cuaca BMKG, dan jumlah pengunjung.","breakdown.detail":"Detail Faktor AI","breakdown.empty":"Masukkan data untuk melihat rincian perhitungan AI.",
+    "map.title1":"Peta Wisata &","map.title2":"UMKM Sumber Maron","map.desc":"Lokasi titik wisata, kuliner, dan UMKM di kawasan Sumber Maron.","map.btn_center":"📍 Fokus Sumber Maron","map.btn_sat":"🛰️ Satelit","map.btn_street":"🛣️ Jalan","map.badge":"🔒 Area terbatas: Sumber Maron",
+    "weather.title1":"Prakiraan","weather.title2":"Cuaca BMKG","weather.desc":"Data real-time dari BMKG untuk wilayah Sumber Maron.","weather.loading":"🔄 Memuat data cuaca dari BMKG...",
+    "field.title1":"Data","field.title2":"Lapangan","field.desc":"Jumlah pengunjung, kondisi hujan, dan catatan lapangan.","field.empty":"Belum ada data lapangan.",
+    "field.admin_title":"✏️ Input Data Lapangan","field.admin_badge":"● Admin Aktif","field.date":"Tanggal","field.visitor":"Jumlah Pengunjung","field.rain":"Kondisi Hujan","field.rain_0":"☀️ Tidak Hujan","field.rain_1":"🌦️ Hujan Ringan","field.rain_2":"🌧️ Hujan Sedang","field.rain_3":"⛈️ Hujan Lebat",
+    "field.weather":"Kondisi Cuaca","field.weather_0":"☀️ Cerah","field.weather_1":"⛅ Berawan","field.weather_2":"☁️ Mendung","field.weather_3":"🌧️ Hujan","field.air_temp":"Suhu Udara","field.air_hum":"Kelembapan Udara","field.notes":"Catatan Tambahan","field.btn_save":"💾 Simpan Data Lapangan","field.btn_bmkg":"🌤️ Isi dari BMKG",
+    "rec.title1":"Rekomendasi","rec.title2":"Tindakan","rec.desc":"Saran mitigasi dinamis berdasarkan status trofik dan parameter yang diinput.","rec.empty":"Belum ada rekomendasi.",
+    "history.title1":"Riwayat","history.title2":"Pengukuran","history.info":"Data tersinkronisasi real-time dari Supabase.","history.btn_export":"⬇ Export CSV","history.btn_clear_manual":"🔄 Muat Ulang",
+    "table.time":"Waktu","table.phos":"PO₄ (mg/L)","table.ph":"pH","table.temp":"Suhu","table.cond":"Konduktivitas","table.status":"Status","table.wqi":"WQI","table.source":"Sumber","table.empty":"Belum ada data tersimpan.",
+    "login.title":"🔐 Login Admin","login.desc":"Masukkan password untuk input data lapangan.","login.pass":"Password","login.cancel":"Batal","login.submit":"Masuk","mitigasi.title":"🚨 Tindakan Mitigasi Darurat","mitigasi.desc":"AI mendeteksi kadar fosfat tinggi. Lakukan langkah berikut:","mitigasi.close":"Saya Mengerti",
+    "footer.title":"Sistem Analisis Fosfat Perairan Sumber Maron","footer.desc":"Data cuaca bersumber dari BMKG · Peta: Esri World Imagery + OpenStreetMap · Storage: Supabase (Postgres) · AI Engine v4.1","dash.status":"Status","dash.vs_current":"vs saat ini"
+  },
+  en: {
+    "logo.sub":"Phosphate Intelligence","nav.analysis":"Analysis","nav.map":"Map","nav.weather":"Weather","nav.field":"Field Data","nav.recommendation":"Recommendations","nav.history":"History",
+    "btn.login":"Admin Login","status.checking":"Checking connection...","dash.current":"📍 Current Phosphate","dash.wait_data":"Waiting for data...","dash.wqi":"💧 WQI Score","dash.quality":"Water Quality",
+    "dash.ai_pred":"🔮 AI Prediction (30 Hrs)","dash.calc_trend":"Calculating trend...","dash.ticket":"🎟️ Ticket / Visitor Input","dash.set":"Set","dash.ticket_desc":"Data goes directly to AI.","dash.input_placeholder":"Num of people...",
+    "hero.title1":"Real-time","hero.title2":"Phosphate Analysis","hero.title3":"Based on AI","hero.desc":"24/7 monitoring of phosphate (PO₄) in Sumber Maron. Multi-factor AI prediction considers historical trends, BMKG weather, and visitor count.",
+    "btn.mitigation":"Emergency Mitigation","chart.title":"Phosphate Trend & Prediction","chart.sub":"Historical Data + AI","chart.live_input":"Live Input",
+    "form.title":"Parameter Input","form.sub":"Manual / IoT Sensor","form.wait_sensor":"Waiting for sensor...","form.phosphate":"Phosphate Level (PO₄)","form.ph":"pH","form.temp":"Water Temp","form.cond":"Conductivity","form.flow":"Flow Rate",
+    "form.btn_analyze":"Analyze with AI","form.btn_sample":"Sample Data","form.disclaimer":"⚠️ Analysis results support research decisions.","result.title":"AI Analysis Results","result.empty":"Enter water parameters to observe live updates.",
+    "breakdown.title1":"Calculation Details","breakdown.title2":"AI Multi-Factor","breakdown.desc":"AI model combines historical trends, BMKG weather forecasts, and visitor count.","breakdown.detail":"AI Factor Details","breakdown.empty":"Enter data to view AI calculations.",
+    "map.title1":"Tourism Map &","map.title2":"UMKM Sumber Maron","map.desc":"Locations of spots in Sumber Maron.","map.btn_center":"📍 Focus Sumber Maron","map.btn_sat":"🛰️ Satellite","map.btn_street":"🛣️ Street","map.badge":"🔒 Restricted Area: Sumber Maron",
+    "weather.title1":"BMKG Weather","weather.title2":"Forecast","weather.desc":"Real-time data from BMKG.","weather.loading":"🔄 Loading weather data...",
+    "field.title1":"Field","field.title2":"Data","field.desc":"Visitor count and notes from Sumber Maron.","field.empty":"No field data yet.",
+    "field.admin_title":"✏️ Field Data Input","field.admin_badge":"● Admin Active","field.date":"Date","field.visitor":"Visitor Count","field.rain":"Rain Condition","field.rain_0":"☀️ No Rain","field.rain_1":"🌦️ Light Rain","field.rain_2":"🌧️ Moderate Rain","field.rain_3":"⛈️ Heavy Rain",
+    "field.weather":"Weather Condition","field.weather_0":"☀️ Sunny","field.weather_1":"⛅ Cloudy","field.weather_2":"☁️ Overcast","field.weather_3":"🌧️ Rainy","field.air_temp":"Air Temp","field.air_hum":"Air Humidity","field.notes":"Additional Notes","field.btn_save":"💾 Save Field Data","field.btn_bmkg":"🌤️ Fill from BMKG",
+    "rec.title1":"Action","rec.title2":"Recommendations","rec.desc":"Dynamic mitigation suggestions based on parameters.","rec.empty":"No recommendations yet.",
+    "history.title1":"Measurement","history.title2":"History","history.info":"Data synchronized real-time from Supabase.","history.btn_export":"⬇ Export CSV","history.btn_clear_manual":"🔄 Refresh",
+    "table.time":"Time","table.phos":"PO₄ (mg/L)","table.ph":"pH","table.temp":"Temp","table.cond":"Conductivity","table.status":"Status","table.wqi":"WQI","table.source":"Source","table.empty":"No data saved yet.",
+    "login.title":"🔐 Admin Login","login.desc":"Enter password to access admin features.","login.pass":"Password","login.cancel":"Cancel","login.submit":"Login","mitigasi.title":"🚨 Emergency Mitigation","mitigasi.desc":"AI detected high phosphate levels:","mitigasi.close":"I Understand",
+    "footer.title":"Sumber Maron Water Phosphate Analysis System","footer.desc":"Weather data from BMKG · Map: Esri World Imagery + OpenStreetMap · Storage: Supabase (Postgres) · AI Engine v4.1","dash.status":"Status","dash.vs_current":"vs current"
+  }
+};
 
-let rawLocal = localStorage.getItem(STORE_KEY);
-let localHistory = rawLocal === null ? [...SEED_DATA] : (JSON.parse(rawLocal) || []);
-if (rawLocal === null) localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
+let currentLang = localStorage.getItem('maronphos_lang') || 'id';
+function t(key){ return (i18n[currentLang] && i18n[currentLang][key]) ? i18n[currentLang][key] : key; }
 
-let fieldData = JSON.parse(localStorage.getItem(FIELD_STORE_KEY) || '[]');
-if (!fieldData.length) {
-  fieldData = [{ date: new Date().toISOString().slice(0, 10), visitorCount: 65, rainStatus: 'Tidak Hujan', weatherCond: 'Cerah', airTemp: 28.5, airHumidity: 70, ts: Date.now() }];
-  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
+/* ═══════════════════════════════════════════════════════════════
+   🐘 SUPABASE INIT
+   ═══════════════════════════════════════════════════════════════ */
+let supabase = null;
+let supabaseReady = false;
+let supabaseConnected = false;
+let realtimeChannel = null;
+
+function isSupabaseConfigured() {
+  const u = SUPABASE_CONFIG.url || '';
+  const k = SUPABASE_CONFIG.anonKey || '';
+  return u && !u.includes('ISI') && k && !k.includes('ISI_SUPABASE');
 }
 
-let chart = null;
+if (isSupabaseConfigured()) {
+  try {
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    supabase = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
+      realtime: { params: { eventsPerSecond: 5 } }
+    });
+    supabaseReady = true;
+    console.log('[Supabase] ✅ Initialized');
+  } catch (e) {
+    console.error('[Supabase] Init failed:', e);
+  }
+} else {
+  console.warn('[Supabase] ⚠️ Config belum diisi — mode lokal (cache only)');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   💾 STATE & CACHE
+   ═══════════════════════════════════════════════════════════════ */
+let historyCache = [];
+let fieldCache = [];
 let weatherData = null;
+let chart = null;
 let map = null;
 let markerLayer = null;
 
-const SUMBER_MARON_POINTS = [
-  { id: 'W-01', name: 'Grojogan Sewu', category: 'wisata', lat: -8.21150, lng: 112.47700, icon: '💧', phosphate: 0.15 },
-  { id: 'W-02', name: 'River Tubing', category: 'wisata', lat: -8.21065, lng: 112.47630, icon: '🛶', phosphate: 0.20 },
-  { id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata', lat: -8.21020, lng: 112.47600, icon: '🏊', phosphate: 0.18 },
-  { id: 'W-04', name: 'Mata Air Utama', category: 'wisata', lat: -8.21180, lng: 112.47680, icon: '⛲', phosphate: 0.10 },
-  { id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm', lat: -8.21080, lng: 112.47650, icon: '🍜', phosphate: 0.20 }
-];
+try { historyCache = JSON.parse(localStorage.getItem(CACHE_MEASUREMENTS) || '[]'); } catch(e){}
+try { fieldCache   = JSON.parse(localStorage.getItem(CACHE_FIELD) || '[]'); } catch(e){}
 
-/* ============================================================
-   OTENTIKASI GATEWAY ADMIN
-   ============================================================ */
-function isAdminLoggedIn(){
+/* ─── Column mapping (Supabase snake_case ↔ JS camelCase) ─── */
+function dbToMeasurement(row) {
+  return {
+    id: row.id,
+    time: row.time_str,
+    ts: row.ts,
+    phosphate: row.phosphate,
+    ph: row.ph,
+    temp: row.temp,
+    conductivity: row.conductivity,
+    flow: row.flow,
+    wqi: row.wqi,
+    status: row.status,
+    source: row.source
+  };
+}
+function measurementToDb(e) {
+  return {
+    time_str: e.time,
+    ts: e.ts,
+    phosphate: e.phosphate,
+    ph: e.ph,
+    temp: e.temp,
+    conductivity: e.conductivity,
+    flow: e.flow,
+    wqi: e.wqi,
+    status: e.status,
+    source: e.source
+  };
+}
+function dbToField(row) {
+  return {
+    id: row.id,
+    ts: row.ts,
+    date: row.date,
+    visitorCount: row.visitor_count,
+    rainStatus: row.rain_status,
+    weatherCond: row.weather_cond,
+    airTemp: row.air_temp,
+    airHumidity: row.air_humidity,
+    notes: row.notes,
+    source: row.source
+  };
+}
+function fieldToDb(e) {
+  return {
+    ts: e.ts,
+    date: e.date,
+    visitor_count: e.visitorCount,
+    rain_status: e.rainStatus,
+    weather_cond: e.weatherCond,
+    air_temp: e.airTemp,
+    air_humidity: e.airHumidity,
+    notes: e.notes,
+    source: e.source
+  };
+}
+
+/* ─── Upsert helper: replace by id or ts, else push ─── */
+function upsertMeasurement(entry) {
+  const idx = historyCache.findIndex(h => (entry.id && h.id === entry.id) || (h.ts === entry.ts));
+  if (idx !== -1) historyCache[idx] = entry;
+  else historyCache.push(entry);
+  historyCache.sort((a,b) => (a.ts||0) - (b.ts||0));
+  try { localStorage.setItem(CACHE_MEASUREMENTS, JSON.stringify(historyCache)); } catch(e){}
+}
+function upsertField(entry) {
+  const idx = fieldCache.findIndex(f => (entry.id && f.id === entry.id) || (f.ts === entry.ts));
+  if (idx !== -1) fieldCache[idx] = entry;
+  else fieldCache.unshift(entry);
+  fieldCache.sort((a,b) => (b.ts||0) - (a.ts||0));
+  try { localStorage.setItem(CACHE_FIELD, JSON.stringify(fieldCache)); } catch(e){}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔌 INIT: LOAD + REALTIME
+   ═══════════════════════════════════════════════════════════════ */
+async function initSupabase() {
+  if (!supabaseReady || !supabase) {
+    showConfigWarning('⚠️ <b>Supabase belum dikonfigurasi.</b> Aplikasi berjalan dalam <b>mode lokal</b> — data tersimpan di browser ini saja.');
+    updateConnectionIndicator();
+    return;
+  }
+
+  // 1. Initial load measurements
   try {
-    const s = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
-    if (!s) return false;
-    if (Date.now() - s.ts > SESSION_DURATION){ localStorage.removeItem(ADMIN_SESSION_KEY); return false; }
-    return true;
-  } catch(_) { return false; }
+    const { data, error } = await supabase
+      .from('measurements')
+      .select('*')
+      .order('ts', { ascending: true })
+      .limit(200);
+    if (error) throw error;
+    if (data && data.length > 0) {
+      historyCache = data.map(dbToMeasurement);
+      try { localStorage.setItem(CACHE_MEASUREMENTS, JSON.stringify(historyCache)); } catch(e){}
+      renderHistory(); renderChart();
+    }
+  } catch (err) {
+    console.error('[Supabase] load measurements:', err);
+    showConfigWarning('⚠️ Gagal baca tabel <code>measurements</code>. Pastikan tabel dibuat + RLS allow SELECT. ' + (err.message || ''));
+  }
+
+  // 2. Initial load field_data
+  try {
+    const { data, error } = await supabase
+      .from('field_data')
+      .select('*')
+      .order('ts', { ascending: false })
+      .limit(100);
+    if (error) throw error;
+    if (data && data.length > 0) {
+      fieldCache = data.map(dbToField);
+      try { localStorage.setItem(CACHE_FIELD, JSON.stringify(fieldCache)); } catch(e){}
+      renderFieldStats(); updateAllLive();
+    }
+  } catch (err) {
+    console.error('[Supabase] load field_data:', err);
+    showConfigWarning('⚠️ Gagal baca tabel <code>field_data</code>. Pastikan tabel dibuat + RLS allow SELECT. ' + (err.message || ''));
+  }
+
+  // 3. Migration: local cache → Supabase (jika Supabase kosong)
+  await maybeMigrateLocalData();
+
+  // 4. Realtime subscriptions
+  realtimeChannel = supabase
+    .channel('maronphos-realtime')
+    .on('postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'measurements' },
+      payload => {
+        const entry = dbToMeasurement(payload.new);
+        upsertMeasurement(entry);
+        renderHistory();
+        renderChart();
+      })
+    .on('postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'field_data' },
+      payload => {
+        const entry = dbToField(payload.new);
+        upsertField(entry);
+        renderFieldStats();
+        updateAllLive();
+      })
+    .subscribe((status, err) => {
+      supabaseConnected = status === 'SUBSCRIBED';
+      updateConnectionIndicator();
+      if (supabaseConnected) {
+        hideConfigWarning();
+        flushOfflineQueue();
+        console.log('[Supabase] Realtime ✅ SUBSCRIBED');
+      } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+        console.warn('[Supabase] Realtime ❌', status, err);
+        showConfigWarning('⚠️ Realtime tidak tersambung. Cek apakah <code>alter publication supabase_realtime add table ...</code> sudah dijalankan.');
+      }
+    });
 }
 
-function setAdminSession(){ localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
-function clearAdminSession(){ localStorage.removeItem(ADMIN_SESSION_KEY); }
-
-function updateGatewayUI(){
-  const isAdm = isAdminLoggedIn();
-  const loginBtn = document.getElementById('loginBtn');
-  const banner = document.getElementById('gatewayBanner');
-  const badge = document.getElementById('gatewayBadge');
-  const msg = document.getElementById('gatewayMsg');
-  const actionBtn = document.getElementById('gatewayActionBtn');
-  const paramBadge = document.getElementById('paramModeBadge');
-  const analyzeBtnTxt = document.getElementById('analyzeBtnTxt');
-  const actionCol = document.getElementById('actionCol');
-  const ticketLock = document.getElementById('ticketLockBadge');
-
-  if (isAdm) {
-    loginBtn.innerHTML = `🔓 Keluar Gateway`;
-    loginBtn.classList.add('admin');
-    banner.className = 'gateway-banner active';
-    badge.textContent = '● Gateway Admin Aktif';
-    msg.innerHTML = 'Hak akses admin terbuka. Anda dapat mencatat pengukuran resmi, tiket, dan catatan lapangan.';
-    actionBtn.textContent = 'Kunci Gateway';
-    actionBtn.onclick = () => { clearAdminSession(); updateGatewayUI(); showToast('Gateway admin dikunci.', 'info'); };
-    paramBadge.innerHTML = 'Mode: <b style="color:var(--green)">Admin (Bisa Simpan Resmi)</b>';
-    analyzeBtnTxt.textContent = 'Simpan Pengukuran Resmi (Admin)';
-    ticketLock.textContent = '🔓 Terbuka';
-    ticketLock.style.color = 'var(--green)';
-    actionCol.style.display = 'table-cell';
-  } else {
-    loginBtn.innerHTML = `🔐 Gateway Admin`;
-    loginBtn.classList.remove('admin');
-    banner.className = 'gateway-banner public';
-    badge.textContent = '👁️ Mode Publik';
-    msg.innerHTML = 'Anda sedang melihat dashboard publik & simulasi live. Masuk ke <b>Gateway Admin</b> untuk mencatat data resmi.';
-    actionBtn.textContent = '🔑 Buka Gateway Admin';
-    actionBtn.onclick = openLoginModal;
-    paramBadge.innerHTML = 'Mode: <b>Simulasi Live</b>';
-    analyzeBtnTxt.textContent = 'Simpan Pengukuran (Perlu Login Admin)';
-    ticketLock.textContent = '🔒 Admin';
-    ticketLock.style.color = 'var(--muted)';
-    actionCol.style.display = 'none';
+async function maybeMigrateLocalData() {
+  try {
+    const localSnap = JSON.parse(localStorage.getItem(CACHE_MEASUREMENTS) || '[]');
+    if (localSnap.length === 0) return;
+    const { count } = await supabase.from('measurements').select('*', { count: 'exact', head: true });
+    if ((count || 0) > 0) return;
+    console.log('[Migration] Upload', localSnap.length, 'entri lokal → Supabase');
+    const rows = localSnap.filter(h => h.ts && h.phosphate != null).map(measurementToDb);
+    if (rows.length) {
+      const { error } = await supabase.from('measurements').insert(rows);
+      if (error) throw error;
+      showToast('✅ Data lama dimigrasikan ke Supabase', 'success');
+    }
+  } catch (e) {
+    console.warn('[Migration]', e);
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📤 WRITE (optimistic + async)
+   ═══════════════════════════════════════════════════════════════ */
+function writeMeasurement(entry) {
+  // Optimistic cache update → UI langsung render
+  const temp = { id: 'temp_' + Date.now(), ...entry };
+  upsertMeasurement(temp);
   renderHistory();
-}
+  renderChart();
 
-function openLoginModal(){
-  document.getElementById('loginModal').classList.add('show');
-  document.getElementById('adminPassword').value = '';
-  document.getElementById('loginError').classList.remove('show');
-  setTimeout(() => document.getElementById('adminPassword').focus(), 100);
-}
-function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
-
-document.getElementById('loginBtn').addEventListener('click', () => {
-  if (isAdminLoggedIn()){
-    if (confirm('Keluar dari Gateway Admin?')){ clearAdminSession(); updateGatewayUI(); showToast('Berhasil logout admin', 'info'); }
-  } else { openLoginModal(); }
-});
-document.getElementById('closeLogin').addEventListener('click', closeLoginModal);
-document.getElementById('cancelLogin').addEventListener('click', closeLoginModal);
-
-document.getElementById('submitLogin').addEventListener('click', () => {
-  const pwd = document.getElementById('adminPassword').value;
-  const err = document.getElementById('loginError');
-  if (pwd === ADMIN_AUTH.password) {
-    setAdminSession();
-    updateGatewayUI();
-    closeLoginModal();
-    showToast('✅ Gateway Admin Berhasil Dibuka! Selamat bertugas.', 'success');
-  } else {
-    err.textContent = '❌ Password salah. Coba lagi.';
-    err.classList.add('show');
+  if (!supabaseReady || !supabase) {
+    // Mode lokal: temp sudah tersimpan, selesai
+    backupToSpreadsheet({ type: 'measurement', ...entry });
+    return;
   }
-});
-document.getElementById('adminPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('submitLogin').click(); });
 
-/* ============================================================
-   LOGIKA KLASIFIKASI & METRIK
-   ============================================================ */
-function classifyPhosphate(p){
-  if (p < 0.025) return {level: 'Sangat Rendah', status: 'Oligotrofik', color:'#0ea5e9', desc: 'Perairan sangat bersih, produktivitas alga rendah.'};
-  if (p < 0.10)  return {level: 'Rendah', status: 'Oligotrofik–Mesotrofik', color:'#10b981', desc: 'Kadar fosfat alami, ekosistem terjaga baik.'};
-  if (p < 0.50)  return {level: 'Sedang', status: 'Mesotrofik', color:'#f59e0b', desc: 'Mulai ada pengayaan nutrisi, pantau aliran hulu.'};
-  if (p < 1.00)  return {level: 'Tinggi', status: 'Eutrofik', color:'#f97316', desc: 'Berpotensi blooming alga dan penurunan DO.'};
-  return {level: 'Sangat Tinggi', status: 'Hiper-eutrofik', color:'#ef4444', desc: 'Pencemaran berat, ekosistem perairan terancam.'};
+  supabase.from('measurements').insert(measurementToDb(entry)).select().single()
+    .then(({ data, error }) => {
+      if (error) throw error;
+      const saved = dbToMeasurement(data);
+      // Replace temp dengan row asli dari DB (dengan id asli)
+      const idx = historyCache.findIndex(h => h.id === temp.id || h.ts === saved.ts);
+      if (idx !== -1) historyCache[idx] = saved;
+      try { localStorage.setItem(CACHE_MEASUREMENTS, JSON.stringify(historyCache)); } catch(e){}
+      renderHistory();
+      renderChart();
+    })
+    .catch(err => {
+      console.error('[Supabase] insert measurements:', err);
+      // Rollback
+      historyCache = historyCache.filter(h => h.id !== temp.id);
+      renderHistory();
+      renderChart();
+      queueOfflineWrite('measurements', measurementToDb(entry));
+      showToast('⚠️ Gagal simpan — data diantrikan', 'warn');
+    });
+
+  backupToSpreadsheet({ type: 'measurement', ...entry });
 }
 
+function writeFieldData(entry) {
+  const temp = { id: 'temp_' + Date.now(), ...entry };
+  upsertField(temp);
+  renderFieldStats();
+  updateAllLive();
+
+  if (!supabaseReady || !supabase) {
+    backupToSpreadsheet({ type: 'field', ...entry });
+    return;
+  }
+
+  supabase.from('field_data').insert(fieldToDb(entry)).select().single()
+    .then(({ data, error }) => {
+      if (error) throw error;
+      const saved = dbToField(data);
+      const idx = fieldCache.findIndex(f => f.id === temp.id || f.ts === saved.ts);
+      if (idx !== -1) fieldCache[idx] = saved;
+      try { localStorage.setItem(CACHE_FIELD, JSON.stringify(fieldCache)); } catch(e){}
+      renderFieldStats();
+      updateAllLive();
+    })
+    .catch(err => {
+      console.error('[Supabase] insert field_data:', err);
+      fieldCache = fieldCache.filter(f => f.id !== temp.id);
+      renderFieldStats();
+      updateAllLive();
+      queueOfflineWrite('field_data', fieldToDb(entry));
+      showToast('⚠️ Gagal simpan — data diantrikan', 'warn');
+    });
+
+  backupToSpreadsheet({ type: 'field', ...entry });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📶 OFFLINE QUEUE
+   ═══════════════════════════════════════════════════════════════ */
+function queueOfflineWrite(table, dbRow) {
+  try {
+    const q = JSON.parse(localStorage.getItem(QUEUE_OFFLINE) || '[]');
+    q.push({ table, data: dbRow, ts: Date.now() });
+    localStorage.setItem(QUEUE_OFFLINE, JSON.stringify(q));
+  } catch(e) { console.warn(e); }
+}
+
+async function flushOfflineQueue() {
+  if (!supabaseReady || !supabase) return;
+  let q;
+  try { q = JSON.parse(localStorage.getItem(QUEUE_OFFLINE) || '[]'); } catch(e){ return; }
+  if (!q.length) return;
+  const remaining = [];
+  let ok = 0;
+  for (const item of q) {
+    try {
+      const { error } = await supabase.from(item.table).insert(item.data);
+      if (error) throw error;
+      ok++;
+    } catch (e) { remaining.push(item); }
+  }
+  localStorage.setItem(QUEUE_OFFLINE, JSON.stringify(remaining));
+  if (ok > 0) showToast(`✅ ${ok} data tersinkronisasi${remaining.length ? `, ${remaining.length} tertunda` : ''}`, 'success');
+}
+
+window.addEventListener('online', flushOfflineQueue);
+
+/* ═══════════════════════════════════════════════════════════════
+   📊 SPREADSHEET BACKUP (opsional)
+   ═══════════════════════════════════════════════════════════════ */
+function backupToSpreadsheet(payload) {
+  if (!ENABLE_SPREADSHEET_BACKUP) return;
+  if (!SPREADSHEET_URL || SPREADSHEET_URL.includes('ISI_')) return;
+  fetch(SPREADSHEET_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(e => console.warn('[Backup] failed:', e));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌤️ BMKG — TIDAK DIUBAH
+   ═══════════════════════════════════════════════════════════════ */
+async function fetchBMKG() {
+  const box = document.getElementById('weatherBox');
+  if (box) box.innerHTML = `<div class="empty-note">${t('weather.loading')}</div>`;
+  const bmkgUrl = `https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${BMKG_ADM4}`;
+  let json = null;
+  try { const r = await fetch(bmkgUrl, { cache: 'no-store' }); if (r.ok) json = await r.json(); } catch(e){ console.warn('[BMKG] direct:', e); }
+  if (!json) {
+    try { const r = await fetch(`${PROXY_URL}?url=${encodeURIComponent(bmkgUrl)}`); if (r.ok) json = await r.json(); } catch(e){ console.warn('[BMKG] proxy:', e); }
+  }
+  if (!json) {
+    if (box) box.innerHTML = `<div class="empty-note">❌ Gagal memuat BMKG. <button onclick="window.fetchBMKG()" style="color:var(--aqua);background:none;border:none;cursor:pointer;text-decoration:underline;">Coba lagi</button></div>`;
+    return;
+  }
+  try {
+    let items = [], lokasi = json.lokasi;
+    if (json.data && Array.isArray(json.data)) {
+      json.data.forEach(d => {
+        if (!lokasi && d.lokasi) lokasi = d.lokasi;
+        if (d.cuaca && Array.isArray(d.cuaca)) {
+          d.cuaca.forEach(day => { if (Array.isArray(day)) day.forEach(it => items.push(it)); else items.push(day); });
+        }
+      });
+    }
+    if (items.length === 0) throw new Error('Struktur kosong');
+    weatherData = { lokasi, forecast: items };
+    renderWeather();
+    renderChart();  // weather factor affects AI forecast
+  } catch (e) {
+    console.error('[BMKG] parse:', e);
+    if (box) box.innerHTML = `<div class="empty-note">❌ Format BMKG tidak dikenali.</div>`;
+  }
+}
+window.fetchBMKG = fetchBMKG;
+
+function renderWeather() {
+  const box = document.getElementById('weatherBox');
+  if (!box || !weatherData || !weatherData.forecast.length) return;
+  const cur = weatherData.forecast[0];
+  const locName = (weatherData.lokasi && (weatherData.lokasi.desa || weatherData.lokasi.kecamatan)) || 'Sumber Maron';
+  const desc = (currentLang === 'en' && cur.weather_desc_en) ? cur.weather_desc_en : (cur.weather_desc || '');
+  const descId = cur.weather_desc || '';
+  const timeStr = cur.local_datetime || '';
+  const timeOnly = timeStr.includes(' ') ? timeStr.split(' ')[1] : timeStr;
+  const icon = (d) => {
+    if (!d) return '🌤️';
+    if (/lebat|badai/i.test(d)) return '⛈️';
+    if (/sedang/i.test(d)) return '🌧️';
+    if (/ringan/i.test(d)) return '🌦️';
+    if (/hujan/i.test(d)) return '🌧️';
+    if (/mendung/i.test(d)) return '☁️';
+    if (/berawan/i.test(d)) return '⛅';
+    if (/cerah/i.test(d)) return '☀️';
+    return '🌤️';
+  };
+  box.innerHTML = `
+    <div class="weather-current">
+      <div style="font-size:68px;line-height:1;text-align:center;">${icon(descId)}</div>
+      <div class="weather-main">
+        <h3>${cur.t ?? '-'}°C</h3>
+        <div class="desc">${desc}</div>
+        <div class="loc">📍 ${locName} · ${timeOnly}</div>
+      </div>
+    </div>
+    <div class="weather-grid">
+      <div class="weather-item"><div class="lbl">${currentLang==='id'?'Kelembapan':'Humidity'}</div><div class="val">${cur.hu ?? '-'}%</div></div>
+      <div class="weather-item"><div class="lbl">${currentLang==='id'?'Kecepatan Angin':'Wind Speed'}</div><div class="val">${cur.ws ?? '-'} km/h</div></div>
+      <div class="weather-item"><div class="lbl">${currentLang==='id'?'Arah Angin':'Wind Dir'}</div><div class="val">${cur.wd ?? '-'}</div></div>
+      <div class="weather-item"><div class="lbl">${currentLang==='id'?'Tutupan Awan':'Cloud Cover'}</div><div class="val">${cur.tcc ?? '-'}%</div></div>
+    </div>
+    <h4 style="font-size:.85rem;font-weight:700;margin:20px 0 10px;">${currentLang==='id'?'Prakiraan 12 Jam ke Depan':'Next 12 Hours Forecast'}</h4>
+    <div class="forecast-scroll">
+      ${weatherData.forecast.slice(0, 12).map(f => {
+        const d = (currentLang === 'en' && f.weather_desc_en) ? f.weather_desc_en : (f.weather_desc || '');
+        const tOnly = (f.local_datetime || '').split(' ')[1] || '';
+        return `<div class="forecast-item">
+          <div class="time">${tOnly}</div>
+          <div style="font-size:26px;">${icon(f.weather_desc)}</div>
+          <div class="temp">${f.t ?? '-'}°C</div>
+          <div class="desc">${d}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🧠 AI LOGIC (tidak berubah)
+   ═══════════════════════════════════════════════════════════════ */
+function classifyPhosphate(p){
+  if (p < 0.025) return {level: currentLang==='id'?'Sangat Rendah':'Very Low', status: currentLang==='id'?'Oligotrofik':'Oligotrophic', color:'#0ea5e9', desc: currentLang==='id'?'Perairan sangat bersih, produktivitas primer sangat rendah.':'Very clean water.'};
+  if (p < 0.10)  return {level: currentLang==='id'?'Rendah':'Low', status: currentLang==='id'?'Oligotrofik–Mesotrofik':'Oligotrophic–Mesotrophic', color:'#10b981', desc: currentLang==='id'?'Kadar fosfat masih alami, aman dari eutrofikasi.':'Natural phosphate level.'};
+  if (p < 0.50)  return {level: currentLang==='id'?'Sedang':'Moderate', status: currentLang==='id'?'Mesotrofik':'Mesotrophic', color:'#f59e0b', desc: currentLang==='id'?'Mulai ada pengayaan nutrisi, perlu pemantauan berkala.':'Nutrient enrichment starting.'};
+  if (p < 1.00)  return {level: currentLang==='id'?'Tinggi':'High', status: currentLang==='id'?'Eutrofik':'Eutrophic', color:'#f97316', desc: currentLang==='id'?'Berpotensi blooming alga & penurunan oksigen.':'Potential for algal blooms.'};
+  return {level: currentLang==='id'?'Sangat Tinggi':'Very High', status: currentLang==='id'?'Hiper-eutrofik':'Hyper-eutrophic', color:'#ef4444', desc: currentLang==='id'?'Pencemaran berat, ekosistem perairan terancam.':'Heavy pollution, aquatic ecosystem threatened.'};
+}
 function subIndex(key, v){
   if (v === null || v === undefined || isNaN(v)) return null;
   switch(key){
-    case 'ph':
-      if (v>=6.5 && v<=8.5) return 100 - Math.abs(7.5-v)*4;
-      if (v<6.5) return Math.max(0, 100 - (6.5-v)*28);
-      return Math.max(0, 100 - (v-8.5)*28);
-    case 'temp':
-      if (v>=24 && v<=28) return 100;
-      return Math.max(0, 100 - Math.abs(v-26)*9);
-    case 'conductivity':
-      if (v<=300) return 100;
-      if (v<=500) return 100 - (v-300)*0.15;
-      if (v<=1000) return Math.max(20, 70 - (v-500)*0.1);
-      return Math.max(0, 20 - (v-1000)*0.02);
-    case 'phosphate':
-      if (v<0.025) return 100;
-      if (v<0.10) return 90;
-      if (v<0.50) return 90 - (v-0.10)*120;
-      if (v<1.00) return Math.max(15, 42 - (v-0.50)*54);
-      return Math.max(0, 15 - (v-1.0)*7);
+    case 'ph': if (v>=6.5 && v<=8.5) return 100 - Math.abs(7.5-v)*4; if (v<6.5) return Math.max(0, 100 - (6.5-v)*28); return Math.max(0, 100 - (v-8.5)*28);
+    case 'temp': if (v>=24 && v<=28) return 100; return Math.max(0, 100 - Math.abs(v-26)*9);
+    case 'conductivity': if (v<=300) return 100; if (v<=500) return 100 - (v-300)*0.15; if (v<=1000) return Math.max(20, 70 - (v-500)*0.1); return Math.max(0, 20 - (v-1000)*0.02);
+    case 'phosphate': if (v<0.025) return 100; if (v<0.10) return 90; if (v<0.50) return 90 - (v-0.10)*120; if (v<1.00) return Math.max(15, 42 - (v-0.50)*54); return Math.max(0, 15 - (v-1.0)*7);
     default: return null;
   }
 }
-
 const WEIGHTS = { phosphate:0.49, ph:0.25, temp:0.14, conductivity:0.12 };
 function computeWQI(d){
   let sumW=0, sum=0;
-  for (const k in WEIGHTS){
-    const si = subIndex(k, d[k]);
-    if (si !== null){ sum += si*WEIGHTS[k]; sumW += WEIGHTS[k]; }
-  }
-  const score = sumW>0 ? sum/sumW : 0;
-  return { score: Math.round(score*10)/10 };
+  for (const k in WEIGHTS){ const si = subIndex(k, d[k]); if (si !== null){ sum += si*WEIGHTS[k]; sumW += WEIGHTS[k]; } }
+  return { score: Math.round((sumW>0 ? sum/sumW : 0)*10)/10 };
 }
-
 function wqiLabel(s){
-  if (s>=90) return {t: 'Sangat Baik', c:'#0ea5e9'};
-  if (s>=75) return {t: 'Baik', c:'#10b981'};
-  if (s>=60) return {t: 'Cukup', c:'#f59e0b'};
-  if (s>=40) return {t: 'Buruk', c:'#f97316'};
-  return {t: 'Sangat Buruk', c:'#ef4444'};
+  if (s>=90) return {t: currentLang==='id'?'Sangat Baik':'Excellent', c:'#0ea5e9'};
+  if (s>=75) return {t: currentLang==='id'?'Baik':'Good', c:'#10b981'};
+  if (s>=60) return {t: currentLang==='id'?'Cukup':'Fair', c:'#f59e0b'};
+  if (s>=40) return {t: currentLang==='id'?'Buruk':'Poor', c:'#f97316'};
+  return {t: currentLang==='id'?'Sangat Buruk':'Very Poor', c:'#ef4444'};
 }
-
 function detectAnomalies(d){
   const a=[];
-  if (d.ph!==null && d.ph!==undefined){
-    if (d.ph<6.5) a.push({sev:'warn', msg:`pH air rendah (${d.ph}) — kelarutan fosfat meningkat.`});
-    else if (d.ph>8.5) a.push({sev:'warn', msg:`pH air tinggi (${d.ph}) — indikasi fotosintesis alga intensif.`});
-  }
-  if (d.temp!==null && d.temp!==undefined && d.temp>30) a.push({sev:'warn', msg:`Suhu air hangat (${d.temp}°C) — mempercepat pelepasan fosfat sedimen.`});
-  if (d.conductivity!==null && d.conductivity!==undefined && d.conductivity>600) a.push({sev:'warn', msg:`Konduktivitas tinggi (${d.conductivity} µS/cm) — limpasan pupuk / limbah.`});
+  if (d.ph!=null){ if (d.ph<6.5) a.push({sev:'warn', msg: currentLang==='id'?`pH rendah (${d.ph}) — dapat meningkatkan kelarutan fosfat.`:`Low pH (${d.ph}).`}); else if (d.ph>8.5) a.push({sev:'warn', msg: currentLang==='id'?`pH tinggi (${d.ph}) — indikasi aktivitas fotosintesis alga tinggi.`:`High pH (${d.ph}).`}); }
+  if (d.temp!=null && d.temp>30) a.push({sev:'warn', msg: currentLang==='id'?`Suhu air hangat (${d.temp}°C) — mempercepat pelepasan fosfat dari sedimen.`:`Warm water (${d.temp}°C).`});
+  if (d.conductivity!=null && d.conductivity>600) a.push({sev:'warn', msg: currentLang==='id'?`Konduktivitas tinggi (${d.conductivity} µS/cm) — indikasi limpasan nutrisi.`:`High conductivity.`});
   return a;
 }
-
 function linearRegression(y){
-  const n=y.length;
-  if (n<2) return null;
+  const n=y.length; if (n<2) return null;
   let sx=0,sy=0,sxy=0,sxx=0;
   for(let i=0;i<n;i++){ sx+=i; sy+=y[i]; sxy+=i*y[i]; sxx+=i*i; }
   const denom = n*sxx - sx*sx;
@@ -811,24 +1089,21 @@ function linearRegression(y){
   const intercept = (sy - slope*sx)/n;
   const mean = sy/n;
   let ssTot=0, ssRes=0;
-  for(let i=0;i<n;i++){
-    ssTot += Math.pow(y[i]-mean,2);
-    ssRes += Math.pow(y[i]-(slope*i+intercept),2);
-  }
-  return { slope, intercept, r2: ssTot===0 ? 1 : Math.max(0, 1 - ssRes/ssTot) };
+  for(let i=0;i<n;i++){ ssTot += Math.pow(y[i]-mean,2); ssRes += Math.pow(y[i]-(slope*i+intercept),2); }
+  return {slope, intercept, r2: Math.max(0, ssTot===0 ? 1 : 1 - ssRes/ssTot)};
 }
-
 function getAllHistory(){
-  return localHistory.filter(h => h.phosphate !== undefined && h.phosphate !== null).sort((a,b) => (a.ts || 0) - (b.ts || 0));
+  return historyCache
+    .filter(h => h.phosphate !== undefined && h.phosphate !== null && !isNaN(h.phosphate))
+    .sort((a,b) => (a.ts || 0) - (b.ts || 0));
 }
-
 function computeWeatherFactors(steps){
   const result = { factors: new Array(steps).fill(1.0), rainDays: 0, details: [] };
-  if (!weatherData || !weatherData.forecast || !weatherData.forecast.length) return result;
-  const forecast = weatherData.forecast;
+  if (!weatherData || !weatherData.forecast || weatherData.forecast.length === 0) return result;
+  const forecastArr = weatherData.forecast;
   let cumulative = 0;
   for (let i = 0; i < steps; i++){
-    const fc = forecast[Math.min(i * 2, forecast.length - 1)];
+    const fc = forecastArr[Math.min(i * 2, forecastArr.length - 1)];
     const desc = (fc.weather_desc || '').toLowerCase();
     let rf = 0;
     if (desc.includes('lebat') || desc.includes('badai')) rf = AI_MODEL.rainFactor['Hujan Lebat'];
@@ -841,39 +1116,36 @@ function computeWeatherFactors(steps){
   }
   return result;
 }
-
 function computeVisitorFactor(){
-  const result = { multiplier: 1.0, avgVisitors: 0, explanation: '' };
-  if (!fieldData.length) return result;
-  const recent = fieldData.slice(0, Math.min(7, fieldData.length));
+  const result = { multiplier: 1.0, avgVisitors: 0, sampleCount: 0, explanation: '' };
+  if (!fieldCache || fieldCache.length === 0) return result;
+  const recent = fieldCache.slice(0, Math.min(7, fieldCache.length));
   const avg = recent.reduce((s, f) => s + (f.visitorCount || 0), 0) / recent.length;
   result.avgVisitors = Math.round(avg);
+  result.sampleCount = recent.length;
   const delta = avg - AI_MODEL.visitorBaseline;
   result.multiplier = Math.max(AI_MODEL.visitorMin, Math.min(AI_MODEL.visitorMax, 1 + (delta / AI_MODEL.visitorStep) * AI_MODEL.visitorEffect));
-  result.explanation = `${result.multiplier >= 1 ? '+' : ''}${((result.multiplier - 1) * 100).toFixed(1)}% dari beban domestik`;
+  result.explanation = `${result.multiplier >= 1 ? '+' : ''}${((result.multiplier - 1) * 100).toFixed(1)}% ${currentLang==='id'?'dari beban domestik':'of domestic load'}`;
   return result;
 }
-
 function forecast(steps, allData){
-  let all = allData || getAllHistory();
-  const cur = readInputs();
-  if (cur.phosphate !== null && !isNaN(cur.phosphate)) {
-    const last = all[all.length - 1];
-    if (!last || last.phosphate !== cur.phosphate) {
-      all = [...all, { ...cur, ts: Date.now(), time: 'Input Live' }];
+  let all = allData;
+  if (!all) {
+    all = getAllHistory();
+    const cur = readInputs();
+    if (cur.phosphate !== null && !isNaN(cur.phosphate)) {
+      const last = all[all.length - 1];
+      if (!last || last.phosphate !== cur.phosphate) all = [...all, { ...cur, ts: Date.now(), time: t('chart.live_input') }];
     }
   }
-
   const vals = all.map(h=>h.phosphate).filter(v => v !== null && v !== undefined && !isNaN(v));
-  if (!vals.length) return null;
-
-  let reg = vals.length < 2 ? { slope: 0, intercept: vals[0], r2: 1.0 } : (linearRegression(vals) || { slope: 0, intercept: vals[0], r2: 1.0 });
+  if (vals.length === 0) return null;
+  let reg;
+  if (vals.length < 2) reg = { slope: 0, intercept: vals[0], r2: 1.0 };
+  else { reg = linearRegression(vals); if (!reg) return null; }
   const n = vals.length;
   const basePreds = [];
-  for (let i=1; i<=steps; i++){
-    basePreds.push(Math.max(0, reg.slope*(n+i-1)+reg.intercept));
-  }
-
+  for (let i=1;i<=steps;i++) basePreds.push(Math.max(0, reg.slope*(n+i-1)+reg.intercept));
   const weatherFactors = computeWeatherFactors(steps);
   const visitorFactor = computeVisitorFactor();
   const adjustedPreds = basePreds.map((p, i) => {
@@ -882,116 +1154,29 @@ function forecast(steps, allData){
     const blendedVf = 1 + (visitorFactor.multiplier - 1) * AI_MODEL.externalWeight;
     return Math.max(0, p * blendedWf * blendedVf);
   });
-  return { basePreds, adjustedPreds, weatherFactors, visitorFactor, reg };
+  return { preds: basePreds, basePreds, adjustedPreds, weatherFactors, visitorFactor, reg };
+}
+function buildRecommendations(d, cls, wqi, anomalies){
+  const recs=[]; const p = d.phosphate ?? 0;
+  if (p < 0.10) recs.push({sev:'ok', ico:'🌿', tag: currentLang==='id'?'Aman':'Safe', title: currentLang==='id'?'Fosfat Terkendali':'Controlled Phosphate', body: currentLang==='id'?'Kadar fosfat dalam batas aman. Pertahankan tutupan riparian di bantaran sungai.':'Phosphate within safe limits.'});
+  else if (p < 0.50) recs.push({sev:'warn', ico:'⚠️', tag: currentLang==='id'?'Waspada':'Warning', title: currentLang==='id'?'Pengayaan Nutrisi Mulai Terjadi':'Nutrient Enrichment Starting', body: currentLang==='id'?'Kadar fosfat mesotrofik. Kurangi sumber limpasan pupuk dan sisa detergen dari warung sekitar.':'Mesotrophic level. Monitor runoff.'});
+  else recs.push({sev:'crit', ico:'🚨', tag: currentLang==='id'?'Darurat':'Emergency', title: currentLang==='id'?'Indikasi Eutrofikasi Berat':'Heavy Eutrophication', body: currentLang==='id'?'Kadar fosfat tinggi memicu blooming alga. Periksa pipa pembuangan dan pasang aerator jika perlu.':'High phosphate levels detected.'});
+  anomalies.forEach(a=>{ recs.push({sev: a.sev==='crit' ? 'crit' : 'warn', ico:'❗', tag: currentLang==='id'?'Anomali':'Anomaly', title: currentLang==='id'?'Parameter Abnormal':'Abnormal Parameter', body: a.msg}); });
+  return recs;
 }
 
-/* ============================================================
-   KONEKSI BMKG CUACA REAL-TIME (DIPERBAIKI)
-   ============================================================ */
-async function fetchBMKGWeather(){
-  const box = document.getElementById('weatherBox');
-  try {
-    const url = `${PROXY_URL}/api/cuaca?adm4=${BMKG_ADM4}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    let lokasi = data.lokasi || (data.data && data.data[0] ? data.data[0].lokasi : null);
-    let cuacaArr = [];
-    if (data.data && data.data[0] && data.data[0].cuaca) {
-      cuacaArr = Array.isArray(data.data[0].cuaca[0]) ? data.data[0].cuaca.flat() : data.data[0].cuaca;
-    } else if (data.cuaca) {
-      cuacaArr = Array.isArray(data.cuaca[0]) ? data.cuaca.flat() : data.cuaca;
-    }
-
-    if (!cuacaArr || !cuacaArr.length) throw new Error('Data cuaca kosong');
-
-    const current = cuacaArr[0];
-    const rainForecast = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
-    weatherData = { current, forecast: cuacaArr.slice(0, 12), rainExpected: !!rainForecast };
-
-    renderWeather(lokasi, cuacaArr);
-    renderChart(); // Sinkronkan faktor cuaca ke chart
-  } catch(e) {
-    console.error('BMKG Fetch Error:', e);
-    box.innerHTML = `
-      <div class="empty-note" style="color:#d97706;padding:24px;">
-        ⚠️ <b>BMKG Terhubung secara Cadangan</b><br>
-        <span style="font-size:.78rem">Gagal kontak proxy langsung (${e.message}). Menggunakan prakiraan cerah berawan lokal.</span><br>
-        <button class="btn ghost" onclick="fetchBMKGWeather()" style="width:auto;margin:12px auto 0;padding:6px 14px">🔄 Coba Hubungkan Ulang</button>
-      </div>
-    `;
-    // Fallback data agar AI prediksi tetap berjalan
-    weatherData = {
-      current: { t: 27, hu: 75, ws: 6, wd: 'SE', weather_desc: 'Cerah Berawan', local_datetime: new Date().toLocaleTimeString('id-ID') },
-      forecast: [
-        { weather_desc: 'Cerah Berawan', t: 27, local_datetime: '08:00' },
-        { weather_desc: 'Cerah', t: 31, local_datetime: '11:00' },
-        { weather_desc: 'Hujan Ringan', t: 28, local_datetime: '14:00' }
-      ]
-    };
-    renderChart();
-  }
-}
-window.fetchBMKGWeather = fetchBMKGWeather;
-
-function renderWeather(lokasi, cuacaArr){
-  const box = document.getElementById('weatherBox');
-  const current = cuacaArr[0];
-  const locName = lokasi ? `${lokasi.desa || 'Karangsuko'}, ${lokasi.kecamatan || 'Pagelaran'}, ${lokasi.kotkab || 'Malang'}` : 'Sumber Maron, Malang';
-
-  box.innerHTML = `
-    <div class="weather-current">
-      <div style="text-align:center">
-        ${current.image ? `<img src="${current.image}" class="weather-icon" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="font-size:52px;display:none">⛅</div>` : `<div style="font-size:52px">⛅</div>`}
-      </div>
-      <div class="weather-main">
-        <div class="desc">${current.weather_desc || 'Cerah Berawan'}</div>
-        <h3>${current.t ?? 27}°C</h3>
-        <div class="loc">📍 ${locName} · BMKG ID: ${BMKG_ADM4}</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Waktu Analisis: ${current.local_datetime || 'Hari ini'}</div>
-      </div>
-    </div>
-    <div class="weather-grid">
-      <div class="weather-item"><div class="lbl">Kelembapan</div><div class="val">${current.hu ?? 75}%</div></div>
-      <div class="weather-item"><div class="lbl">Kecepatan Angin</div><div class="val">${current.ws ?? 5} km/j</div></div>
-      <div class="weather-item"><div class="lbl">Arah Angin</div><div class="val">${current.wd ?? 'Tenggara'}</div></div>
-      <div class="weather-item"><div class="lbl">Tutupan Awan</div><div class="val">${current.tcc ?? 60}%</div></div>
-    </div>
-    <div style="margin-top:18px">
-      <div style="font-size:.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">📅 Prakiraan 24 Jam ke Depan</div>
-      <div class="forecast-scroll">
-        ${cuacaArr.slice(0, 8).map(c => `
-          <div class="forecast-item">
-            <div class="time">${String(c.local_datetime || '').slice(-8,-3) || '—'}</div>
-            ${c.image ? `<img src="${c.image}" alt="">` : `<div style="height:40px;display:grid;place-items:center">🌤️</div>`}
-            <div class="temp">${c.t ?? '—'}°C</div>
-            <div class="desc">${c.weather_desc || '—'}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
-
-/* ============================================================
-   UI & CHART RENDER
-   ============================================================ */
+/* ═══════════════════════════════════════════════════════════════
+   🎨 RENDERING (logika sama)
+   ═══════════════════════════════════════════════════════════════ */
 function updateTopDashboard(d, cls, wqi) {
   document.getElementById('dashCurrentPhosphate').innerHTML = `${d.phosphate ?? '-'} <small>mg/L</small>`;
-  document.getElementById('dashCurrentStatus').innerHTML = `Status: <span style="color:${cls.color};font-weight:700;">${cls.status}</span>`;
-
+  document.getElementById('dashCurrentStatus').innerHTML = `${t('dash.status')}: <span style="color:${cls.color};font-weight:700;">${cls.status}</span>`;
   const wl = wqiLabel(wqi.score);
   const circle = document.getElementById('wqiCircleProgress');
-  if (circle) {
-    circle.style.stroke = wl.c;
-    const offset = 251.2 - (Math.min(100, Math.max(0, wqi.score)) / 100) * 251.2;
-    circle.style.strokeDashoffset = offset;
-  }
+  if (circle) { circle.style.stroke = wl.c; circle.style.strokeDashoffset = 251.2 - (Math.min(100, Math.max(0, wqi.score)) / 100) * 251.2; }
   document.getElementById('dashWqiScore').textContent = wqi.score;
   document.getElementById('dashWqiScore').style.color = wl.c;
   document.getElementById('dashWqiLabel').textContent = wl.t;
-
   const fc = forecast(AI_MODEL.forecastSteps);
   if (fc && fc.adjustedPreds.length > 0) {
     const predVal = fc.adjustedPreds[fc.adjustedPreds.length - 1];
@@ -1002,249 +1187,115 @@ function updateTopDashboard(d, cls, wqi) {
     document.getElementById('dashAiPrediction').style.color = predCls.color;
     const arrow = pct > 0 ? '↑' : (pct < 0 ? '↓' : '→');
     const col = pct > 0 ? '#ef4444' : (pct < 0 ? '#10b981' : '#64748b');
-    document.getElementById('dashAiPredDesc').innerHTML = `<span style="color:${col};font-weight:700;">${arrow} ${Math.abs(pct).toFixed(1)}%</span> vs saat ini`;
+    document.getElementById('dashAiPredDesc').innerHTML = `<span style="color:${col};font-weight:700;">${arrow} ${Math.abs(pct).toFixed(1)}%</span> ${t('dash.vs_current')}`;
   }
 }
-
 function updateMitigationButton(phosphate) {
-  const area = document.getElementById('mitigationArea');
-  const btn = document.getElementById('mitigationBtn');
+  const area = document.getElementById('mitigationArea'); const btn = document.getElementById('mitigationBtn');
   if (!area || !btn) return;
   if (phosphate !== null && !isNaN(phosphate) && phosphate >= 0.5) {
     area.classList.add('show');
-    if (phosphate >= 1.0) {
-      btn.classList.add('critical');
-      btn.innerHTML = `<span>🚨</span> <span>TINDAKAN DARURAT (Hiper-eutrofik)</span>`;
-    } else {
-      btn.classList.remove('critical');
-      btn.innerHTML = `<span>⚠️</span> <span>Butuh Mitigasi (Eutrofik)</span>`;
-    }
-  } else {
-    area.classList.remove('show');
-  }
+    if (phosphate >= 1.0) { btn.classList.add('critical'); btn.innerHTML = `<span>🚨</span> <span>${currentLang==='id'?'TINDAKAN DARURAT (Hiper-eutrofik)':'EMERGENCY ACTION'}</span>`; }
+    else { btn.classList.remove('critical'); btn.innerHTML = `<span>⚠️</span> <span>${currentLang==='id'?'Butuh Mitigasi (Eutrofik)':'Needs Mitigation'}</span>`; }
+  } else area.classList.remove('show');
 }
-
-function renderResult(d, cls, wqi, anomalies){
+function metricCard(label, val, unit, si, color){
+  if (val === null || val === undefined || isNaN(val)) return `<div class="metric"><div class="lbl">${label}</div><div class="vl" style="color:#cbd5e1">—</div><div class="sub">${currentLang==='id'?'tidak diisi':'not filled'}</div></div>`;
+  const pct = Math.max(0, Math.min(100, si ?? 0));
+  return `<div class="metric"><div class="lbl">${label}</div><div class="vl">${val}<span style="font-size:.66rem;color:var(--muted);font-weight:500"> ${unit}</span></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div><div class="sub">${currentLang==='id'?'skor':'score'} ${Math.round(pct)}/100</div></div>`;
+}
+function renderResult(d, cls, wqi) {
   const box = document.getElementById('resultBox');
   updateTopDashboard(d, cls, wqi);
   updateMitigationButton(d.phosphate);
-
   box.innerHTML = `
     <div class="verdict" style="margin-bottom:20px;">
       <div class="status" style="background:${cls.color}1A;color:${cls.color};border:1px solid ${cls.color}33">${cls.status}</div>
-      <h3 style="color:${cls.color}">Fosfat ${cls.level} · ${d.phosphate} mg/L</h3>
+      <h3 style="color:${cls.color}">${currentLang==='id'?'Fosfat':'Phosphate'} ${cls.level} · ${d.phosphate} mg/L</h3>
       <p>${cls.desc}</p>
     </div>
     <div class="metrics">
-      ${metricCard('Fosfat', d.phosphate, 'mg/L', subIndex('phosphate', d.phosphate), '#0ea5e9')}
+      ${metricCard(currentLang==='id'?'Fosfat':'Phosphate', d.phosphate, 'mg/L', subIndex('phosphate', d.phosphate), '#0ea5e9')}
       ${metricCard('pH', d.ph, '—', subIndex('ph', d.ph), '#10b981')}
-      ${metricCard('Suhu', d.temp, '°C', subIndex('temp', d.temp), '#3b82f6')}
-      ${metricCard('Konduktivitas', d.conductivity, 'µS/cm', subIndex('conductivity', d.conductivity), '#8b5cf6')}
-    </div>
-  `;
+      ${metricCard(currentLang==='id'?'Suhu':'Temp', d.temp, '°C', subIndex('temp', d.temp), '#3b82f6')}
+      ${metricCard(currentLang==='id'?'Konduktivitas':'Conductivity', d.conductivity, 'µS/cm', subIndex('conductivity', d.conductivity), '#8b5cf6')}
+    </div>`;
 }
-
-function metricCard(label, val, unit, si, color){
-  if (val === null || val === undefined || isNaN(val)) {
-    return `<div class="metric"><div class="lbl">${label}</div><div class="vl" style="color:#cbd5e1">—</div><div class="sub">belum diisi</div></div>`;
-  }
-  const pct = Math.max(0, Math.min(100, si ?? 0));
-  return `<div class="metric">
-    <div class="lbl">${label}</div>
-    <div class="vl">${val}<span style="font-size:.66rem;color:var(--muted)"> ${unit}</span></div>
-    <div class="bar"><i style="width:${pct}%;background:${color}"></i></div>
-    <div class="sub">skor ${Math.round(pct)}/100</div>
-  </div>`;
-}
-
 function renderRecommendations(recs){
   const box = document.getElementById('recBox');
-  if (!recs.length) { box.innerHTML = `<div class="empty-note">Belum ada rekomendasi.</div>`; return; }
-  box.innerHTML = recs.map(r=>`
-    <div class="rec">
-      <div class="ico ${r.sev}">${r.ico}</div>
-      <div>
-        <div class="tag ${r.sev}">${r.tag}</div>
-        <h4>${r.title}</h4>
-        <p>${r.body}</p>
-      </div>
-    </div>`).join('');
+  if (!recs || recs.length === 0) { box.innerHTML = `<div class="empty-note">${t('rec.empty')}</div>`; return; }
+  box.innerHTML = recs.map(r=>`<div class="rec"><div class="ico ${r.sev}">${r.ico}</div><div><div class="tag ${r.sev}">${r.tag}</div><h4>${r.title}</h4><p>${r.body}</p></div></div>`).join('');
 }
-
 function renderForecastBreakdown(passedFc){
   const box = document.getElementById('breakdownBox');
   const fc = passedFc || forecast(AI_MODEL.forecastSteps);
-  if (!fc){ box.innerHTML = `<div class="empty-note">Ketik data untuk melihat rincian kalkulasi AI.</div>`; return; }
-
+  if (!fc){ box.innerHTML = `<div class="empty-note">${t('breakdown.empty')}</div>`; return; }
   const lastBase = fc.basePreds[fc.basePreds.length - 1];
   const lastAdjusted = fc.adjustedPreds[fc.adjustedPreds.length - 1];
-  const wf = fc.weatherFactors;
-  const vf = fc.visitorFactor;
+  const wf = fc.weatherFactors, vf = fc.visitorFactor;
   const overallChange = lastBase > 0 ? ((lastAdjusted / lastBase - 1) * 100) : 0;
   const changeClass = Math.abs(overallChange) < 3 ? 'stable' : (overallChange > 0 ? 'up' : 'down');
-  const changeLabel = Math.abs(overallChange) < 3 ? 'Stabil' : (overallChange > 0 ? `+${overallChange.toFixed(1)}%` : `${overallChange.toFixed(1)}%`);
-
+  const changeLabel = Math.abs(overallChange) < 3 ? (currentLang==='id'?'Stabil':'Stable') : (overallChange > 0 ? `+${overallChange.toFixed(1)}%` : `${overallChange.toFixed(1)}%`);
   box.innerHTML = `
     <div class="forecast-breakdown">
-      <div class="fb-card base">
-        <div class="head"><span class="icon">📈</span> Tren Historis</div>
-        <div class="value">${lastBase.toFixed(3)} <small style="font-size:.7rem;color:var(--muted)">mg/L</small></div>
-        <div class="formula">y = ${fc.reg.slope.toFixed(5)} × t + ${fc.reg.intercept.toFixed(4)}</div>
-      </div>
-      <div class="fb-card weather">
-        <div class="head"><span class="icon">🌧️</span> Faktor Cuaca BMKG</div>
-        <div class="value">×${wf.factors[wf.factors.length - 1].toFixed(3)}</div>
-        <div class="formula">+${((wf.factors[wf.factors.length - 1] - 1) * 100).toFixed(1)}% limpasan</div>
-      </div>
-      <div class="fb-card visitor">
-        <div class="head"><span class="icon">👥</span> Faktor Beban Pengunjung</div>
-        <div class="value">×${vf.multiplier.toFixed(3)}</div>
-        <div class="formula">${vf.explanation || 'Normal (1.0×)'}</div>
-      </div>
+      <div class="fb-card base"><div class="head"><span class="icon">📈</span> ${currentLang==='id'?'Tren Historis':'Historical Trend'}</div><div class="value">${lastBase.toFixed(3)} <small style="font-size:.7rem;color:var(--muted)">mg/L</small></div><div class="formula">y = ${fc.reg.slope.toFixed(5)} × t + ${fc.reg.intercept.toFixed(4)}</div></div>
+      <div class="fb-card weather"><div class="head"><span class="icon">🌧️</span> ${currentLang==='id'?'Faktor Cuaca':'Weather Factor'}</div><div class="value">×${wf.factors[wf.factors.length - 1].toFixed(3)}</div><div class="formula">+${((wf.factors[wf.factors.length - 1] - 1) * 100).toFixed(1)}% ${currentLang==='id'?'limpasan':'runoff'}</div></div>
+      <div class="fb-card visitor"><div class="head"><span class="icon">👥</span> ${currentLang==='id'?'Faktor Pengunjung':'Visitor Factor'}</div><div class="value">×${vf.multiplier.toFixed(3)}</div><div class="formula">${vf.explanation || 'Normal (1.0×)'}</div></div>
     </div>
     <div class="final-prediction">
-      <div>
-        <div class="label">🎯 Prediksi Final AI (30 jam ke depan)</div>
-        <div class="num">${lastAdjusted.toFixed(3)} <small>mg/L PO₄</small></div>
-      </div>
+      <div><div class="label">🎯 ${currentLang==='id'?'Prediksi Final AI (30 jam ke depan)':'Final AI Prediction (next 30 hours)'}</div><div class="num">${lastAdjusted.toFixed(3)} <small>mg/L PO₄</small></div></div>
       <div class="change ${changeClass}">${changeLabel} vs baseline</div>
-    </div>
-  `;
+    </div>`;
 }
-
 function renderChart(){
-  const canvas = document.getElementById('trendChart');
-  if (!canvas) return;
-
+  const canvas = document.getElementById('trendChart'); if (!canvas) return;
   const all = getAllHistory();
   const currentInput = readInputs();
   let chartData = [...all];
-  
   if (currentInput.phosphate !== null && !isNaN(currentInput.phosphate)) {
-    const livePoint = { ...currentInput, ts: Date.now(), time: 'Input Live' };
+    const livePoint = { ...currentInput, ts: Date.now(), time: t('chart.live_input') };
     const lastSaved = all[all.length - 1];
-    if (!lastSaved || lastSaved.phosphate !== livePoint.phosphate) {
-      chartData.push(livePoint);
-    }
+    if (!lastSaved || lastSaved.phosphate !== livePoint.phosphate) chartData.push(livePoint);
   }
-
   const recent = chartData.slice(-60);
   const labels = recent.map(h => {
-    if (h.time === 'Input Live') return 'Input Live';
-    if (h.ts){
-      const d = new Date(h.ts);
-      return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}) + ' ' +
-             d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-    }
+    if (h.time === t('chart.live_input')) return t('chart.live_input');
+    if (h.ts){ const d = new Date(h.ts); return d.toLocaleDateString(currentLang==='id'?'id-ID':'en-US',{day:'2-digit',month:'short'}) + ' ' + d.toLocaleTimeString(currentLang==='id'?'id-ID':'en-US',{hour:'2-digit',minute:'2-digit'}); }
     return h.time || '';
   });
   const data = recent.map(h => h.phosphate);
-
   const fc = forecast(AI_MODEL.forecastSteps, chartData);
-  const basePredData = [];
-  const adjustedPredData = [];
-  if (fc){
-    for (let i=0; i<AI_MODEL.forecastSteps; i++){
-      labels.push(`+${i+1} (pred)`);
-      data.push(null);
-      basePredData.push(parseFloat(fc.basePreds[i].toFixed(4)));
-      adjustedPredData.push(parseFloat(fc.adjustedPreds[i].toFixed(4)));
-    }
-  }
-
-  const datasets = [{
-    label: 'Kadar Fosfat Terukur (mg/L)',
-    data: data,
-    borderColor:'#0ea5e9',
-    backgroundColor: (c)=>{
-      const g = c.chart.ctx.createLinearGradient(0,0,0,320);
-      g.addColorStop(0,'rgba(14,165,233,.25)');
-      g.addColorStop(1,'rgba(14,165,233,0)');
-      return g;
-    },
-    borderWidth:3, tension:.35, fill:true,
-    pointBackgroundColor:(c) => {
-      const item = recent[c.dataIndex];
-      return (item && item.time === 'Input Live') ? '#f59e0b' : '#0ea5e9';
-    }, 
+  const basePredData = [], adjustedPredData = [];
+  if (fc){ for (let i=0; i<AI_MODEL.forecastSteps; i++){ labels.push(`+${i+1} (pred)`); data.push(null); basePredData.push(parseFloat(fc.basePreds[i].toFixed(4))); adjustedPredData.push(parseFloat(fc.adjustedPreds[i].toFixed(4))); } }
+  const datasets = [{label: currentLang==='id'?'Kadar Fosfat Terukur (mg/L)':'Measured Phosphate (mg/L)', data, borderColor:'#0ea5e9',
+    backgroundColor: (c)=>{ const g = c.chart.ctx.createLinearGradient(0,0,0,320); g.addColorStop(0,'rgba(14,165,233,.25)'); g.addColorStop(1,'rgba(14,165,233,0)'); return g; },
+    borderWidth:3, tension:.35, fill:true, pointBackgroundColor:(c)=> (recent[c.dataIndex] && recent[c.dataIndex].time === t('chart.live_input')) ? '#f59e0b' : '#0ea5e9',
     pointBorderColor:'#ffffff', pointBorderWidth:2, pointRadius:5, spanGaps:true
   }];
-
   if (fc && recent.length){
-    const baseSeries = new Array(recent.length-1).fill(null);
-    baseSeries.push(recent[recent.length-1].phosphate);
-    basePredData.forEach(v => baseSeries.push(v));
-    datasets.push({
-      label: 'Tren Historis', data: baseSeries,
-      borderColor:'rgba(100,116,139,.45)', borderDash:[4,4], borderWidth:2, tension:.3, fill:false,
-      pointBackgroundColor:'rgba(100,116,139,.6)', pointRadius:3, spanGaps:true
-    });
-
-    const adjustedSeries = new Array(recent.length-1).fill(null);
-    adjustedSeries.push(recent[recent.length-1].phosphate);
-    adjustedPredData.forEach(v => adjustedSeries.push(v));
-    datasets.push({
-      label: '🤖 Prediksi AI Multi-Faktor',
-      data: adjustedSeries, borderColor:'#8b5cf6', backgroundColor:'rgba(139,92,246,.06)',
-      borderWidth:3, tension:.3, fill:true, pointBackgroundColor:'#8b5cf6', pointBorderColor:'#ffffff',
-      pointBorderWidth:2, pointRadius:5, spanGaps:true
-    });
+    const baseSeries = new Array(recent.length-1).fill(null); baseSeries.push(recent[recent.length-1].phosphate); basePredData.forEach(v => baseSeries.push(v));
+    datasets.push({label: currentLang==='id'?'Tren Historis (mg/L)':'Historical Trend (mg/L)', data: baseSeries, borderColor:'rgba(100,116,139,.45)', borderDash:[4,4], borderWidth:2, tension:.3, fill:false, pointRadius:3, spanGaps:true});
+    const adjustedSeries = new Array(recent.length-1).fill(null); adjustedSeries.push(recent[recent.length-1].phosphate); adjustedPredData.forEach(v => adjustedSeries.push(v));
+    datasets.push({label: currentLang==='id'?'🤖 Prediksi AI Multi-Faktor (mg/L)':'🤖 AI Multi-Factor Prediction (mg/L)', data: adjustedSeries, borderColor:'#8b5cf6', backgroundColor:'rgba(139,92,246,.06)', borderWidth:3, tension:.3, fill:true, pointBackgroundColor:'#8b5cf6', pointBorderColor:'#ffffff', pointBorderWidth:2, pointRadius:5, spanGaps:true});
   }
-
-  datasets.push({
-    label: 'Ambang Eutrofik (0.5 mg/L)', data: new Array(labels.length).fill(0.5),
-    borderColor:'rgba(249,115,22,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false
-  });
-  datasets.push({
-    label: 'Ambang Aman (0.1 mg/L)', data: new Array(labels.length).fill(0.1),
-    borderColor:'rgba(16,185,129,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false
-  });
-
-  if (chart) {
-    try {
-      chart.data.labels = labels;
-      chart.data.datasets = datasets;
-      chart.update();
-      renderForecastBreakdown(fc);
-      return;
-    } catch(e) {
-      chart.destroy();
-      chart = null;
-    }
-  }
-
-  chart = new Chart(canvas, {
-    type:'line',
-    data:{ labels, datasets },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      animation: { duration: 600, easing: 'easeOutQuart' },
-      interaction:{mode:'index', intersect:false},
-      plugins:{
-        legend:{ labels:{ color:'#64748b', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, usePointStyle:true } }
-      },
-      scales:{
-        x:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}, maxRotation:45} },
-        y:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}} }
-      }
-    }
-  });
-
+  datasets.push({label: currentLang==='id'?'Ambang Eutrofik (0.5 mg/L)':'Eutrophic Threshold (0.5 mg/L)', data: new Array(labels.length).fill(0.5), borderColor:'rgba(249,115,22,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false});
+  datasets.push({label: currentLang==='id'?'Ambang Aman (0.1 mg/L)':'Safe Threshold (0.1 mg/L)', data: new Array(labels.length).fill(0.1), borderColor:'rgba(16,185,129,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false});
+  if (chart) { try { chart.data.labels = labels; chart.data.datasets = datasets; chart.update(); renderForecastBreakdown(fc); return; } catch(e) { chart.destroy(); chart = null; } }
+  chart = new Chart(canvas, { type:'line', data:{ labels, datasets }, options:{
+    responsive:true, maintainAspectRatio:false, animation:{duration:600, easing:'easeOutQuart'},
+    interaction:{mode:'index', intersect:false},
+    plugins:{ legend:{ labels:{ color:'#64748b', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, usePointStyle:true } } },
+    scales:{ x:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}, maxRotation:45} }, y:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}} } }
+  }});
   renderForecastBreakdown(fc);
 }
-
 function renderHistory(){
   const body = document.getElementById('historyBody');
   const all = getAllHistory().slice().reverse();
-  const isAdm = isAdminLoggedIn();
-  if (!all.length){
-    body.innerHTML = `<tr><td colspan="${isAdm?9:8}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
-    return;
-  }
+  if (!all.length){ body.innerHTML = `<tr><td colspan="8" class="empty-note">${t('table.empty')}</td></tr>`; return; }
   body.innerHTML = all.slice(0, 50).map(h=>{
     const cls = classifyPhosphate(h.phosphate);
-    const timeStr = h.ts ? new Date(h.ts).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : (h.time || '—');
-    const delBtn = isAdm ? `<td><button class="btn-del" onclick="window.__delRow(${h.ts})">🗑 Hapus</button></td>` : '';
+    const timeStr = h.ts ? new Date(h.ts).toLocaleString(currentLang==='id'?'id-ID':'en-US',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : (h.time || '—');
     return `<tr>
       <td style="color:var(--muted);font-size:.76rem">${timeStr}</td>
       <td><b style="color:${cls.color}">${h.phosphate}</b></td>
@@ -1254,216 +1305,244 @@ function renderHistory(){
       <td><span class="pill" style="background:${cls.color}1A;color:${cls.color}">${cls.status}</span></td>
       <td>${h.wqi ?? '—'}</td>
       <td style="font-size:.72rem;color:var(--muted)">${h.source || 'manual'}</td>
-      ${delBtn}
     </tr>`;
   }).join('');
 }
-window.__delRow = (ts) => {
-  if (!confirm('Hapus baris data pengukuran ini?')) return;
-  localHistory = localHistory.filter(h => h.ts !== ts);
-  localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
-  updateAllLive();
-  showToast('✅ Baris riwayat dihapus.', 'success');
-};
-
+function renderFieldStats(){
+  const box = document.getElementById('fieldStatsBox'); if (!box) return;
+  if (!fieldCache.length) { box.innerHTML = `<div class="empty-note">${t('field.empty')}</div>`; return; }
+  const latest = fieldCache[0];
+  const vf = computeVisitorFactor();
+  box.innerHTML = `
+    <div class="visitor-stats">
+      <div class="stat-card"><div class="icon">👥</div><div class="val">${latest.visitorCount ?? 0}</div><div class="lbl">${currentLang==='id'?'Pengunjung Terbaru':'Latest Visitors'}</div></div>
+      <div class="stat-card"><div class="icon">🤖</div><div class="val">×${vf.multiplier.toFixed(3)}</div><div class="lbl">${currentLang==='id'?'Faktor AI':'AI Factor'}</div></div>
+      <div class="stat-card"><div class="icon">📊</div><div class="val">${fieldCache.length}</div><div class="lbl">${currentLang==='id'?'Total Entri':'Total Entries'}</div></div>
+    </div>`;
+}
 function readInputs(){
-  const num = id => {
-    const el = document.getElementById(id);
-    if (!el) return null;
-    const v = el.value.trim();
-    return v === '' ? null : parseFloat(v);
-  };
+  const num = id => { const el = document.getElementById(id); if (!el) return null; const v = el.value.trim(); return v === '' ? null : parseFloat(v); };
   return { phosphate: num('phosphate'), ph: num('ph'), temp: num('temp'), conductivity: num('conductivity'), flow: num('flow') };
 }
-
 function fillInputs(d){
   ['phosphate','ph','temp','conductivity','flow'].forEach(k => {
     if (d[k] === null || d[k] === undefined || isNaN(d[k])) return;
-    const el = document.getElementById(k);
-    if (el) el.value = d[k];
+    const el = document.getElementById(k); if (el) el.value = d[k];
   });
 }
-
-function runAIEngine(d) {
+function runAIEngine(d){
   if (!d || d.phosphate === null || isNaN(d.phosphate)) return;
   const cls = classifyPhosphate(d.phosphate);
   const wqi = computeWQI(d);
   const anomalies = detectAnomalies(d);
-  const recs = buildRecommendations(d, cls, wqi, anomalies);
-  renderResult(d, cls, wqi, anomalies);
-  renderRecommendations(recs);
+  renderResult(d, cls, wqi);
+  renderRecommendations(buildRecommendations(d, cls, wqi, anomalies));
   const stamp = document.getElementById('stamp');
-  if (stamp) stamp.textContent = 'Diperbarui ' + new Date().toLocaleTimeString('id-ID');
+  if (stamp) stamp.textContent = (currentLang==='id'?'Diperbarui ':'Updated ') + new Date().toLocaleTimeString(currentLang==='id'?'id-ID':'en-US');
 }
-
-function updateAllLive() {
+function resetDashboardToEmpty(){
+  document.getElementById('dashCurrentPhosphate').innerHTML = `- <small>mg/L</small>`;
+  document.getElementById('dashCurrentStatus').innerHTML = t('dash.wait_data');
+  document.getElementById('dashWqiScore').textContent = '0';
+  document.getElementById('dashWqiLabel').textContent = '-';
+  const c = document.getElementById('wqiCircleProgress'); if (c) c.style.strokeDashoffset = 251.2;
+  document.getElementById('dashAiPrediction').innerHTML = `- <small>mg/L</small>`;
+  updateMitigationButton(0);
+}
+function updateAllLive(){
   const d = readInputs();
-  if (d.phosphate !== null && !isNaN(d.phosphate)) {
-    runAIEngine(d);
-  } else {
-    const all = getAllHistory();
-    if (all.length > 0) runAIEngine(all[all.length - 1]);
-  }
+  if (d.phosphate !== null && !isNaN(d.phosphate)) runAIEngine(d);
+  else { const all = getAllHistory(); if (all.length > 0) runAIEngine(all[all.length - 1]); else resetDashboardToEmpty(); }
   renderChart();
 }
-
-let liveDebounceTimer;
-['phosphate', 'ph', 'temp', 'conductivity', 'flow'].forEach(id => {
+let liveDebounce;
+['phosphate','ph','temp','conductivity','flow'].forEach(id => {
   const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('input', () => {
-    clearTimeout(liveDebounceTimer);
-    liveDebounceTimer = setTimeout(updateAllLive, 250);
-  });
+  if (el) el.addEventListener('input', () => { clearTimeout(liveDebounce); liveDebounce = setTimeout(updateAllLive, 250); });
 });
 
-/* ============================================================
-   AKSI ADMIN: SIMPAN PENGUKURAN RESMI
-   ============================================================ */
-document.getElementById('analyzeBtn').addEventListener('click', async () => {
-  if (!isAdminLoggedIn()){
-    openLoginModal();
-    showToast('Silakan login ke Gateway Admin untuk menyimpan data resmi.', 'warn');
-    return;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   🔐 AUTH & CONNECTION UI
+   ═══════════════════════════════════════════════════════════════ */
+function showConfigWarning(msg){ const el = document.getElementById('configWarning'); if (el) { el.style.display = 'block'; el.innerHTML = msg; } }
+function hideConfigWarning(){ const el = document.getElementById('configWarning'); if (el) el.style.display = 'none'; }
+function updateConnectionIndicator(){
+  const el = document.getElementById('liveIndicator'); if (!el) return;
+  if (!supabaseReady) { el.className = 'live offline'; el.innerHTML = `<span class="dot"></span> <span>${currentLang==='id'?'Mode lokal':'Local mode'}</span>`; return; }
+  if (supabaseConnected) { el.className = 'live online'; el.innerHTML = `<span class="dot"></span> <span>Online</span>`; }
+  else { el.className = 'live offline'; el.innerHTML = `<span class="dot"></span> <span>${currentLang==='id'?'Offline (antrean)':'Offline (queue)'}</span>`; }
+}
+function showAdminPanel(){
+  document.getElementById('adminPanel').classList.add('show');
+  const btn = document.getElementById('loginBtn'); btn.innerHTML = '✅ Admin'; btn.classList.add('admin');
+  const d = document.getElementById('fieldDate'); if (d && !d.value) d.value = new Date().toISOString().slice(0,10);
+}
+document.getElementById('loginBtn').addEventListener('click', () => {
+  if (sessionStorage.getItem('maronphos_admin') === '1') { document.getElementById('adminPanel').classList.toggle('show'); return; }
+  document.getElementById('loginModal').classList.add('show');
+  document.getElementById('adminPassword').focus();
+});
+document.getElementById('closeLogin').addEventListener('click', () => document.getElementById('loginModal').classList.remove('show'));
+document.getElementById('cancelLogin').addEventListener('click', () => document.getElementById('loginModal').classList.remove('show'));
+document.getElementById('submitLogin').addEventListener('click', () => {
+  const pwd = document.getElementById('adminPassword').value;
+  const err = document.getElementById('loginError');
+  if (pwd === ADMIN_AUTH.password) {
+    err.classList.remove('show'); document.getElementById('loginModal').classList.remove('show');
+    document.getElementById('adminPassword').value = '';
+    sessionStorage.setItem('maronphos_admin', '1');
+    showAdminPanel(); showToast('✅ Login berhasil. Admin aktif.', 'success');
+  } else { err.textContent = '❌ Password salah.'; err.classList.add('show'); }
+});
+document.getElementById('adminPassword').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('submitLogin').click(); });
 
-  const d = readInputs();
-  if (d.phosphate === null || isNaN(d.phosphate)){
-    alert('Kadar fosfat wajib diisi sebelum menyimpan data.');
-    document.getElementById('phosphate').focus();
-    return;
-  }
-
-  const btn = document.getElementById('analyzeBtn');
-  btn.disabled = true;
-  btn.innerHTML = `<span>⏳</span> Menyimpan resmi...`;
-  await new Promise(r=>setTimeout(r, 500));
-
-  const now = new Date();
-  const newEntry = {
-    time: now.toLocaleString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),
-    ts: now.getTime(),
-    phosphate: d.phosphate, ph: d.ph, temp: d.temp,
-    conductivity: d.conductivity, flow: d.flow,
-    wqi: computeWQI(d).score, status: classifyPhosphate(d.phosphate).status, source: 'Admin Gateway'
-  };
-  localHistory.push(newEntry);
-  localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
-
-  runAIEngine(d);
+/* ═══════════════════════════════════════════════════════════════
+   🌐 LANGUAGE SWITCH
+   ═══════════════════════════════════════════════════════════════ */
+function applyLanguage(){
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n'); const tr = t(key);
+    if (el.tagName === 'OPTION') el.textContent = tr;
+    else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { /* skip */ }
+    else el.innerHTML = tr;
+  });
+  const qi = document.getElementById('quickVisitorInput'); if (qi) qi.placeholder = t('dash.input_placeholder');
+  const lb = document.getElementById('langSwitch'); if (lb) lb.textContent = currentLang === 'id' ? '🇬🇧 EN' : '🇮🇩 ID';
+  updateConnectionIndicator();
+  updateAllLive();
   renderHistory();
-  renderChart();
-
-  btn.disabled = false;
-  btn.innerHTML = `<span>💾</span> <span id="analyzeBtnTxt">Simpan Pengukuran Resmi (Admin)</span>`;
-  showToast('✅ Pengukuran resmi berhasil disimpan ke riwayat!', 'success');
-});
-
-// QUICK VISITOR INPUT
-document.getElementById('quickVisitorBtn').addEventListener('click', () => {
-  if (!isAdminLoggedIn()){
-    openLoginModal();
-    showToast('Input pengunjung memerlukan akses Gateway Admin.', 'warn');
-    return;
-  }
-  const val = parseInt(document.getElementById('quickVisitorInput').value);
-  if (isNaN(val) || val < 0) return;
-  fieldData.unshift({
-    date: new Date().toISOString().slice(0, 10),
-    visitorCount: val,
-    rainStatus: 'Tidak Hujan',
-    weatherCond: 'Cerah',
-    ts: Date.now()
-  });
-  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
   renderFieldStats();
-  updateAllLive();
-  document.getElementById('quickVisitorInput').value = '';
-  showToast(`✅ Tiket: ${val} pengunjung dicatat. AI diperbarui!`, 'success');
+  if (weatherData) renderWeather();
+}
+document.getElementById('langSwitch').addEventListener('click', () => {
+  currentLang = currentLang === 'id' ? 'en' : 'id';
+  localStorage.setItem('maronphos_lang', currentLang);
+  applyLanguage();
+  showToast(currentLang==='id'?'🇮🇩 Bahasa Indonesia':'🇬🇧 English', 'info');
 });
 
-// SIMPAN DATA LAPANGAN
-document.getElementById('saveFieldBtn').addEventListener('click', () => {
-  if (!isAdminLoggedIn()){
-    openLoginModal();
-    showToast('Akses dibatasi. Silakan login admin.', 'warn');
-    return;
-  }
-  const visitorCount = parseInt(document.getElementById('visitorCount').value);
-  const data = {
-    date: document.getElementById('fieldDate').value || new Date().toISOString().slice(0,10),
-    visitorCount: isNaN(visitorCount) ? 0 : visitorCount,
-    rainStatus: document.getElementById('rainStatus').value,
-    weatherCond: document.getElementById('weatherCond').value,
-    airTemp: parseFloat(document.getElementById('airTemp').value) || null,
-    airHumidity: parseInt(document.getElementById('airHumidity').value) || null,
-    notes: document.getElementById('fieldNotes').value.trim(),
-    ts: Date.now()
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ EVENT HANDLERS
+   ═══════════════════════════════════════════════════════════════ */
+document.getElementById('analyzeBtn').addEventListener('click', () => {
+  const d = readInputs();
+  if (d.phosphate === null || isNaN(d.phosphate)) { alert(currentLang==='id'?'Kadar fosfat wajib diisi.':'Phosphate level required.'); return; }
+  const entry = {
+    time: new Date().toLocaleString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    ts: Date.now(),
+    phosphate: d.phosphate, ph: d.ph, temp: d.temp, conductivity: d.conductivity, flow: d.flow,
+    wqi: computeWQI(d).score, status: classifyPhosphate(d.phosphate).status, source: 'manual'
   };
-  fieldData.unshift(data);
-  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
-  renderFieldStats();
-  updateAllLive();
-  showToast('✅ Data lapangan berhasil disimpan pengelola.', 'success');
+  writeMeasurement(entry);
+  runAIEngine(d);
+  showToast(currentLang==='id'?'✅ Tersimpan & tersinkron':'✅ Saved & synced', 'success');
 });
 
-// AUTO FILL DARI BMKG KE FORM LAPANGAN
-document.getElementById('autoFillWeatherBtn').addEventListener('click', () => {
-  if (!weatherData || !weatherData.current) {
-    showToast('Data BMKG sedang dimuat, coba sebentar lagi.', 'warn');
-    return;
-  }
-  const c = weatherData.current;
-  document.getElementById('airTemp').value = c.t ?? '';
-  document.getElementById('airHumidity').value = c.hu ?? '';
-  const desc = (c.weather_desc || '').toLowerCase();
-  if (desc.includes('hujan lebat')) document.getElementById('rainStatus').value = 'Hujan Lebat';
-  else if (desc.includes('hujan sedang')) document.getElementById('rainStatus').value = 'Hujan Sedang';
-  else if (desc.includes('hujan')) document.getElementById('rainStatus').value = 'Hujan Ringan';
-  else document.getElementById('rainStatus').value = 'Tidak Hujan';
-
-  if (desc.includes('hujan')) document.getElementById('weatherCond').value = 'Hujan';
-  else if (desc.includes('mendung')) document.getElementById('weatherCond').value = 'Mendung';
-  else if (desc.includes('berawan')) document.getElementById('weatherCond').value = 'Berawan';
-  else document.getElementById('weatherCond').value = 'Cerah';
-
-  showToast('🌤️ Parameter cuaca terisi otomatis dari BMKG!', 'success');
-});
-
-document.getElementById('sampleBtn').addEventListener('click', ()=>{
+document.getElementById('sampleBtn').addEventListener('click', () => {
   const samples = [
     {phosphate:0.045, ph:7.1, temp:25.4, conductivity:280, flow:48},
     {phosphate:0.32,  ph:7.6, temp:27.8, conductivity:410, flow:42},
     {phosphate:0.78,  ph:8.4, temp:29.2, conductivity:620, flow:33},
     {phosphate:1.42,  ph:5.8, temp:30.6, conductivity:890, flow:21}
   ];
-  const s = samples[Math.floor(Math.random()*samples.length)];
-  fillInputs(s);
+  fillInputs(samples[Math.floor(Math.random()*samples.length)]);
   updateAllLive();
 });
 
-function renderFieldStats(){
-  const box = document.getElementById('fieldStatsBox');
-  if (!box || !fieldData.length) return;
-  const latest = fieldData[0];
-  const vf = computeVisitorFactor();
-  box.innerHTML = `
-    <div class="visitor-stats">
-      <div class="stat-card"><div class="icon">👥</div><div class="val">${latest.visitorCount ?? 0}</div><div class="lbl">Pengunjung Lapangan</div></div>
-      <div class="stat-card"><div class="icon">🤖</div><div class="val">×${vf.multiplier.toFixed(3)}</div><div class="lbl">Faktor Beban AI</div></div>
-    </div>
-  `;
-}
+document.getElementById('quickVisitorBtn').addEventListener('click', () => {
+  const val = parseInt(document.getElementById('quickVisitorInput').value);
+  if (isNaN(val) || val < 0) return;
+  const entry = { date: new Date().toISOString().slice(0,10), visitorCount: val, ts: Date.now(), source: 'quick' };
+  writeFieldData(entry);
+  document.getElementById('quickVisitorInput').value = '';
+  showToast(currentLang==='id'?`✅ ${val} pengunjung dicatat`:`✅ ${val} visitors recorded`, 'success');
+});
+
+document.getElementById('saveFieldBtn').addEventListener('click', () => {
+  const date = document.getElementById('fieldDate').value || new Date().toISOString().slice(0,10);
+  const visitorCount = parseInt(document.getElementById('visitorCount').value) || 0;
+  const rainStatus = document.getElementById('rainStatus').value;
+  const weatherCond = document.getElementById('weatherCond').value;
+  const airTemp = parseFloat(document.getElementById('airTemp').value) || null;
+  const airHumidity = parseFloat(document.getElementById('airHumidity').value) || null;
+  const notes = document.getElementById('fieldNotes').value.trim();
+  if (!visitorCount && !notes && !airTemp) { showToast(currentLang==='id'?'⚠️ Isi minimal satu data':'⚠️ Fill at least one field', 'warn'); return; }
+  const entry = { date, visitorCount, rainStatus, weatherCond, airTemp, airHumidity, notes, ts: Date.now(), source: 'admin' };
+  writeFieldData(entry);
+  document.getElementById('fieldNotes').value = '';
+  showToast(currentLang==='id'?'✅ Data lapangan tersimpan':'✅ Field data saved', 'success');
+});
+
+document.getElementById('autoFillWeatherBtn').addEventListener('click', () => {
+  if (!weatherData || !weatherData.forecast.length) { showToast(currentLang==='id'?'⚠️ BMKG belum siap':'⚠️ BMKG not ready', 'warn'); return; }
+  const c = weatherData.forecast[0];
+  const tempEl = document.getElementById('airTemp'), humEl = document.getElementById('airHumidity');
+  const rainEl = document.getElementById('rainStatus'), wEl = document.getElementById('weatherCond');
+  if (tempEl && c.t) tempEl.value = c.t;
+  if (humEl && c.hu) humEl.value = c.hu;
+  const d = (c.weather_desc || '').toLowerCase();
+  if (rainEl) { if (d.includes('lebat')) rainEl.value = 'Hujan Lebat'; else if (d.includes('sedang')) rainEl.value = 'Hujan Sedang'; else if (d.includes('ringan') || d.includes('hujan')) rainEl.value = 'Hujan Ringan'; else rainEl.value = 'Tidak Hujan'; }
+  if (wEl) { if (d.includes('hujan')) wEl.value = 'Hujan'; else if (d.includes('mendung')) wEl.value = 'Mendung'; else if (d.includes('berawan')) wEl.value = 'Berawan'; else wEl.value = 'Cerah'; }
+  showToast(currentLang==='id'?'✅ Terisi dari BMKG':'✅ Filled from BMKG', 'success');
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const all = getAllHistory();
+  if (!all.length) return;
+  const csv = "Waktu,Fosfat,pH,Suhu,WQI\n" + all.map(h=>`"${h.time || ''}",${h.phosphate},${h.ph ?? ''},${h.temp ?? ''},${h.wqi ?? ''}`).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download = 'maronphos_data.csv'; a.click();
+});
+
+document.getElementById('clearManualBtn').addEventListener('click', async () => {
+  // Refresh dari Supabase
+  if (supabaseReady && supabase) {
+    try {
+      const { data } = await supabase.from('measurements').select('*').order('ts', { ascending: true }).limit(200);
+      if (data) { historyCache = data.map(dbToMeasurement); try { localStorage.setItem(CACHE_MEASUREMENTS, JSON.stringify(historyCache)); } catch(e){} }
+      const { data: fd } = await supabase.from('field_data').select('*').order('ts', { ascending: false }).limit(100);
+      if (fd) { fieldCache = fd.map(dbToField); try { localStorage.setItem(CACHE_FIELD, JSON.stringify(fieldCache)); } catch(e){} }
+    } catch(e) { console.warn(e); }
+  }
+  renderHistory(); renderChart(); renderFieldStats(); updateAllLive();
+  showToast(currentLang==='id'?'🔄 Data dimuat ulang':'🔄 Refreshed', 'info');
+});
+
+document.getElementById('mitigationBtn').addEventListener('click', () => {
+  const p = readInputs().phosphate ?? 0;
+  const content = document.getElementById('mitigationContent');
+  content.innerHTML = p >= 1.0 ? `
+    <ul class="mitigasi-list">
+      <li><span class="num">1</span> <div><b>${currentLang==='id'?'Tutup Saluran Limbah:':'Close Waste Channels:'}</b> ${currentLang==='id'?'Hentikan pembuangan limbah hulu ke mata air.':'Stop upstream waste discharge.'}</div></li>
+      <li><span class="num">2</span> <div><b>${currentLang==='id'?'Aerasi Darurat:':'Emergency Aeration:'}</b> ${currentLang==='id'?'Pasang aerator untuk menyuplai DO.':'Install aerator for DO supply.'}</div></li>
+    </ul>` : `
+    <ul class="mitigasi-list">
+      <li><span class="num">1</span> <div><b>${currentLang==='id'?'Inspeksi Pertanian:':'Agricultural Inspection:'}</b> ${currentLang==='id'?'Pantau penggunaan pupuk fosfat di hulu.':'Monitor phosphate fertilizer upstream.'}</div></li>
+      <li><span class="num">2</span> <div><b>${currentLang==='id'?'Perangkap Sedimen:':'Sediment Traps:'}</b> ${currentLang==='id'?'Bersihkan perangkap sedimen riparian.':'Clean riparian sediment traps.'}</div></li>
+    </ul>`;
+  document.getElementById('mitigationModal').classList.add('show');
+});
+document.getElementById('closeMitigation').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
+document.getElementById('closeMitigationBtn').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
 
 function showToast(message, type = 'info'){
+  const colors = { success:'#059669', error:'#dc2626', warn:'#d97706', info:'#0284c7' };
   const toast = document.createElement('div');
-  const colors = { success: '#059669', error: '#dc2626', warn: '#d97706', info: '#0284c7' };
-  toast.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;background:white;border:1px solid rgba(14,165,233,.3);color:${colors[type] || colors.info};font-size:.85rem;font-weight:700;z-index:10000;box-shadow:0 8px 32px rgba(0,0,0,.15);`;
+  toast.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;background:white;border:1px solid rgba(14,165,233,.3);color:${colors[type]||colors.info};font-size:.85rem;font-weight:700;z-index:10000;box-shadow:0 8px 32px rgba(0,0,0,.15);`;
   toast.textContent = message;
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 2500);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   🗺️ MAP
+   ═══════════════════════════════════════════════════════════════ */
+const SUMBER_MARON_POINTS = [
+  { id:'W-01', name:'Grojogan Sewu', category:'wisata', lat:-8.21150, lng:112.47700, icon:'💧', phosphate:0.15 },
+  { id:'W-02', name:'River Tubing',   category:'wisata', lat:-8.21065, lng:112.47630, icon:'🛶', phosphate:0.20 },
+  { id:'W-03', name:'Kolam Renang',   category:'wisata', lat:-8.21020, lng:112.47600, icon:'🏊', phosphate:0.18 },
+  { id:'W-04', name:'Mata Air Utama', category:'wisata', lat:-8.21180, lng:112.47680, icon:'⛲', phosphate:0.10 },
+  { id:'U-01', name:'Kuliner Bakso',  category:'umkm',   lat:-8.21080, lng:112.47650, icon:'🍜', phosphate:0.20 }
+];
 function initMap(){
   if (map || !document.getElementById('phosphateMap')) return;
   map = L.map('phosphateMap', { center: SUMBER_MARON_CENTER, zoom: MAP_DEFAULT_ZOOM, minZoom: MAP_MIN_ZOOM, maxZoom: MAP_MAX_ZOOM, maxBounds: MAP_BOUNDS });
@@ -1471,64 +1550,44 @@ function initMap(){
   markerLayer = L.layerGroup().addTo(map);
   SUMBER_MARON_POINTS.forEach(p => {
     const cls = classifyPhosphate(p.phosphate);
-    L.circleMarker([p.lat, p.lng], { radius: 12, fillColor: cls.color, color: '#fff', weight: 2, fillOpacity: 0.9 })
+    L.circleMarker([p.lat, p.lng], { radius:12, fillColor:cls.color, color:'#fff', weight:2, fillOpacity:0.9 })
       .bindTooltip(`${p.icon} ${p.name} (${p.phosphate.toFixed(2)} mg/L)`).addTo(markerLayer);
+  });
+  document.getElementById('mapCenterBtn')?.addEventListener('click', () => map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM));
+  document.getElementById('mapLayerSatelit')?.addEventListener('click', () => {
+    map.eachLayer(l => { if (l instanceof L.TileLayer) map.removeLayer(l); });
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }).addTo(map);
+  });
+  document.getElementById('mapLayerJalan')?.addEventListener('click', () => {
+    map.eachLayer(l => { if (l instanceof L.TileLayer) map.removeLayer(l); });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
   });
 }
 
-document.getElementById('mitigationBtn').addEventListener('click', () => {
-  const d = readInputs();
-  const p = d.phosphate ?? 0;
-  const content = document.getElementById('mitigationContent');
-  content.innerHTML = p >= 1.0 ? `
-    <ul class="mitigasi-list">
-      <li><span class="num">1</span> <div><b>Tutup Saluran Masuk:</b> Hentikan pembuangan limbah hulu ke badan air.</div></li>
-      <li><span class="num">2</span> <div><b>Aerasi Darurat:</b> Pasang aerator penyuplai oksigen terlarut.</div></li>
-    </ul>` : `
-    <ul class="mitigasi-list">
-      <li><span class="num">1</span> <div><b>Inspeksi Pertanian:</b> Pantau pemupukan fosfat di lahan riparian.</div></li>
-      <li><span class="num">2</span> <div><b>Pembersihan Saluran:</b> Kuras endapan perangkap sedimen.</div></li>
-    </ul>`;
-  document.getElementById('mitigationModal').classList.add('show');
-});
-document.getElementById('closeMitigation').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
-document.getElementById('closeMitigationBtn').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
-
-document.getElementById('exportBtn').addEventListener('click', ()=>{
-  const all = getAllHistory();
-  if (!all.length) return;
-  const csv = "Waktu,Fosfat,pH,Suhu,WQI,Sumber\n" + all.map(h=>`"${h.time || ''}",${h.phosphate},${h.ph ?? ''},${h.temp ?? ''},${h.wqi ?? ''},${h.source || ''}`).join('\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download = 'maronphos_data.csv'; a.click();
-});
-document.getElementById('clearManualBtn').addEventListener('click', ()=>{
-  if (!isAdminLoggedIn()){ openLoginModal(); showToast('Hapus riwayat memerlukan akses Admin.', 'warn'); return; }
-  if (confirm('Hapus seluruh data riwayat manual?')){
-    localHistory = []; localStorage.setItem(STORE_KEY, '[]');
-    renderHistory(); updateAllLive();
-    showToast('Riwayat data manual dibersihkan.', 'success');
-  }
-});
-
-// INISIALISASI
-document.getElementById('fieldDate').value = new Date().toISOString().slice(0,10);
-updateGatewayUI();
+/* ═══════════════════════════════════════════════════════════════
+   🚀 INIT
+   ═══════════════════════════════════════════════════════════════ */
 renderHistory();
 renderChart();
 renderFieldStats();
-fetchBMKGWeather();
+applyLanguage();
+fetchBMKG();
+updateConnectionIndicator();
+
+if (sessionStorage.getItem('maronphos_admin') === '1') showAdminPanel();
+
+initSupabase();  // async
 
 setTimeout(() => {
   initMap();
   const all = getAllHistory();
-  if (all.length > 0) {
+  if (all.length > 0 && !document.getElementById('phosphate').value) {
     const latest = all[all.length - 1];
     fillInputs(latest);
     runAIEngine(latest);
   }
   renderChart();
 }, 200);
-
-setInterval(fetchBMKGWeather, 30 * 60 * 1000);
 </script>
 </body>
 </html>
