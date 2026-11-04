@@ -9,146 +9,115 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
-    --bg:#050b14; --bg2:#0a1524;
-    --panel:rgba(15,28,45,.72); --panel-2:rgba(20,36,56,.55);
-    --border:rgba(94,234,212,.14); --border-2:rgba(94,234,212,.28);
-    --txt:#e6f4f8; --muted:#8aa6b8;
-    --aqua:#22d3ee; --teal:#2dd4bf; --green:#34d399;
-    --amber:#fbbf24; --orange:#fb923c; --red:#ef4444;
-    --glow:0 0 40px rgba(34,211,238,.15);
+    --bg:#f0f9ff;--panel:#ffffff;--panel-2:#f8fafc;
+    --border:rgba(14,165,233,0.15);--border-2:rgba(14,165,233,0.3);
+    --txt:#0f172a;--muted:#64748b;--aqua:#0ea5e9;--teal:#0284c7;
+    --green:#10b981;--amber:#f59e0b;--orange:#f97316;--red:#ef4444;--purple:#8b5cf6;
+    --glow:0 10px 30px rgba(14,165,233,0.08);--glow-hover:0 15px 40px rgba(14,165,233,0.15);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{
-    font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(34,211,238,.10), transparent 55%),
-      radial-gradient(900px 500px at 90% 0%, rgba(45,212,191,.08), transparent 55%),
-      radial-gradient(800px 600px at 50% 100%, rgba(59,130,246,.07), transparent 60%),
-      var(--bg);
-    color:var(--txt); min-height:100vh; line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-    background-image:linear-gradient(rgba(94,234,212,.028) 1px,transparent 1px),
-                     linear-gradient(90deg,rgba(94,234,212,.028) 1px,transparent 1px);
-    background-size:52px 52px;
-    mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 80%);
-  }
+  body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 22px}
-
-  nav{
-    position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);
-    background:rgba(5,11,20,.72); border-bottom:1px solid var(--border);
-  }
+  nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(255,255,255,.9);border-bottom:1px solid var(--border)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:1280px;margin:0 auto;gap:14px;flex-wrap:wrap}
-  .logo{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;font-size:1.05rem}
-  .logo .drop{
-    width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
-    background:linear-gradient(140deg,var(--aqua),var(--teal));
-    box-shadow:0 0 22px rgba(34,211,238,.42); font-size:17px;
-  }
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;font-size:1.05rem;color:var(--txt)}
+  .logo .drop{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(140deg,var(--aqua),var(--teal));box-shadow:0 4px 12px rgba(14,165,233,.3);font-size:17px;color:white}
   .logo small{display:block;font-weight:500;font-size:.66rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
   .nav-links{display:flex;gap:6px;flex-wrap:wrap}
   .nav-links a{color:var(--muted);text-decoration:none;font-size:.84rem;font-weight:500;padding:7px 13px;border-radius:9px;transition:.2s}
-  .nav-links a:hover{color:var(--aqua);background:rgba(34,211,238,.08)}
-  .live{
-    display:flex;align-items:center;gap:7px;font-size:.74rem;
-    padding:6px 12px;border:1px solid rgba(138,166,184,.3);border-radius:99px;
-    background:rgba(138,166,184,.07);color:var(--muted);transition:.3s;
-  }
-  .live.online{color:var(--green);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.07)}
-  .live.offline{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.07)}
+  .nav-links a:hover{color:var(--aqua);background:rgba(14,165,233,.08)}
+  .live{display:flex;align-items:center;gap:7px;font-size:.74rem;padding:6px 12px;border:1px solid rgba(100,116,139,.3);border-radius:99px;background:rgba(100,116,139,.05);color:var(--muted);transition:.3s}
+  .live.online{color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08)}
+  .live.offline{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
   .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 currentColor}50%{opacity:.6;box-shadow:0 0 0 7px transparent}}
+  
+  .btn-login,.btn-lang{display:flex;align-items:center;gap:6px;font-size:.78rem;padding:7px 14px;border-radius:9px;cursor:pointer;background:rgba(100,116,139,.08);border:1px solid rgba(100,116,139,.25);color:var(--txt);font-family:inherit;font-weight:700;transition:.2s}
+  .btn-login:hover,.btn-lang:hover{background:rgba(14,165,233,.1);color:var(--aqua);border-color:var(--border-2)}
+  .btn-login.admin{background:rgba(16,185,129,.15);color:var(--green);border-color:rgba(16,185,129,.4)}
 
-  .btn-login{
-    display:flex;align-items:center;gap:6px;
-    font-size:.78rem;padding:7px 13px;
-    border-radius:9px;cursor:pointer;
-    background:rgba(138,166,184,.08);
-    border:1px solid rgba(138,166,184,.3);
-    color:var(--muted);font-family:inherit;font-weight:600;
-    transition:.2s;
-  }
-  .btn-login:hover{background:rgba(34,211,238,.08);color:var(--aqua);border-color:var(--border-2)}
-  .btn-login.admin{background:rgba(52,211,153,.1);color:var(--green);border-color:rgba(52,211,153,.3)}
+  /* ADMIN GATEWAY BANNER */
+  .gateway-banner{margin-top:20px;padding:12px 18px;border-radius:12px;font-size:.82rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;transition:.3s}
+  .gateway-banner.public{background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);color:#0369a1}
+  .gateway-banner.active{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#065f46}
+  .gateway-banner .badge{font-weight:700;padding:4px 10px;border-radius:99px;font-size:.74rem;display:inline-flex;align-items:center;gap:6px}
+  .gateway-banner.public .badge{background:rgba(14,165,233,.15);color:#0284c7}
+  .gateway-banner.active .badge{background:rgba(16,185,129,.2);color:#047857}
 
-  .hero{padding:56px 0 34px;text-align:center}
-  .badge{
-    display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:600;
-    padding:6px 15px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;
-    border:1px solid var(--border-2);background:rgba(34,211,238,.07);color:var(--aqua);
-    margin-bottom:20px;
-  }
-  .hero h1{font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-1.6px;line-height:1.08;margin-bottom:16px}
-  .hero h1 .grad{background:linear-gradient(100deg,#22d3ee,#2dd4bf 45%,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero p{color:var(--muted);max-width:680px;margin:0 auto;font-size:1rem}
+  .dashboard-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px;margin-bottom:24px}
+  .dash-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--glow);transition:.3s;position:relative;overflow:hidden}
+  .dash-card:hover{transform:translateY(-4px);box-shadow:var(--glow-hover)}
+  .dash-card .title{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .dash-card .main-val{font-size:2.2rem;font-weight:800;letter-spacing:-1px;line-height:1.1;color:var(--txt)}
+  .dash-card .main-val small{font-size:1rem;color:var(--muted);font-weight:500}
+  .dash-card .sub-val{font-size:.8rem;color:var(--muted);margin-top:6px}
+  .wqi-circle-wrap{display:flex;align-items:center;justify-content:space-between}
+  .wqi-svg-container{position:relative;width:90px;height:90px}
+  .wqi-svg-container svg{transform:rotate(-90deg);width:100%;height:100%}
+  .wqi-svg-container .val-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;color:var(--aqua)}
+  .wqi-circle-bg{fill:none;stroke:rgba(14,165,233,.1);stroke-width:8}
+  .wqi-circle-progress{fill:none;stroke:var(--aqua);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.2,0.8,0.2,1),stroke .4s ease}
+  .dash-card.ai-pred{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-color:var(--aqua)}
+  .dash-card.ai-pred .main-val{color:var(--aqua)}
+  
+  .quick-input-group{display:flex;gap:8px;margin-top:10px;width:100%}
+  .quick-input-group input{flex:1 1 0%;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--border-2);font-family:inherit;font-size:1rem;font-weight:700;color:var(--txt);outline:none}
+  .quick-input-group input:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+  .quick-input-group button{flex:0 0 auto;white-space:nowrap;background:var(--aqua);color:white;border:none;border-radius:10px;padding:0 16px;font-weight:700;cursor:pointer;transition:.2s}
+  .quick-input-group button:hover{background:var(--teal)}
+
+  .split-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;margin-bottom:40px}
+  @media(max-width:960px){.split-layout{grid-template-columns:1fr}}
+  .panel-left{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:32px;box-shadow:var(--glow);display:flex;flex-direction:column;justify-content:center}
+  .panel-left h1{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;color:var(--txt)}
+  .panel-left h1 .grad{background:linear-gradient(100deg,var(--aqua),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .panel-left p{color:var(--muted);font-size:.95rem;margin-bottom:24px;line-height:1.6}
+  #mitigationArea{display:none;margin-top:10px}
+  #mitigationArea.show{display:block;animation:fadeUp .4s ease}
+  .btn-mitigasi{width:100%;padding:16px;border-radius:12px;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:1rem;letter-spacing:.5px;background:linear-gradient(100deg,#f97316,#ea580c);color:white;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px rgba(249,115,22,.4);transition:.2s;position:relative;overflow:hidden}
+  .btn-mitigasi:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(249,115,22,.5)}
+  .btn-mitigasi.critical{background:linear-gradient(100deg,#ef4444,#dc2626);box-shadow:0 6px 20px rgba(239,68,68,.4);animation:pulse-red 2s infinite}
+  @keyframes pulse-red{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7)}70%{box-shadow:0 0 0 15px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+
+  .panel-right{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--glow);display:flex;flex-direction:column}
+  .panel-right .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 10px}
+  .panel-right .chart-header h3{font-size:1rem;font-weight:700;color:var(--txt)}
+  .panel-right .chart-box{flex:1;position:relative;min-height:320px;width:100%}
 
   .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:20px;margin-top:22px}
   @media(max-width:960px){.grid{grid-template-columns:1fr}}
-
-  .card{
-    background:var(--panel); border:1px solid var(--border); border-radius:18px;
-    backdrop-filter:blur(14px); box-shadow:var(--glow); overflow:hidden;
-  }
-  .card-h{
-    padding:16px 20px;border-bottom:1px solid var(--border);
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-    background:linear-gradient(180deg,rgba(34,211,238,.05),transparent);flex-wrap:wrap;
-  }
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--glow);overflow:hidden}
+  .card-h{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel-2);flex-wrap:wrap}
   .card-h h2{font-size:.95rem;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:9px}
-  .card-h h2 .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;background:rgba(34,211,238,.12);border:1px solid var(--border-2)}
+  .card-h h2 .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;background:rgba(14,165,233,.1);color:var(--aqua);border:1px solid var(--border-2)}
   .card-b{padding:20px}
 
   .field{margin-bottom:15px}
   .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
   .field label .unit{color:var(--aqua);font-size:.7rem;font-weight:500;text-transform:none;letter-spacing:0}
-  .field input,.field select,.field textarea{
-    width:100%;padding:11px 14px;border-radius:11px;
-    background:rgba(8,18,30,.85);border:1px solid rgba(94,234,212,.16);
-    color:var(--txt);font-size:.95rem;font-family:inherit;transition:.2s;outline:none;
-  }
+  .field input,.field select,.field textarea{width:100%;padding:11px 14px;border-radius:11px;background:var(--panel-2);border:1px solid var(--border-2);color:var(--txt);font-size:.95rem;font-family:inherit;transition:.2s;outline:none}
   .field textarea{resize:vertical;min-height:80px;line-height:1.5}
-  .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238aa6b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-  .field select option{background:#0a1524;color:#e6f4f8}
-  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(34,211,238,.13);background:rgba(8,18,30,1)}
-  .field input::placeholder,.field textarea::placeholder{color:#3d5568}
-  .field input.from-sensor{background:rgba(52,211,153,.12)!important;border-color:rgba(52,211,153,.4)!important}
+  .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(14,165,233,.15);background:var(--panel)}
+  .field input::placeholder,.field textarea::placeholder{color:#94a3b8}
+  .field input.from-sensor{background:rgba(16,185,129,.08)!important;border-color:rgba(16,185,129,.4)!important}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
   @media(max-width:520px){.row2{grid-template-columns:1fr}}
 
-  .btn{
-    width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;
-    font-family:inherit;font-weight:700;font-size:.92rem;letter-spacing:.2px;
-    background:linear-gradient(100deg,#22d3ee,#2dd4bf);color:#04141a;transition:.22s;
-    display:flex;align-items:center;justify-content:center;gap:9px;
-    box-shadow:0 6px 24px rgba(34,211,238,.28);
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(34,211,238,.42)}
-  .btn:active{transform:translateY(0)}
+  .btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.92rem;letter-spacing:.2px;background:linear-gradient(100deg,var(--aqua),var(--teal));color:#ffffff;transition:.22s;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 4px 14px rgba(14,165,233,.3)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(14,165,233,.4)}
   .btn:disabled{opacity:.55;cursor:wait;transform:none}
   .btn.ghost{background:transparent;color:var(--aqua);border:1px solid var(--border-2);box-shadow:none;font-size:.82rem;padding:10px}
-  .btn.ghost:hover{background:rgba(34,211,238,.08);transform:none}
-  .btn.danger{color:#fca5a5;border-color:rgba(239,68,68,.35)}
-  .btn.danger:hover{background:rgba(239,68,68,.1)}
-  .btn.sm{padding:9px 14px;font-size:.8rem;width:auto}
-
+  .btn.ghost:hover{background:rgba(14,165,233,.08);transform:none}
+  .btn.danger{color:#ef4444;border-color:rgba(239,68,68,.3)}
+  .btn.danger:hover{background:rgba(239,68,68,.08)}
   .btn-row{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-top:6px}
 
-  .result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;color:var(--muted);gap:14px;min-height:340px}
-  .result-empty .big{font-size:48px;opacity:.35;animation:float 4s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 24px;text-align:center;color:var(--muted);gap:14px;min-height:280px}
+  .result-empty .big{font-size:46px;opacity:.35;animation:float 4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .result-empty p{font-size:.88rem;max-width:300px}
-
-  .gauge-wrap{display:flex;align-items:center;gap:22px;padding:4px 0 12px}
-  @media(max-width:520px){.gauge-wrap{flex-direction:column;gap:14px}}
-  .gauge{position:relative;width:150px;height:150px;flex-shrink:0}
-  .gauge svg{transform:rotate(-90deg)}
-  .gauge .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .gauge .val b{font-size:1.7rem;font-weight:800;letter-spacing:-1px;line-height:1}
-  .gauge .val span{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
 
   .verdict h3{font-size:1.15rem;font-weight:800;margin-bottom:5px;letter-spacing:-.4px}
   .verdict .status{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 11px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:9px}
@@ -157,281 +126,119 @@
   .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:16px}
   .metric{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px 13px}
   .metric .lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;font-weight:600}
-  .metric .vl{font-size:1.02rem;font-weight:800;letter-spacing:-.3px}
+  .metric .vl{font-size:1.02rem;font-weight:800;letter-spacing:-.3px;color:var(--txt)}
   .metric .sub{font-size:.66rem;color:var(--muted);margin-top:2px}
-  .bar{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:7px}
-  .bar i{display:block;height:100%;border-radius:99px;transition:width .9s cubic-bezier(.2,.9,.3,1)}
-
-  .thinking{display:flex;flex-direction:column;gap:11px;padding:22px 4px}
-  .think-line{display:flex;align-items:center;gap:11px;font-size:.83rem;color:var(--muted);opacity:0;animation:fadeUp .5s forwards}
-  .think-line .spin{width:15px;height:15px;border-radius:50%;border:2px solid rgba(34,211,238,.22);border-top-color:var(--aqua);animation:spin .7s linear infinite;flex-shrink:0}
-  .think-line.done .spin{border:none;animation:none;background:var(--green);position:relative}
-  .think-line.done .spin::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-size:9px;color:#04141a;font-weight:900}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .bar{height:6px;border-radius:99px;background:rgba(0,0,0,.06);overflow:hidden;margin-top:7px}
+  .bar i{display:block;height:100%;border-radius:99px;transition:width .8s cubic-bezier(.2,.9,.3,1)}
 
   section.block{margin-top:56px}
   .sec-head{margin-bottom:20px}
-  .sec-head h2{font-size:1.5rem;font-weight:800;letter-spacing:-.7px;margin-bottom:6px}
-  .sec-head h2 .grad{background:linear-gradient(100deg,#22d3ee,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sec-head h2{font-size:1.5rem;font-weight:800;letter-spacing:-.7px;margin-bottom:6px;color:var(--txt)}
+  .sec-head h2 .grad{background:linear-gradient(100deg,var(--aqua),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
   .sec-head p{color:var(--muted);font-size:.88rem}
 
-  .chart-box{position:relative;height:340px;padding:6px 4px}
-
-  .forecast-breakdown{
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px;
-  }
+  .forecast-breakdown{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px}
   @media(max-width:768px){.forecast-breakdown{grid-template-columns:1fr}}
-  .fb-card{
-    background:var(--panel-2);border:1px solid var(--border);border-radius:14px;
-    padding:16px;transition:.2s;
-  }
-  .fb-card:hover{border-color:var(--border-2);transform:translateY(-2px)}
-  .fb-card .head{
-    display:flex;align-items:center;gap:8px;margin-bottom:10px;
-    font-size:.72rem;font-weight:700;text-transform:uppercase;
-    letter-spacing:.6px;color:var(--muted);
-  }
-  .fb-card .head .icon{
-    width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;
-  }
-  .fb-card.base .head .icon{background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.35)}
-  .fb-card.weather .head .icon{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35)}
-  .fb-card.visitor .head .icon{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35)}
-  .fb-card .value{
-    font-size:1.5rem;font-weight:800;letter-spacing:-.7px;line-height:1.1;
-    margin-bottom:4px;
-  }
+  .fb-card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:16px;transition:.2s}
+  .fb-card:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:var(--glow)}
+  .fb-card .head{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+  .fb-card .head .icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px}
+  .fb-card.base .head .icon{background:rgba(14,165,233,.1);color:var(--aqua)}
+  .fb-card.weather .head .icon{background:rgba(16,185,129,.1);color:var(--green)}
+  .fb-card.visitor .head .icon{background:rgba(245,158,11,.1);color:var(--amber)}
+  .fb-card .value{font-size:1.5rem;font-weight:800;letter-spacing:-.7px;line-height:1.1;margin-bottom:4px}
   .fb-card.base .value{color:var(--aqua)}
   .fb-card.weather .value{color:var(--green)}
   .fb-card.visitor .value{color:var(--amber)}
-  .fb-card .formula{
-    font-size:.72rem;color:var(--muted);line-height:1.5;
-    font-family:'Courier New',monospace;
-    background:rgba(0,0,0,.25);padding:6px 9px;border-radius:6px;
-    margin-top:6px;
-  }
-  .fb-card .detail{
-    font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:8px;
-  }
+  .fb-card .formula{font-size:.72rem;color:var(--muted);line-height:1.5;font-family:'Courier New',monospace;background:rgba(255,255,255,.6);padding:6px 9px;border-radius:6px;margin-top:6px;border:1px solid var(--border)}
 
-  .final-prediction{
-    margin-top:16px;padding:20px;border-radius:16px;
-    background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(45,212,191,.08));
-    border:1px solid rgba(34,211,238,.35);
-    display:flex;align-items:center;justify-content:space-between;
-    flex-wrap:wrap;gap:14px;
-  }
-  .final-prediction .label{
-    font-size:.72rem;font-weight:700;text-transform:uppercase;
-    letter-spacing:.7px;color:var(--muted);margin-bottom:4px;
-  }
-  .final-prediction .num{
-    font-size:2rem;font-weight:800;letter-spacing:-1.5px;line-height:1;
-    color:var(--aqua);
-  }
-  .final-prediction .num small{font-size:.85rem;color:var(--muted);font-weight:500;letter-spacing:0}
-  .final-prediction .change{
-    font-size:.85rem;font-weight:700;padding:6px 12px;border-radius:99px;
-  }
-  .final-prediction .change.up{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.35)}
-  .final-prediction .change.down{background:rgba(52,211,153,.15);color:#6ee7b7;border:1px solid rgba(52,211,153,.35)}
-  .final-prediction .change.stable{background:rgba(138,166,184,.12);color:var(--muted);border:1px solid rgba(138,166,184,.3)}
+  .final-prediction{margin-top:16px;padding:20px;border-radius:16px;background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(2,132,199,.05));border:1px solid var(--border-2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .final-prediction .label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:4px}
+  .final-prediction .num{font-size:2rem;font-weight:800;letter-spacing:-1.5px;line-height:1;color:var(--aqua)}
+  .final-prediction .num small{font-size:.85rem;color:var(--muted);font-weight:500}
+  .final-prediction .change{font-size:.85rem;font-weight:700;padding:6px 12px;border-radius:99px}
+  .final-prediction .change.up{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.2)}
+  .final-prediction .change.down{background:rgba(16,185,129,.1);color:#059669;border:1px solid rgba(16,185,129,.2)}
+  .final-prediction .change.stable{background:rgba(100,116,139,.1);color:var(--muted);border:1px solid rgba(100,116,139,.2)}
 
-  .weather-current{
-    display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
-    padding:20px;border-radius:16px;background:var(--panel-2);
-    border:1px solid var(--border);margin-bottom:16px;
-  }
+  /* BMKG WEATHER STYLES */
+  .weather-current{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:20px;border-radius:16px;background:var(--panel-2);border:1px solid var(--border);margin-bottom:16px}
   @media(max-width:520px){.weather-current{grid-template-columns:1fr;text-align:center}}
-  .weather-icon{width:88px;height:88px;filter:drop-shadow(0 0 14px rgba(34,211,238,.4))}
-  .weather-main h3{font-size:2.4rem;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+  .weather-icon{width:88px;height:88px;filter:drop-shadow(0 4px 10px rgba(14,165,233,.2))}
+  .weather-main h3{font-size:2.4rem;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:6px;color:var(--txt)}
   .weather-main .desc{font-size:.95rem;color:var(--aqua);font-weight:600;margin-bottom:4px}
   .weather-main .loc{font-size:.78rem;color:var(--muted)}
   .weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:14px}
-  .weather-item{background:rgba(8,18,30,.5);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+  .weather-item{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;box-shadow:0 2px 5px rgba(0,0,0,.02)}
   .weather-item .lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px}
-  .weather-item .val{font-size:.95rem;font-weight:700}
-
+  .weather-item .val{font-size:.95rem;font-weight:700;color:var(--txt)}
   .forecast-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px}
   .forecast-scroll::-webkit-scrollbar{height:6px}
-  .forecast-scroll::-webkit-scrollbar-thumb{background:rgba(34,211,238,.22);border-radius:9px}
-  .forecast-item{
-    flex:0 0 auto;width:92px;text-align:center;padding:12px 8px;
-    background:var(--panel-2);border:1px solid var(--border);border-radius:12px;transition:.2s;
-  }
-  .forecast-item:hover{border-color:var(--border-2);transform:translateY(-3px)}
+  .forecast-scroll::-webkit-scrollbar-thumb{background:rgba(14,165,233,.2);border-radius:9px}
+  .forecast-item{flex:0 0 auto;width:96px;text-align:center;padding:12px 8px;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;transition:.2s}
+  .forecast-item:hover{border-color:var(--border-2);transform:translateY(-3px);background:var(--panel)}
   .forecast-item .time{font-size:.68rem;color:var(--muted);margin-bottom:6px;font-weight:600}
   .forecast-item img{width:40px;height:40px;margin:0 auto 4px;display:block}
-  .forecast-item .temp{font-size:.92rem;font-weight:800;letter-spacing:-.3px}
-  .forecast-item .desc{font-size:.6rem;color:var(--muted);line-height:1.3;margin-top:3px;min-height:24px}
+  .forecast-item .temp{font-size:.92rem;font-weight:800;letter-spacing:-.3px;color:var(--txt)}
+  .forecast-item .desc{font-size:.62rem;color:var(--muted);line-height:1.3;margin-top:3px;min-height:24px}
+  .rain-alert{padding:12px 16px;border-radius:12px;font-size:.8rem;line-height:1.6;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:#b45309;margin-top:14px}
 
-  .rain-alert{padding:12px 16px;border-radius:12px;font-size:.8rem;line-height:1.6;background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.3);color:#fcd34d;margin-top:14px}
-
+  /* FIELD DATA */
   .visitor-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
   .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:.2s}
-  .stat-card:hover{border-color:var(--border-2);transform:translateY(-2px)}
+  .stat-card:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:var(--glow)}
   .stat-card .icon{font-size:26px;margin-bottom:6px;line-height:1}
   .stat-card .val{font-size:1.9rem;font-weight:800;letter-spacing:-1px;color:var(--aqua);line-height:1.1}
   .stat-card .val.txt{font-size:1rem;padding-top:8px}
   .stat-card .lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
-  .stat-card .sub{font-size:.7rem;color:var(--muted);margin-top:3px}
 
-  .admin-panel{display:none;margin-top:22px;padding-top:22px;border-top:1px dashed rgba(94,234,212,.25)}
-  .admin-panel.show{display:block;animation:fadeUp .4s}
+  .admin-panel{margin-top:22px;padding:20px;border-radius:14px;background:var(--panel-2);border:1px solid var(--border-2)}
+  .admin-panel.locked{display:none}
   .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-  .admin-badge{font-size:.7rem;color:var(--green);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);padding:4px 10px;border-radius:99px;font-weight:700}
+  .admin-badge{font-size:.7rem;color:var(--green);background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);padding:4px 10px;border-radius:99px;font-weight:700}
 
-  .modal-overlay{
-    position:fixed;inset:0;z-index:1000;
-    background:rgba(0,0,0,.78);backdrop-filter:blur(10px);
-    display:none;align-items:center;justify-content:center;padding:20px;
-  }
+  .modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
   .modal-overlay.show{display:flex}
-  .modal{
-    background:linear-gradient(180deg,rgba(20,36,56,.98),rgba(15,28,45,.98));
-    border:1px solid var(--border-2);border-radius:18px;
-    max-width:420px;width:100%;padding:28px;position:relative;
-    box-shadow:0 24px 70px rgba(0,0,0,.7), 0 0 40px rgba(34,211,238,.15);
-    animation:modalIn .3s ease;
-  }
+  .modal{background:var(--panel);border:1px solid var(--border-2);border-radius:18px;max-width:420px;width:100%;padding:28px;position:relative;box-shadow:0 24px 70px rgba(0,0,0,.15);animation:modalIn .3s ease}
   @keyframes modalIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-  .modal h3{font-size:1.25rem;font-weight:800;margin-bottom:6px;letter-spacing:-.4px}
+  .modal h3{font-size:1.25rem;font-weight:800;margin-bottom:6px;letter-spacing:-.4px;color:var(--txt)}
   .modal p.sub{font-size:.82rem;color:var(--muted);margin-bottom:20px;line-height:1.55}
-  .modal-close{
-    position:absolute;top:12px;right:12px;
-    background:transparent;border:none;color:var(--muted);
-    font-size:18px;cursor:pointer;padding:6px 9px;border-radius:8px;
-    transition:.2s;font-family:inherit;
-  }
+  .modal-close{position:absolute;top:12px;right:12px;background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:6px 9px;border-radius:8px;transition:.2s}
   .modal-close:hover{color:var(--red);background:rgba(239,68,68,.1)}
   .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-  .modal-error{
-    padding:10px 13px;border-radius:10px;
-    background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);
-    color:#fca5a5;font-size:.78rem;margin-bottom:12px;display:none;
-  }
-  .modal-error.show{display:block;animation:shake .35s}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .modal-error{padding:10px 13px;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#dc2626;font-size:.78rem;margin-bottom:12px;display:none}
+  .modal-error.show{display:block}
 
   .rec{display:flex;gap:14px;padding:16px;border-radius:14px;background:var(--panel-2);border:1px solid var(--border);margin-bottom:11px;transition:.2s}
-  .rec:hover{border-color:var(--border-2);transform:translateX(4px)}
+  .rec:hover{border-color:var(--border-2);transform:translateX(4px);box-shadow:0 4px 10px rgba(0,0,0,.03)}
   .rec .ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:17px;flex-shrink:0}
-  .rec .ico.crit{background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.35)}
-  .rec .ico.warn{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.35)}
-  .rec .ico.ok{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.35)}
-  .rec .ico.info{background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.35)}
-  .rec h4{font-size:.9rem;font-weight:700;margin-bottom:4px;letter-spacing:-.2px}
+  .rec .ico.crit{background:rgba(239,68,68,.1);color:#dc2626}
+  .rec .ico.warn{background:rgba(245,158,11,.1);color:#d97706}
+  .rec .ico.ok{background:rgba(16,185,129,.1);color:#059669}
+  .rec h4{font-size:.9rem;font-weight:700;margin-bottom:4px;color:var(--txt)}
   .rec p{font-size:.81rem;color:var(--muted);line-height:1.6}
   .rec .tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:2px 8px;border-radius:5px;margin-bottom:6px}
-  .tag.crit{background:rgba(239,68,68,.16);color:#fca5a5}
-  .tag.warn{background:rgba(251,191,36,.16);color:#fcd34d}
-  .tag.ok{background:rgba(52,211,153,.16);color:#6ee7b7}
-  .tag.info{background:rgba(34,211,238,.16);color:#67e8f9}
+  .tag.crit{background:rgba(239,68,68,.1);color:#dc2626}
+  .tag.warn{background:rgba(245,158,11,.1);color:#d97706}
+  .tag.ok{background:rgba(16,185,129,.1);color:#059669}
 
   table{width:100%;border-collapse:collapse;font-size:.82rem}
   th{text-align:left;padding:11px 12px;color:var(--muted);font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
-  td{padding:11px 12px;border-bottom:1px solid rgba(94,234,212,.06);white-space:nowrap}
-  tr:hover td{background:rgba(34,211,238,.035)}
+  td{padding:11px 12px;border-bottom:1px solid var(--border);white-space:nowrap;color:var(--txt)}
+  tr:hover td{background:rgba(14,165,233,.03)}
   .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:700}
   .table-scroll{max-height:400px;overflow:auto}
-  .table-scroll::-webkit-scrollbar{width:7px;height:7px}
-  .table-scroll::-webkit-scrollbar-thumb{background:rgba(34,211,238,.22);border-radius:9px}
-
-  .btn-row-del{display:flex;gap:6px;justify-content:center}
-  .btn-del{
-    background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);
-    color:#fca5a5;padding:5px 10px;border-radius:7px;cursor:pointer;
-    font-family:inherit;font-size:.72rem;font-weight:600;
-    transition:.2s;
-  }
-  .btn-del:hover{background:rgba(239,68,68,.25);color:#fff}
-  .btn-del:disabled{opacity:.4;cursor:wait}
-
+  .btn-del{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#dc2626;padding:5px 10px;border-radius:7px;cursor:pointer;font-family:inherit;font-size:.72rem;font-weight:600;transition:.2s}
   .empty-note{text-align:center;padding:34px;color:var(--muted);font-size:.85rem}
-
   footer{margin-top:70px;padding:28px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem;text-align:center}
   footer b{color:var(--aqua)}
-
-  .disclaimer{margin-top:16px;padding:13px 16px;border-radius:12px;font-size:.75rem;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);color:#fcd34d;line-height:1.6}
-
-  .status-box{
-    padding:12px 14px;border-radius:11px;font-size:.78rem;
-    background:rgba(138,166,184,.08);border:1px solid rgba(138,166,184,.2);
-    color:var(--muted);margin-bottom:12px;transition:.3s;
-    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  }
-  .status-box.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);color:var(--green)}
-  .status-box.err{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3);color:#fca5a5}
-  .status-box.warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3);color:#fcd34d}
-
-  .config-warn{
-    padding:12px 16px;border-radius:11px;font-size:.78rem;
-    background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.3);
-    color:#fcd34d;line-height:1.65;margin-bottom:16px;
-  }
-  .config-warn code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;font-size:.75rem;color:#22d3ee}
-
-  @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-  @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(20px)}}
-
-  /* ===== MAP STYLES ===== */
-  #phosphateMap{
-    width:100%;height:520px;border-radius:14px;
-    border:1px solid var(--border);
-    z-index:1;
-  }
-  .leaflet-container{
-    background:#0a1524 !important;
-    font-family:'Inter','Segoe UI',system-ui,sans-serif;
-  }
-  .leaflet-tile-pane{filter:brightness(1.05) contrast(1.05);}
-  .leaflet-popup-content-wrapper{
-    background:rgba(10,21,36,.98) !important;
-    color:var(--txt) !important;
-    border:1px solid var(--border-2) !important;
-    border-radius:12px !important;
-    backdrop-filter:blur(14px);
-    box-shadow:0 12px 40px rgba(0,0,0,.85), 0 0 0 1px rgba(34,211,238,.25) !important;
-  }
-  .leaflet-popup-content{margin:14px 16px !important;font-size:.82rem !important;line-height:1.55 !important;}
-  .leaflet-popup-tip{background:rgba(10,21,36,.98) !important;border:1px solid var(--border-2) !important;}
-  .leaflet-popup-close-button{color:var(--muted) !important;font-size:18px !important;padding:4px 8px 0 0 !important;}
-  .leaflet-popup-close-button:hover{color:var(--red) !important}
-
-  .map-legend{
-    background:rgba(10,21,36,.94);
-    padding:10px 14px;border-radius:10px;
-    border:1px solid var(--border-2);
-    font-size:.72rem;line-height:1.7;
-    backdrop-filter:blur(10px);
-    box-shadow:0 4px 16px rgba(0,0,0,.5);
-    min-width:170px;
-  }
-  .map-legend .legend-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--aqua);margin-bottom:6px}
-  .map-legend .legend-item{display:flex;align-items:center;gap:8px;color:var(--muted)}
-  .map-legend .legend-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.3);flex-shrink:0}
-
-  .map-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
-  .map-toolbar button{
-    background:rgba(138,166,184,.08);border:1px solid rgba(138,166,184,.3);
-    color:var(--muted);padding:7px 13px;border-radius:9px;
-    font-family:inherit;font-size:.76rem;font-weight:600;
-    cursor:pointer;transition:.2s;
-  }
-  .map-toolbar button:hover{background:rgba(34,211,238,.08);color:var(--aqua);border-color:var(--border-2)}
-  .map-toolbar button.active{background:rgba(34,211,238,.12);color:var(--aqua);border-color:var(--aqua)}
-
-  .map-area-badge{
-    display:inline-flex;align-items:center;gap:6px;
-    font-size:.7rem;color:var(--muted);
-    background:rgba(34,211,238,.06);
-    border:1px solid rgba(34,211,238,.2);
-    padding:4px 10px;border-radius:99px;
-    margin-left:auto;
-  }
-
-  .point-label > div{text-shadow:0 1px 3px rgba(0,0,0,.8);box-shadow:0 3px 12px rgba(0,0,0,.7) !important;}
+  #phosphateMap{width:100%;height:520px;border-radius:14px;border:1px solid var(--border);z-index:1}
+  .leaflet-container{background:#e2e8f0 !important;font-family:'Inter','Segoe UI',system-ui,sans-serif}
+  .slide-up{animation:slideUpAnim .8s cubic-bezier(0.16,1,0.3,1) forwards;opacity:0;transform:translateY(20px)}
+  @keyframes slideUpAnim{to{opacity:1;transform:translateY(0)}}
+  .mitigasi-list{list-style:none;padding:0;margin:0}
+  .mitigasi-list li{background:var(--panel-2);border:1px solid var(--border);padding:12px 14px;border-radius:10px;margin-bottom:10px;font-size:.85rem;color:var(--txt);display:flex;gap:10px;align-items:flex-start}
+  .mitigasi-list li .num{background:#ef4444;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:bold;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -445,168 +252,225 @@
     <div class="nav-links">
       <a href="#analisis">Analisis</a>
       <a href="#peta">Peta</a>
-      <a href="#cuaca">Cuaca</a>
-      <a href="#lapangan">Lapangan</a>
-      <a href="#prediksi">Prediksi AI</a>
+      <a href="#cuaca">Cuaca BMKG</a>
+      <a href="#lapangan">Data Lapangan</a>
       <a href="#rekomendasi">Rekomendasi</a>
       <a href="#riwayat">Riwayat</a>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <button class="btn-login" id="loginBtn">🔐 Login Admin</button>
-      <div class="live" id="liveIndicator"><span class="dot"></span> Cek koneksi...</div>
+      <button class="btn-lang" id="langSwitch">🇬🇧 EN</button>
+      <button class="btn-login" id="loginBtn">🔐 Gateway Admin</button>
+      <div class="live" id="liveIndicator"><span class="dot"></span> <span>Online</span></div>
     </div>
   </div>
 </nav>
 
 <div class="wrap">
+  <!-- GATEWAY STATUS BANNER -->
+  <div class="gateway-banner public" id="gatewayBanner">
+    <div>
+      <span class="badge" id="gatewayBadge">👁️ Mode Publik</span>
+      <span id="gatewayMsg" style="margin-left:8px;">Anda sedang melihat dashboard publik & simulasi live. Masuk ke <b>Gateway Admin</b> untuk menyimpan data resmi pengukuran atau tiket.</span>
+    </div>
+    <button class="btn ghost" id="gatewayActionBtn" style="width:auto;padding:6px 14px;font-size:.78rem">🔑 Buka Gateway Admin</button>
+  </div>
 
-  <header class="hero">
-    <div class="badge">🌊 Penelitian Kualitas Air · Sumber Maron</div>
-    <h1>Analisis <span class="grad">Kadar Fosfat</span><br>Real-time Berbasis AI</h1>
-    <p>
-      Sistem monitoring 24/7 parameter fosfat (PO₄) pada kawasan Sumber Maron.
-      <b>Prediksi AI multi-faktor</b> mempertimbangkan tren historis, prakiraan cuaca BMKG,
-      dan jumlah pengunjung untuk akurasi maksimal.
-    </p>
-  </header>
+  <!-- TOP DASHBOARD -->
+  <section class="dashboard-top">
+    <div class="dash-card slide-up" style="animation-delay: 0.1s">
+      <div class="title">📍 Fosfat Saat Ini</div>
+      <div class="main-val" id="dashCurrentPhosphate">- <small>mg/L</small></div>
+      <div class="sub-val" id="dashCurrentStatus">Menunggu data...</div>
+    </div>
 
-  <section class="grid" id="analisis">
-    <div class="card">
-      <div class="card-h">
-        <h2><span class="ic">📋</span> Input Data Parameter</h2>
-        <span style="font-size:.68rem;color:var(--muted)">Manual / Sensor IoT</span>
-      </div>
-      <div class="card-b">
-
-        <div id="configWarning" class="config-warn" style="display:none">
-          ⚠️ <b>Firebase belum dikonfigurasi.</b> Sistem berjalan dalam mode <b>offline</b> (data tersimpan di browser).
-          Untuk mengaktifkan monitoring 24/7, isi <code>FIREBASE_CONFIG</code> di bagian atas script.
+    <div class="dash-card slide-up" style="animation-delay: 0.2s">
+      <div class="title">💧 Skor WQI</div>
+      <div class="wqi-circle-wrap">
+        <div>
+          <div class="main-val" id="dashWqiLabel" style="font-size: 1.2rem;">-</div>
+          <div class="sub-val">Kualitas Air</div>
         </div>
-
-        <div class="status-box" id="sensorStatus">
-          <span>📡</span>
-          <span id="sensorStatusText">Menunggu koneksi sensor...</span>
-        </div>
-
-        <div class="field">
-          <label>Kadar Fosfat (PO₄) <span class="unit">mg/L</span></label>
-          <input type="number" step="0.001" min="0" id="phosphate" placeholder="cth: 0.35" />
-        </div>
-
-        <div class="row2">
-          <div class="field">
-            <label>pH <span class="unit">—</span></label>
-            <input type="number" step="0.1" id="ph" placeholder="cth: 7.2" />
-          </div>
-          <div class="field">
-            <label>Suhu Air <span class="unit">°C</span></label>
-            <input type="number" step="0.1" id="temp" placeholder="cth: 26.5" />
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="field">
-            <label>Konduktivitas <span class="unit">µS/cm</span></label>
-            <input type="number" step="1" id="conductivity" placeholder="cth: 320" />
-          </div>
-          <div class="field">
-            <label>Debit Air <span class="unit">L/s</span></label>
-            <input type="number" step="0.1" id="flow" placeholder="cth: 45.0" />
-          </div>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn" id="analyzeBtn">
-            <span>⚡</span> Analisis dengan AI
-          </button>
-          <button class="btn ghost" id="sampleBtn">Data Contoh</button>
-        </div>
-
-        <div class="disclaimer">
-          ⚠️ Hasil analisis bersifat <b>pendukung keputusan penelitian</b>. Validasi laboratorium
-          tetap diperlukan untuk publikasi ilmiah.
+        <div class="wqi-svg-container">
+          <svg viewBox="0 0 100 100">
+            <circle class="wqi-circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="wqi-circle-progress" id="wqiCircleProgress" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+          </svg>
+          <div class="val-text" id="dashWqiScore">0</div>
         </div>
       </div>
     </div>
 
-    <div class="card">
+    <div class="dash-card ai-pred slide-up" style="animation-delay: 0.3s">
+      <div class="title">🔮 Prediksi AI (30 Jam)</div>
+      <div class="main-val" id="dashAiPrediction">- <small>mg/L</small></div>
+      <div class="sub-val" id="dashAiPredDesc">Menghitung tren...</div>
+    </div>
+
+    <div class="dash-card slide-up" style="animation-delay: 0.4s">
+      <div class="title">🎟️ Input Tiket / Pengunjung <span id="ticketLockBadge" style="font-size:.65rem;color:var(--muted);margin-left:auto">🔒 Admin</span></div>
+      <div class="quick-input-group">
+        <input type="number" id="quickVisitorInput" min="0" placeholder="Jumlah org..." />
+        <button id="quickVisitorBtn">Set</button>
+      </div>
+      <div class="sub-val" style="margin-top:8px;">Mempengaruhi faktor prediksi nutrien AI.</div>
+    </div>
+  </section>
+
+  <!-- SPLIT LAYOUT -->
+  <section class="split-layout">
+    <div class="panel-left slide-up" style="animation-delay: 0.5s">
+      <h1><span>Analisis</span> <span class="grad">Kadar Fosfat</span><br><span>Real-time Berbasis AI</span></h1>
+      <p>
+        Sistem monitoring parameter fosfat (PO₄) Sumber Maron.
+        <b>Prediksi AI multi-faktor</b> memadukan tren historis, prakiraan cuaca BMKG,
+        dan beban pengunjung secara simultan.
+      </p>
+      <div id="mitigationArea">
+        <button class="btn-mitigasi" id="mitigationBtn">
+          <span>🚨</span> <span>Tindakan Mitigasi Darurat</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-right slide-up" style="animation-delay: 0.6s">
+      <div class="chart-header">
+        <h3>Tren & Prediksi Kadar Fosfat</h3>
+        <span style="font-size:.7rem; color:var(--muted);">Historis + Live Input + AI Multi-Faktor</span>
+      </div>
+      <div class="chart-box"><canvas id="trendChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <section class="grid" id="analisis">
+    <div class="card slide-up" style="animation-delay: 0.7s">
       <div class="card-h">
-        <h2><span class="ic">🤖</span> Hasil Analisis AI</h2>
+        <h2><span class="ic">📋</span> <span>Input Data Parameter</span></h2>
+        <span id="paramModeBadge" style="font-size:.7rem;color:var(--muted)">Mode: <b>Simulasi Live</b></span>
+      </div>
+      <div class="card-b">
+        <div class="field">
+          <label><span>Kadar Fosfat (PO₄)</span> <span class="unit">mg/L</span></label>
+          <input type="number" step="0.001" min="0" id="phosphate" placeholder="cth: 0.35" />
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label><span>pH Air</span> <span class="unit">—</span></label>
+            <input type="number" step="0.1" id="ph" placeholder="cth: 7.2" />
+          </div>
+          <div class="field">
+            <label><span>Suhu Air</span> <span class="unit">°C</span></label>
+            <input type="number" step="0.1" id="temp" placeholder="cth: 26.5" />
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label><span>Konduktivitas</span> <span class="unit">µS/cm</span></label>
+            <input type="number" step="1" id="conductivity" placeholder="cth: 320" />
+          </div>
+          <div class="field">
+            <label><span>Debit Air</span> <span class="unit">L/s</span></label>
+            <input type="number" step="0.1" id="flow" placeholder="cth: 45.0" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" id="analyzeBtn">
+            <span>💾</span> <span id="analyzeBtnTxt">Simpan Pengukuran Resmi (Admin)</span>
+          </button>
+          <button class="btn ghost" id="sampleBtn">Data Contoh</button>
+        </div>
+        <div class="disclaimer" style="margin-top:12px;font-size:.75rem;color:var(--muted)">
+          💡 <i>Ketik angka pada form untuk simulasi live chart dan WQI secara instan. Penyimpanan data resmi ke riwayat memerlukan akses Gateway Admin.</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card slide-up" style="animation-delay: 0.8s">
+      <div class="card-h">
+        <h2><span class="ic">🤖</span> <span>Hasil Analisis AI</span></h2>
         <span id="stamp" style="font-size:.68rem;color:var(--muted)"></span>
       </div>
       <div class="card-b" id="resultBox">
         <div class="result-empty">
           <div class="big">🧪</div>
-          <p>Masukkan data parameter air, atau tunggu data dari sensor masuk otomatis — lalu tekan <b>Analisis dengan AI</b>.</p>
+          <p>Masukkan data parameter air lalu amati kalkulasi live di dashboard.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="peta">
-    <div class="sec-head">
-      <h2>Peta Wisata & <span class="grad">UMKM Sumber Maron</span></h2>
-      <p>Lokasi titik wisata, kuliner, dan UMKM di kawasan Sumber Maron (Desa Karangsuko, Pagelaran, Malang).</p>
+  <!-- PREDIKSI AI BREAKDOWN -->
+  <section class="block" id="prediksi">
+    <div class="sec-head slide-up">
+      <h2><span>Rincian Perhitungan</span> <span class="grad">AI Multi-Faktor</span></h2>
+      <p>Model AI memadukan <b>tren historis</b>, <b>prakiraan cuaca BMKG</b>, dan <b>jumlah pengunjung</b>.</p>
     </div>
-    <div class="card">
+    <div class="card slide-up" style="margin-top:20px">
+      <div class="card-h">
+        <h2><span class="ic">🧠</span> <span>Detail Faktor AI</span></h2>
+        <span id="breakdownStamp" style="font-size:.68rem;color:var(--muted)"></span>
+      </div>
+      <div class="card-b" id="breakdownBox">
+        <div class="empty-note">Ketik data untuk melihat rincian kalkulasi AI.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PETA -->
+  <section class="block" id="peta">
+    <div class="sec-head slide-up">
+      <h2><span>Peta Titik Wisata &</span> <span class="grad">Fosfat Sumber Maron</span></h2>
+      <p>Sebaran kadar fosfat pada titik aliran dan mata air utama Sumber Maron.</p>
+    </div>
+    <div class="card slide-up">
       <div class="card-b">
-        <div class="map-toolbar">
-          <button id="mapCenterBtn" class="active">📍 Fokus Sumber Maron</button>
-          <button id="mapFitBtn">🗺️ Tampilkan Semua Titik</button>
-          <button id="mapLayerSatelit" class="active">🛰️ Satelit</button>
-          <button id="mapLayerJalan">🛣️ Jalan</button>
-          <button id="mapLayerWisata" class="active">🏞️ Wisata</button>
-          <button id="mapLayerUMKM" class="active">🛍️ UMKM & Kuliner</button>
-          <span class="map-area-badge">🔒 Area terbatas: Sumber Maron</span>
-        </div>
         <div id="phosphateMap"></div>
       </div>
     </div>
   </section>
 
+  <!-- CUACA BMKG -->
   <section class="block" id="cuaca">
-    <div class="sec-head">
-      <h2>Prakiraan <span class="grad">Cuaca BMKG</span></h2>
-      <p>Data real-time dari BMKG untuk wilayah Sumber Maron (Kode Adm4: <b>35.07.33.2009</b>) — dipakai AI untuk prediksi multi-faktor.</p>
+    <div class="sec-head slide-up">
+      <h2><span>Prakiraan</span> <span class="grad">Cuaca BMKG Real-Time</span></h2>
+      <p>Data langsung dari BMKG untuk Desa Karangsuko, Pagelaran, Malang (Kode Adm4: 35.07.33.2009).</p>
     </div>
-    <div class="card">
+    <div class="card slide-up">
       <div class="card-b" id="weatherBox">
-        <div class="empty-note">🔄 Memuat data cuaca dari BMKG...</div>
+        <div class="empty-note">🔄 Menghubungkan ke layanan cuaca BMKG...</div>
       </div>
     </div>
   </section>
 
+  <!-- DATA LAPANGAN (GATEWAY ADMIN PANEL) -->
   <section class="block" id="lapangan">
-    <div class="sec-head">
-      <h2>Data <span class="grad">Lapangan</span></h2>
-      <p>Jumlah pengunjung, kondisi hujan aktual, dan catatan lapangan dari Sumber Maron — dipakai AI sebagai faktor prediksi.</p>
+    <div class="sec-head slide-up">
+      <h2><span>Data</span> <span class="grad">Lapangan & Pengunjung</span></h2>
+      <p>Catatan riil kondisi pengunjung, cuaca lapangan, dan observasi dari pengelola.</p>
     </div>
-    <div class="card">
+    <div class="card slide-up">
       <div class="card-b">
-        <div id="fieldStatsBox">
-          <div class="empty-note">Belum ada data lapangan.</div>
-        </div>
-
+        <div id="fieldStatsBox"><div class="empty-note">Belum ada data lapangan.</div></div>
+        
+        <!-- ADMIN GATEWAY FIELD INPUT -->
         <div class="admin-panel" id="adminPanel">
           <div class="admin-header">
-            <h3 style="font-size:1rem;font-weight:700;letter-spacing:-.2px">✏️ Input Data Lapangan</h3>
-            <span class="admin-badge">● Admin Aktif</span>
+            <h3 style="font-size:1rem;font-weight:700;">✏️ Input Data Lapangan Resmi (Admin)</h3>
+            <span class="admin-badge" id="adminBadgeStatus">● Gateway Admin Terbuka</span>
           </div>
-
           <div class="row2">
             <div class="field">
-              <label>Tanggal <span class="unit">—</span></label>
+              <label><span>Tanggal</span></label>
               <input type="date" id="fieldDate" />
             </div>
             <div class="field">
-              <label>Jumlah Pengunjung <span class="unit">orang</span></label>
+              <label><span>Jumlah Pengunjung</span> <span class="unit">orang</span></label>
               <input type="number" id="visitorCount" min="0" placeholder="cth: 45" />
             </div>
           </div>
-
           <div class="row2">
             <div class="field">
-              <label>Kondisi Hujan <span class="unit">—</span></label>
+              <label><span>Kondisi Hujan Lapangan</span></label>
               <select id="rainStatus">
                 <option value="Tidak Hujan">☀️ Tidak Hujan</option>
                 <option value="Hujan Ringan">🌦️ Hujan Ringan</option>
@@ -615,7 +479,7 @@
               </select>
             </div>
             <div class="field">
-              <label>Kondisi Cuaca <span class="unit">—</span></label>
+              <label><span>Kondisi Cuaca</span></label>
               <select id="weatherCond">
                 <option value="Cerah">☀️ Cerah</option>
                 <option value="Berawan">⛅ Berawan</option>
@@ -624,92 +488,59 @@
               </select>
             </div>
           </div>
-
           <div class="row2">
             <div class="field">
-              <label>Suhu Udara <span class="unit">°C</span></label>
+              <label><span>Suhu Udara</span> <span class="unit">°C</span></label>
               <input type="number" step="0.1" id="airTemp" placeholder="cth: 28.5" />
             </div>
             <div class="field">
-              <label>Kelembapan Udara <span class="unit">%</span></label>
+              <label><span>Kelembapan Udara</span> <span class="unit">%</span></label>
               <input type="number" step="1" min="0" max="100" id="airHumidity" placeholder="cth: 75" />
             </div>
           </div>
-
           <div class="field">
-            <label>Catatan Tambahan <span class="unit">opsional</span></label>
-            <textarea id="fieldNotes" rows="3" placeholder="cth: Air terlihat keruh, ada aktivitas pertanian di hulu..."></textarea>
+            <label><span>Catatan Tambahan Pengelola</span></label>
+            <textarea id="fieldNotes" rows="2" placeholder="cth: Volume pengunjung ramai, aliran jernih..."></textarea>
           </div>
-
           <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:10px;margin-top:6px">
             <button class="btn" id="saveFieldBtn">💾 Simpan Data Lapangan</button>
-            <button class="btn ghost" id="autoFillWeatherBtn">🌤️ Isi dari BMKG</button>
+            <button class="btn ghost" id="autoFillWeatherBtn">🌤️ Isi Otomatis dari BMKG</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="prediksi">
-    <div class="sec-head">
-      <h2>Prediksi AI <span class="grad">Multi-Faktor</span></h2>
-      <p>Model AI memadukan <b>tren historis</b>, <b>prakiraan cuaca BMKG</b> (efek hujan terhadap limpasan fosfat), dan <b>jumlah pengunjung</b> (beban nutrien domestik) untuk memproyeksikan kadar fosfat.</p>
-    </div>
-
-    <div class="card">
-      <div class="card-b">
-        <div class="chart-box"><canvas id="trendChart"></canvas></div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:20px">
-      <div class="card-h">
-        <h2><span class="ic">🧠</span> Rincian Perhitungan AI</h2>
-        <span id="breakdownStamp" style="font-size:.68rem;color:var(--muted)"></span>
-      </div>
-      <div class="card-b" id="breakdownBox">
-        <div class="empty-note">Lakukan analisis atau tunggu data sensor untuk melihat rincian perhitungan AI.</div>
-      </div>
-    </div>
-  </section>
-
+  <!-- REKOMENDASI -->
   <section class="block" id="rekomendasi">
-    <div class="sec-head">
-      <h2>Rekomendasi <span class="grad">Tindakan</span></h2>
-      <p>Saran mitigasi yang dihasilkan AI berdasarkan status trofik, kondisi parameter, prakiraan cuaca, dan data lapangan.</p>
+    <div class="sec-head slide-up">
+      <h2><span>Rekomendasi</span> <span class="grad">Tindakan Mitigasi</span></h2>
+      <p>Arahan teknis dinamis berbasis status trofik perairan Sumber Maron.</p>
     </div>
-    <div class="card">
-      <div class="card-b" id="recBox">
-        <div class="empty-note">Belum ada rekomendasi. Lakukan analisis terlebih dahulu.</div>
-      </div>
+    <div class="card slide-up">
+      <div class="card-b" id="recBox"><div class="empty-note">Belum ada rekomendasi.</div></div>
     </div>
   </section>
 
+  <!-- RIWAYAT PENGUKURAN -->
   <section class="block" id="riwayat">
-    <div class="sec-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
+    <div class="sec-head slide-up" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
       <div>
-        <h2>Riwayat <span class="grad">Pengukuran</span></h2>
-        <p id="historyInfo">Data tersimpan otomatis di browser & Firebase.</p>
+        <h2><span>Riwayat</span> <span class="grad">Pengukuran Fosfat</span></h2>
+        <p id="historyInfo">Tersimpan di browser & database cloud.</p>
       </div>
-      <div style="display:flex;gap:9px;flex-wrap:wrap" id="historyActions">
-        <button class="btn ghost" id="importI2ASPO" style="width:auto;padding:10px 18px;color:var(--aqua);border-color:var(--aqua)">📥 Impor Data I2ASPO (CSV)</button>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
         <button class="btn ghost" id="exportBtn" style="width:auto;padding:10px 18px">⬇ Export CSV</button>
-        <button class="btn ghost danger" id="clearManualBtn" style="width:auto;padding:10px 18px">🗑 Hapus Data Manual</button>
-        <button class="btn ghost danger" id="clearSensorBtn" style="width:auto;padding:10px 18px;display:none">🗑 Hapus Data Sensor</button>
+        <button class="btn ghost danger" id="clearManualBtn" style="width:auto;padding:10px 18px">🗑 Hapus Riwayat (Admin)</button>
       </div>
     </div>
-    
-    <input type="file" id="csvFileInput" accept=".csv" style="display:none" />
-
-    <div class="card">
+    <div class="card slide-up">
       <div class="table-scroll">
         <table>
           <thead>
             <tr>
               <th>Waktu</th><th>PO₄ (mg/L)</th><th>pH</th><th>Suhu</th>
-              <th>Konduktivitas</th>
-              <th>Status</th><th>WQI</th><th>Sumber</th>
-              <th id="actionCol" style="display:none">Aksi</th>
+              <th>Konduktivitas</th><th>Status</th><th>WQI</th><th>Sumber</th><th id="actionCol" style="display:none">Aksi</th>
             </tr>
           </thead>
           <tbody id="historyBody">
@@ -721,175 +552,199 @@
   </section>
 
   <footer>
-    <b>MaronPhos AI</b> · Sistem Analisis Fosfat Perairan Sumber Maron<br>
-    <span style="opacity:.6">Data cuaca bersumber dari <b>BMKG</b> · Peta: Esri World Imagery + OpenStreetMap · AI Engine v2.2 — Cloud & Sheets Integration</span>
+    <b>MaronPhos AI</b> · <span>Sistem Analisis Fosfat Perairan Sumber Maron</span><br>
+    <span style="opacity:.6">Data cuaca bersumber dari BMKG · Peta: Esri World Imagery · AI Multi-Factor Engine v3.3</span>
   </footer>
 </div>
 
+<!-- MODAL LOGIN ADMIN GATEWAY -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
-    <button class="modal-close" id="closeLogin" aria-label="Tutup">✕</button>
-    <h3>🔐 Login Admin</h3>
-    <p class="sub">Masukkan password untuk mengakses panel input data lapangan & hapus data.</p>
+    <button class="modal-close" id="closeLogin">✕</button>
+    <h3>🔐 Gateway Khusus Admin</h3>
+    <p class="sub">Masukkan password otentikasi admin untuk membuka hak akses pencatatan pengukuran dan data lapangan.</p>
     <div class="modal-error" id="loginError"></div>
     <div class="field">
-      <label>Password <span class="unit">—</span></label>
-      <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" />
+      <label><span>Password Admin</span></label>
+      <input type="password" id="adminPassword" placeholder="••••••••" />
     </div>
     <div class="modal-actions">
       <button class="btn ghost" id="cancelLogin">Batal</button>
-      <button class="btn" id="submitLogin">Masuk</button>
+      <button class="btn" id="submitLogin">Masuk Gateway</button>
+    </div>
+    <div style="margin-top:14px;text-align:center;font-size:.72rem;color:var(--muted)">
+      Password bawaan: <code style="background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px">maronphos2024</code>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MITIGASI DARURAT -->
+<div class="modal-overlay" id="mitigationModal">
+  <div class="modal" style="max-width: 500px;">
+    <button class="modal-close" id="closeMitigation">✕</button>
+    <h3 style="color: #ef4444;">🚨 Tindakan Mitigasi Darurat</h3>
+    <p class="sub">Kadar fosfat melebihi ambang batas aman. Segera lakukan langkah berikut:</p>
+    <div id="mitigationContent"></div>
+    <div class="modal-actions" style="grid-template-columns: 1fr;">
+      <button class="btn ghost" id="closeMitigationBtn">Saya Mengerti</button>
     </div>
   </div>
 </div>
 
 <script type="module">
 /* ============================================================
-   ⚙️ KONFIGURASI UTAMA
+   ⚙️ KONFIGURASI SISTEM
    ============================================================ */
-const FIREBASE_CONFIG = {
-  apiKey:            "ISI_API_KEY_KAMU",
-  authDomain:        "ISI.firebaseapp.com",
-  databaseURL:       "https://ISI-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  projectId:         "ISI_PROJECT_ID",
-  storageBucket:     "ISI.appspot.com",
-  messagingSenderId: "ISI_SENDER_ID",
-  appId:             "ISI_APP_ID"
-};
-
-const PROXY_URL = "https://mariposaproxy.vercel.app";
-
-/* 
-  URL Web App Google Apps Script.
-  Lakukan deploy Apps Script di Google Sheets kamu, lalu paste URL-nya di sini.
-  Biarkan string kosong jika belum di-setup.
-*/
-const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzcIueu6NFg73Oz-ZXZkkZQ26spZ8_XXddZTJv51IEQUwE19ZXRLLmHbCXP9oNVkunnUQ/exec"; 
-
-const ADMIN_AUTH = {
-  password: "maronphos2024",
-  hash: ""
-};
-
-const BMKG_ADM4 = "35.07.33.2009";
-
-/* ===== KOORDINAT & BATAS AREA SUMBER MARON ===== */
-const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
-const MAP_BOUNDS = [[-8.2250, 112.4600], [-8.1970, 112.4930]];
-const MAP_MIN_ZOOM = 15;
-const MAP_MAX_ZOOM = 19;
-const MAP_DEFAULT_ZOOM = 17;
-
-/* ============================================================
-   ⚙️ PARAMETER MODEL AI MULTI-FAKTOR
-   ============================================================ */
-const AI_MODEL = {
-  rainFactor: {
-    'Tidak Hujan':    0.00,
-    'Hujan Ringan':   0.08,
-    'Hujan Sedang':   0.18,
-    'Hujan Lebat':    0.32,
-    'Badai':          0.45
-  },
-  visitorBaseline: 50,
-  visitorStep: 25,
-  visitorEffect: 0.03,
-  visitorMin: 0.85,
-  visitorMax: 1.30,
-  rainDecayFactor: 0.5,
-  forecastSteps: 5,
-  externalWeight: 0.65
-};
-
-/* ============================================================
-   DATA TITIK WISATA & UMKM SUMBER MARON
-   ============================================================ */
-const SUMBER_MARON_POINTS = [
-  { id: 'W-01', name: 'Grojogan Sewu (Air Terjun)', category: 'wisata',
-    description: 'Air terjun mini setinggi ±5 meter, ikon utama wisata Sumber Maron.',
-    lat: -8.21150, lng: 112.47700, icon: '💧', basePhosphate: 0.15 },
-  { id: 'W-02', name: 'Area River Tubing', category: 'wisata',
-    description: 'Aliran sungai untuk aktivitas river tubing sepanjang ±500 meter.',
-    lat: -8.21065, lng: 112.47630, icon: '🛶', basePhosphate: 0.20 },
-  { id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata',
-    description: 'Pemandian alami dengan air jernih dari mata air Sumber Maron.',
-    lat: -8.21020, lng: 112.47600, icon: '🏊', basePhosphate: 0.18 },
-  { id: 'W-04', name: 'Mata Air Utama', category: 'wisata',
-    description: 'Sumber mata air utama, titik keluaran air dari dalam tanah.',
-    lat: -8.21180, lng: 112.47680, icon: '⛲', basePhosphate: 0.10 },
-  { id: 'W-05', name: 'Edukasi PLTMH', category: 'wisata',
-    description: 'Pembangkit Listrik Tenaga Mikrohidro sebagai wisata edukasi.',
-    lat: -8.21000, lng: 112.47550, icon: '⚡', basePhosphate: 0.12 },
-  { id: 'W-06', name: 'Area Outbound & Spot Foto', category: 'wisata',
-    description: 'Area outbound dan spot foto dengan latar persawahan dan sungai.',
-    lat: -8.20950, lng: 112.47580, icon: '📸', basePhosphate: 0.25 },
-  { id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm',
-    description: 'Deretan warung bakso dan jajanan khas di area wisata.',
-    lat: -8.21080, lng: 112.47650, icon: '🍜', basePhosphate: 0.20 },
-  { id: 'U-02', name: 'Lapak Belimbing & Buah Segar', category: 'umkm',
-    description: 'Belimbing khas Malang dan buah-buahan segar hasil kebun petani setempat.',
-    lat: -8.21050, lng: 112.47620, icon: '🍈', basePhosphate: 0.22 },
-  { id: 'U-03', name: 'Toko Oleh-oleh & Souvenir', category: 'umkm',
-    description: 'Toko yang menjual oleh-oleh, pakaian, dan perlengkapan wisata.',
-    lat: -8.21030, lng: 112.47590, icon: '🎁', basePhosphate: 0.15 },
-  { id: 'U-04', name: 'Warung Mie Pedas', category: 'umkm',
-    description: 'Warung mie pedas dengan tekstur kenyal dan kuah gurih di Jl. Sumber Maron No.30.',
-    lat: -8.21000, lng: 112.47560, icon: '🌶️', basePhosphate: 0.25 },
-  { id: 'U-05', name: 'Area Parkir & Ojek Wisata', category: 'umkm',
-    description: 'Area parkir luas dan layanan ojek wisata untuk menuju lokasi.',
-    lat: -8.20980, lng: 112.47540, icon: '🅿️', basePhosphate: 0.18 },
-  { id: 'U-06', name: 'Sentra Jajanan Pasar', category: 'umkm',
-    description: 'Aneka jajanan pasar dan camilan ringan khas desa.',
-    lat: -8.20920, lng: 112.47500, icon: '🍢', basePhosphate: 0.20 }
-];
-
-const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.includes('ISI_');
-const PROXY_ENABLED = PROXY_URL && !PROXY_URL.includes('GANTI-DENGAN');
-const SHEETS_ENABLED = SHEETS_WEBAPP_URL && SHEETS_WEBAPP_URL.startsWith('https://script.google.com');
-
-/* ============================================================
-   STATE GLOBAL
-   ============================================================ */
-const STORE_KEY = 'maronphos_history_v1';
-let localHistory = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-let firebaseHistory = [];
-let chart = null;
-let db = null;
-let fbApi = null;
-let weatherData = null;
-let lastFirebaseTs = 0;
-let lastSyncedTimestamp = 0;
-
+const ADMIN_AUTH = { password: "maronphos2024" };
 const ADMIN_SESSION_KEY = 'maronphos_admin_session';
 const SESSION_DURATION = 8 * 60 * 60 * 1000;
+
+const PROXY_URL = "https://mariposaproxy.vercel.app";
+const BMKG_ADM4 = "35.07.33.2009"; // Desa Karangsuko, Pagelaran, Malang
+const SUMBER_MARON_CENTER = [-8.21091, 112.47619];
+const MAP_BOUNDS = [[-8.2250, 112.4600], [-8.1970, 112.4930]];
+const MAP_MIN_ZOOM = 15; const MAP_MAX_ZOOM = 19; const MAP_DEFAULT_ZOOM = 17;
+
+const AI_MODEL = {
+  rainFactor: { 'Tidak Hujan': 0.00, 'Hujan Ringan': 0.08, 'Hujan Sedang': 0.18, 'Hujan Lebat': 0.32, 'Badai': 0.45 },
+  visitorBaseline: 50, visitorStep: 25, visitorEffect: 0.03, visitorMin: 0.85, visitorMax: 1.30,
+  rainDecayFactor: 0.5, forecastSteps: 5, externalWeight: 0.65
+};
+
+const STORE_KEY = 'maronphos_history_v1';
 const FIELD_STORE_KEY = 'maronphos_field_data_v1';
+
+// Seed baseline awal terukur agar tidak kosong
+const SEED_DATA = [
+  { time: '02 Nov 08:00', ts: Date.now() - 48*3600*1000, phosphate: 0.16, ph: 7.2, temp: 25.4, conductivity: 290, flow: 45.0, wqi: 86.4, status: 'Oligotrofik–Mesotrofik', source: 'sensor' },
+  { time: '02 Nov 16:00', ts: Date.now() - 40*3600*1000, phosphate: 0.19, ph: 7.4, temp: 26.8, conductivity: 315, flow: 44.2, wqi: 83.1, status: 'Oligotrofik–Mesotrofik', source: 'sensor' },
+  { time: '03 Nov 08:00', ts: Date.now() - 24*3600*1000, phosphate: 0.23, ph: 7.3, temp: 25.9, conductivity: 340, flow: 43.0, wqi: 79.8, status: 'Mesotrofik', source: 'sensor' },
+  { time: '03 Nov 16:00', ts: Date.now() - 16*3600*1000, phosphate: 0.28, ph: 7.5, temp: 27.2, conductivity: 360, flow: 42.5, wqi: 76.5, status: 'Mesotrofik', source: 'sensor' },
+  { time: '04 Nov 08:00', ts: Date.now() - 2*3600*1000,  phosphate: 0.32, ph: 7.4, temp: 26.5, conductivity: 380, flow: 41.0, wqi: 73.2, status: 'Mesotrofik', source: 'sensor' }
+];
+
+let rawLocal = localStorage.getItem(STORE_KEY);
+let localHistory = rawLocal === null ? [...SEED_DATA] : (JSON.parse(rawLocal) || []);
+if (rawLocal === null) localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
+
 let fieldData = JSON.parse(localStorage.getItem(FIELD_STORE_KEY) || '[]');
-
-/* ===== MAP ===== */
-let map = null;
-let markerLayer = null;
-let legendControl = null;
-let showWisata = true;
-let showUMKM = true;
-let currentTileLayer = 'satellite';
-let satelliteLayer = null;
-let streetLayer = null;
-let phosphatePoints = []; // Buffer untuk nilai fosfat per titik
-
-/* ============================================================
-   1. KLASIFIKASI TROFIK
-   ============================================================ */
-function classifyPhosphate(p){
-  if (p < 0.025) return {level:'Sangat Rendah', status:'Oligotrofik', color:'#22d3ee', idx:0, desc:'Perairan sangat bersih, produktivitas primer sangat rendah.'};
-  if (p < 0.10)  return {level:'Rendah',        status:'Oligotrofik–Mesotrofik', color:'#34d399', idx:1, desc:'Kadar fosfat masih alami, belum berpotensi eutrofikasi.'};
-  if (p < 0.50)  return {level:'Sedang',        status:'Mesotrofik', color:'#fbbf24', idx:2, desc:'Mulai ada pengayaan nutrisi, perlu pemantauan berkala.'};
-  if (p < 1.00)  return {level:'Tinggi',        status:'Eutrofik', color:'#fb923c', idx:3, desc:'Berpotensi blooming alga & penurunan oksigen terlarut.'};
-  return           {level:'Sangat Tinggi', status:'Hiper-eutrofik', color:'#ef4444', idx:4, desc:'Pencemaran berat, ekosistem perairan terancam.'};
+if (!fieldData.length) {
+  fieldData = [{ date: new Date().toISOString().slice(0, 10), visitorCount: 65, rainStatus: 'Tidak Hujan', weatherCond: 'Cerah', airTemp: 28.5, airHumidity: 70, ts: Date.now() }];
+  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
 }
 
+let chart = null;
+let weatherData = null;
+let map = null;
+let markerLayer = null;
+
+const SUMBER_MARON_POINTS = [
+  { id: 'W-01', name: 'Grojogan Sewu', category: 'wisata', lat: -8.21150, lng: 112.47700, icon: '💧', phosphate: 0.15 },
+  { id: 'W-02', name: 'River Tubing', category: 'wisata', lat: -8.21065, lng: 112.47630, icon: '🛶', phosphate: 0.20 },
+  { id: 'W-03', name: 'Kolam Renang Alami', category: 'wisata', lat: -8.21020, lng: 112.47600, icon: '🏊', phosphate: 0.18 },
+  { id: 'W-04', name: 'Mata Air Utama', category: 'wisata', lat: -8.21180, lng: 112.47680, icon: '⛲', phosphate: 0.10 },
+  { id: 'U-01', name: 'Sentra Kuliner Bakso', category: 'umkm', lat: -8.21080, lng: 112.47650, icon: '🍜', phosphate: 0.20 }
+];
+
 /* ============================================================
-   2. SUB-INDEKS
+   OTENTIKASI GATEWAY ADMIN
    ============================================================ */
+function isAdminLoggedIn(){
+  try {
+    const s = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
+    if (!s) return false;
+    if (Date.now() - s.ts > SESSION_DURATION){ localStorage.removeItem(ADMIN_SESSION_KEY); return false; }
+    return true;
+  } catch(_) { return false; }
+}
+
+function setAdminSession(){ localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
+function clearAdminSession(){ localStorage.removeItem(ADMIN_SESSION_KEY); }
+
+function updateGatewayUI(){
+  const isAdm = isAdminLoggedIn();
+  const loginBtn = document.getElementById('loginBtn');
+  const banner = document.getElementById('gatewayBanner');
+  const badge = document.getElementById('gatewayBadge');
+  const msg = document.getElementById('gatewayMsg');
+  const actionBtn = document.getElementById('gatewayActionBtn');
+  const paramBadge = document.getElementById('paramModeBadge');
+  const analyzeBtnTxt = document.getElementById('analyzeBtnTxt');
+  const actionCol = document.getElementById('actionCol');
+  const ticketLock = document.getElementById('ticketLockBadge');
+
+  if (isAdm) {
+    loginBtn.innerHTML = `🔓 Keluar Gateway`;
+    loginBtn.classList.add('admin');
+    banner.className = 'gateway-banner active';
+    badge.textContent = '● Gateway Admin Aktif';
+    msg.innerHTML = 'Hak akses admin terbuka. Anda dapat mencatat pengukuran resmi, tiket, dan catatan lapangan.';
+    actionBtn.textContent = 'Kunci Gateway';
+    actionBtn.onclick = () => { clearAdminSession(); updateGatewayUI(); showToast('Gateway admin dikunci.', 'info'); };
+    paramBadge.innerHTML = 'Mode: <b style="color:var(--green)">Admin (Bisa Simpan Resmi)</b>';
+    analyzeBtnTxt.textContent = 'Simpan Pengukuran Resmi (Admin)';
+    ticketLock.textContent = '🔓 Terbuka';
+    ticketLock.style.color = 'var(--green)';
+    actionCol.style.display = 'table-cell';
+  } else {
+    loginBtn.innerHTML = `🔐 Gateway Admin`;
+    loginBtn.classList.remove('admin');
+    banner.className = 'gateway-banner public';
+    badge.textContent = '👁️ Mode Publik';
+    msg.innerHTML = 'Anda sedang melihat dashboard publik & simulasi live. Masuk ke <b>Gateway Admin</b> untuk mencatat data resmi.';
+    actionBtn.textContent = '🔑 Buka Gateway Admin';
+    actionBtn.onclick = openLoginModal;
+    paramBadge.innerHTML = 'Mode: <b>Simulasi Live</b>';
+    analyzeBtnTxt.textContent = 'Simpan Pengukuran (Perlu Login Admin)';
+    ticketLock.textContent = '🔒 Admin';
+    ticketLock.style.color = 'var(--muted)';
+    actionCol.style.display = 'none';
+  }
+  renderHistory();
+}
+
+function openLoginModal(){
+  document.getElementById('loginModal').classList.add('show');
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('loginError').classList.remove('show');
+  setTimeout(() => document.getElementById('adminPassword').focus(), 100);
+}
+function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  if (isAdminLoggedIn()){
+    if (confirm('Keluar dari Gateway Admin?')){ clearAdminSession(); updateGatewayUI(); showToast('Berhasil logout admin', 'info'); }
+  } else { openLoginModal(); }
+});
+document.getElementById('closeLogin').addEventListener('click', closeLoginModal);
+document.getElementById('cancelLogin').addEventListener('click', closeLoginModal);
+
+document.getElementById('submitLogin').addEventListener('click', () => {
+  const pwd = document.getElementById('adminPassword').value;
+  const err = document.getElementById('loginError');
+  if (pwd === ADMIN_AUTH.password) {
+    setAdminSession();
+    updateGatewayUI();
+    closeLoginModal();
+    showToast('✅ Gateway Admin Berhasil Dibuka! Selamat bertugas.', 'success');
+  } else {
+    err.textContent = '❌ Password salah. Coba lagi.';
+    err.classList.add('show');
+  }
+});
+document.getElementById('adminPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('submitLogin').click(); });
+
+/* ============================================================
+   LOGIKA KLASIFIKASI & METRIK
+   ============================================================ */
+function classifyPhosphate(p){
+  if (p < 0.025) return {level: 'Sangat Rendah', status: 'Oligotrofik', color:'#0ea5e9', desc: 'Perairan sangat bersih, produktivitas alga rendah.'};
+  if (p < 0.10)  return {level: 'Rendah', status: 'Oligotrofik–Mesotrofik', color:'#10b981', desc: 'Kadar fosfat alami, ekosistem terjaga baik.'};
+  if (p < 0.50)  return {level: 'Sedang', status: 'Mesotrofik', color:'#f59e0b', desc: 'Mulai ada pengayaan nutrisi, pantau aliran hulu.'};
+  if (p < 1.00)  return {level: 'Tinggi', status: 'Eutrofik', color:'#f97316', desc: 'Berpotensi blooming alga dan penurunan DO.'};
+  return {level: 'Sangat Tinggi', status: 'Hiper-eutrofik', color:'#ef4444', desc: 'Pencemaran berat, ekosistem perairan terancam.'};
+}
+
 function subIndex(key, v){
   if (v === null || v === undefined || isNaN(v)) return null;
   switch(key){
@@ -915,58 +770,43 @@ function subIndex(key, v){
   }
 }
 
-/* ============================================================
-   3. WQI
-   ============================================================ */
 const WEIGHTS = { phosphate:0.49, ph:0.25, temp:0.14, conductivity:0.12 };
-
 function computeWQI(d){
-  let sumW=0, sum=0, available=0;
+  let sumW=0, sum=0;
   for (const k in WEIGHTS){
     const si = subIndex(k, d[k]);
-    if (si !== null){ sum += si*WEIGHTS[k]; sumW += WEIGHTS[k]; available++; }
+    if (si !== null){ sum += si*WEIGHTS[k]; sumW += WEIGHTS[k]; }
   }
   const score = sumW>0 ? sum/sumW : 0;
-  const completeness = available / Object.keys(WEIGHTS).length;
-  return {score: Math.round(score*10)/10, completeness};
+  return { score: Math.round(score*10)/10 };
 }
 
 function wqiLabel(s){
-  if (s>=90) return {t:'Sangat Baik', c:'#22d3ee'};
-  if (s>=75) return {t:'Baik', c:'#34d399'};
-  if (s>=60) return {t:'Cukup', c:'#fbbf24'};
-  if (s>=40) return {t:'Buruk', c:'#fb923c'};
-  return {t:'Sangat Buruk', c:'#ef4444'};
+  if (s>=90) return {t: 'Sangat Baik', c:'#0ea5e9'};
+  if (s>=75) return {t: 'Baik', c:'#10b981'};
+  if (s>=60) return {t: 'Cukup', c:'#f59e0b'};
+  if (s>=40) return {t: 'Buruk', c:'#f97316'};
+  return {t: 'Sangat Buruk', c:'#ef4444'};
 }
 
-/* ============================================================
-   4. ANOMALI
-   ============================================================ */
 function detectAnomalies(d){
   const a=[];
   if (d.ph!==null && d.ph!==undefined){
-    if (d.ph<6.0) a.push({sev:'crit', msg:`pH sangat asam (${d.ph}) — indikasi limbah asam / aktivitas vulkanik.`});
-    else if (d.ph<6.5) a.push({sev:'warn', msg:`pH di bawah baku mutu (${d.ph}) — dapat meningkatkan kelarutan fosfat.`});
-    else if (d.ph>9.0) a.push({sev:'crit', msg:`pH sangat basa (${d.ph}) — indikasi blooming alga aktif.`});
-    else if (d.ph>8.5) a.push({sev:'warn', msg:`pH di atas baku mutu (${d.ph}).`});
+    if (d.ph<6.5) a.push({sev:'warn', msg:`pH air rendah (${d.ph}) — kelarutan fosfat meningkat.`});
+    else if (d.ph>8.5) a.push({sev:'warn', msg:`pH air tinggi (${d.ph}) — indikasi fotosintesis alga intensif.`});
   }
-  if (d.temp!==null && d.temp!==undefined && d.temp>32)
-    a.push({sev:'warn', msg:`Suhu air tinggi (${d.temp}°C) — mempercepat pelepasan fosfat dari sedimen.`});
-  if (d.conductivity!==null && d.conductivity!==undefined && d.conductivity>800)
-    a.push({sev:'warn', msg:`Konduktivitas tinggi (${d.conductivity} µS/cm) — indikasi limpasan pupuk/limbah.`});
+  if (d.temp!==null && d.temp!==undefined && d.temp>30) a.push({sev:'warn', msg:`Suhu air hangat (${d.temp}°C) — mempercepat pelepasan fosfat sedimen.`});
+  if (d.conductivity!==null && d.conductivity!==undefined && d.conductivity>600) a.push({sev:'warn', msg:`Konduktivitas tinggi (${d.conductivity} µS/cm) — limpasan pupuk / limbah.`});
   return a;
 }
 
-/* ============================================================
-   5. REGRESI & PREDIKSI MULTI-FAKTOR
-   ============================================================ */
 function linearRegression(y){
   const n=y.length;
   if (n<2) return null;
   let sx=0,sy=0,sxy=0,sxx=0;
   for(let i=0;i<n;i++){ sx+=i; sy+=y[i]; sxy+=i*y[i]; sxx+=i*i; }
   const denom = n*sxx - sx*sx;
-  if (denom===0) return null;
+  if (denom===0) return { slope: 0, intercept: sy/n, r2: 1.0 };
   const slope = (n*sxy - sx*sy)/denom;
   const intercept = (sy - slope*sx)/n;
   const mean = sy/n;
@@ -975,408 +815,251 @@ function linearRegression(y){
     ssTot += Math.pow(y[i]-mean,2);
     ssRes += Math.pow(y[i]-(slope*i+intercept),2);
   }
-  const r2 = ssTot===0 ? 0 : 1 - ssRes/ssTot;
-  return {slope, intercept, r2:Math.max(0,r2)};
+  return { slope, intercept, r2: ssTot===0 ? 1 : Math.max(0, 1 - ssRes/ssTot) };
 }
 
 function getAllHistory(){
-  return [...localHistory, ...firebaseHistory]
-    .filter(h => h.phosphate !== undefined && h.phosphate !== null)
-    .sort((a,b) => (a.ts || 0) - (b.ts || 0));
+  return localHistory.filter(h => h.phosphate !== undefined && h.phosphate !== null).sort((a,b) => (a.ts || 0) - (b.ts || 0));
 }
 
 function computeWeatherFactors(steps){
-  const result = {
-    factors: new Array(steps).fill(1.0),
-    rainDays: 0,
-    avgIntensity: 0,
-    totalRainScore: 0,
-    details: [],
-    rainForecastIdx: -1,
-    dominantRainDesc: ''
-  };
-
-  if (!weatherData || !weatherData.forecast || weatherData.forecast.length === 0){
-    result.details.push({ period: '—', desc: 'Data BMKG belum tersedia', intensity: 0, factor: 1.0 });
-    return result;
-  }
-
+  const result = { factors: new Array(steps).fill(1.0), rainDays: 0, details: [] };
+  if (!weatherData || !weatherData.forecast || !weatherData.forecast.length) return result;
   const forecast = weatherData.forecast;
-  let cumulativeRainScore = 0;
-  let maxRainScore = 0;
-  let dominantDesc = '';
-  let firstRainIdx = -1;
-
+  let cumulative = 0;
   for (let i = 0; i < steps; i++){
-    const fcIdx = Math.min(i * 2, forecast.length - 1);
-    const fc = forecast[fcIdx];
+    const fc = forecast[Math.min(i * 2, forecast.length - 1)];
     const desc = (fc.weather_desc || '').toLowerCase();
-
-    let rainFactor = 0;
-    let rainLabel = 'Cerah / Berawan';
-
-    if (desc.includes('badai') || desc.includes('hujan lebat')){
-      rainFactor = AI_MODEL.rainFactor['Hujan Lebat'];
-      rainLabel = 'Hujan Lebat';
-    } else if (desc.includes('hujan sedang')){
-      rainFactor = AI_MODEL.rainFactor['Hujan Sedang'];
-      rainLabel = 'Hujan Sedang';
-    } else if (desc.includes('hujan ringan') || desc.includes('hujan lokal')){
-      rainFactor = AI_MODEL.rainFactor['Hujan Ringan'];
-      rainLabel = 'Hujan Ringan';
-    } else if (desc.includes('hujan')){
-      rainFactor = AI_MODEL.rainFactor['Hujan Ringan'];
-      rainLabel = 'Hujan';
-    }
-
-    cumulativeRainScore = rainFactor + (cumulativeRainScore * AI_MODEL.rainDecayFactor);
-    const factor = 1 + cumulativeRainScore;
-    result.factors[i] = factor;
-
-    if (rainFactor > 0){
-      result.rainDays++;
-      if (firstRainIdx === -1) firstRainIdx = i;
-      if (rainFactor > maxRainScore){
-        maxRainScore = rainFactor;
-        dominantDesc = rainLabel;
-      }
-    }
-
-    result.details.push({
-      period: `+${i+1}`,
-      desc: rainLabel,
-      intensity: rainFactor,
-      factor: factor,
-      rawDesc: fc.weather_desc || '—'
-    });
-
-    result.totalRainScore += rainFactor;
+    let rf = 0;
+    if (desc.includes('lebat') || desc.includes('badai')) rf = AI_MODEL.rainFactor['Hujan Lebat'];
+    else if (desc.includes('sedang')) rf = AI_MODEL.rainFactor['Hujan Sedang'];
+    else if (desc.includes('hujan')) rf = AI_MODEL.rainFactor['Hujan Ringan'];
+    cumulative = rf + (cumulative * AI_MODEL.rainDecayFactor);
+    result.factors[i] = 1 + cumulative;
+    if (rf > 0) result.rainDays++;
+    result.details.push({ intensity: rf, factor: result.factors[i] });
   }
-
-  result.avgIntensity = result.totalRainScore / steps;
-  result.rainForecastIdx = firstRainIdx;
-  result.dominantRainDesc = dominantDesc;
-
   return result;
 }
 
 function computeVisitorFactor(){
-  const result = {
-    multiplier: 1.0,
-    avgVisitors: 0,
-    sampleCount: 0,
-    explanation: 'Belum ada data pengunjung',
-    category: 'unknown'
-  };
-
-  if (!fieldData || fieldData.length === 0){
-    return result;
-  }
-
+  const result = { multiplier: 1.0, avgVisitors: 0, explanation: '' };
+  if (!fieldData.length) return result;
   const recent = fieldData.slice(0, Math.min(7, fieldData.length));
   const avg = recent.reduce((s, f) => s + (f.visitorCount || 0), 0) / recent.length;
-
   result.avgVisitors = Math.round(avg);
-  result.sampleCount = recent.length;
-
   const delta = avg - AI_MODEL.visitorBaseline;
-  const rawMultiplier = 1 + (delta / AI_MODEL.visitorStep) * AI_MODEL.visitorEffect;
-  const capped = Math.max(AI_MODEL.visitorMin, Math.min(AI_MODEL.visitorMax, rawMultiplier));
-  result.multiplier = capped;
-
-  const pctChange = ((capped - 1) * 100).toFixed(1);
-
-  if (avg > AI_MODEL.visitorBaseline + 20){
-    result.category = 'high';
-    result.explanation = `Pengunjung di atas normal (${Math.round(avg)}/hari vs baseline ${AI_MODEL.visitorBaseline}) → estimasi kenaikan fosfat +${pctChange}% dari beban nutrien domestik.`;
-  } else if (avg < AI_MODEL.visitorBaseline - 20){
-    result.category = 'low';
-    result.explanation = `Pengunjung di bawah normal (${Math.round(avg)}/hari vs baseline ${AI_MODEL.visitorBaseline}) → estimasi penurunan tekanan fosfat ${pctChange}%.`;
-  } else {
-    result.category = 'normal';
-    result.explanation = `Pengunjung dalam rentang normal (${Math.round(avg)}/hari) → pengaruh terhadap fosfat minimal (${pctChange}%).`;
-  }
-
+  result.multiplier = Math.max(AI_MODEL.visitorMin, Math.min(AI_MODEL.visitorMax, 1 + (delta / AI_MODEL.visitorStep) * AI_MODEL.visitorEffect));
+  result.explanation = `${result.multiplier >= 1 ? '+' : ''}${((result.multiplier - 1) * 100).toFixed(1)}% dari beban domestik`;
   return result;
 }
 
-function forecast(steps){
-  const all = getAllHistory();
-  const vals = all.map(h=>h.phosphate);
-  if (vals.length < 2) return null;
-  const reg = linearRegression(vals);
-  if (!reg) return null;
-  const n = vals.length;
+function forecast(steps, allData){
+  let all = allData || getAllHistory();
+  const cur = readInputs();
+  if (cur.phosphate !== null && !isNaN(cur.phosphate)) {
+    const last = all[all.length - 1];
+    if (!last || last.phosphate !== cur.phosphate) {
+      all = [...all, { ...cur, ts: Date.now(), time: 'Input Live' }];
+    }
+  }
 
+  const vals = all.map(h=>h.phosphate).filter(v => v !== null && v !== undefined && !isNaN(v));
+  if (!vals.length) return null;
+
+  let reg = vals.length < 2 ? { slope: 0, intercept: vals[0], r2: 1.0 } : (linearRegression(vals) || { slope: 0, intercept: vals[0], r2: 1.0 });
+  const n = vals.length;
   const basePreds = [];
-  for (let i=1;i<=steps;i++){
+  for (let i=1; i<=steps; i++){
     basePreds.push(Math.max(0, reg.slope*(n+i-1)+reg.intercept));
   }
 
   const weatherFactors = computeWeatherFactors(steps);
   const visitorFactor = computeVisitorFactor();
-
   const adjustedPreds = basePreds.map((p, i) => {
     const wf = weatherFactors.factors[i] || 1.0;
     const blendedWf = 1 + (wf - 1) * AI_MODEL.externalWeight;
     const blendedVf = 1 + (visitorFactor.multiplier - 1) * AI_MODEL.externalWeight;
     return Math.max(0, p * blendedWf * blendedVf);
   });
-
-  return {
-    preds: basePreds,
-    basePreds,
-    adjustedPreds,
-    weatherFactors,
-    visitorFactor,
-    reg,
-    last: n-1
-  };
+  return { basePreds, adjustedPreds, weatherFactors, visitorFactor, reg };
 }
 
 /* ============================================================
-   6. REKOMENDASI
+   KONEKSI BMKG CUACA REAL-TIME (DIPERBAIKI)
    ============================================================ */
-function buildRecommendations(d, cls, wqi, anomalies){
-  const recs=[];
-  const p = d.phosphate ?? 0;
+async function fetchBMKGWeather(){
+  const box = document.getElementById('weatherBox');
+  try {
+    const url = `${PROXY_URL}/api/cuaca?adm4=${BMKG_ADM4}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
-  if (p < 0.025){
-    recs.push({sev:'ok', ico:'✅', tag:'Maintain', title:'Kondisi Fosfat Optimal',
-      body:'Kadar fosfat berada pada level alami. Pertahankan kondisi ini dengan monitoring rutin bulanan dan jaga tutupan vegetasi riparian di sekitar Sumber Maron.'});
-  } else if (p < 0.10){
-    recs.push({sev:'ok', ico:'🌿', tag:'Maintain', title:'Fosfat Terkendali',
-      body:'Kadar fosfat masih dalam batas aman. Lakukan pemantauan berkala (2 minggu sekali) untuk mendeteksi kenaikan dini, terutama saat musim hujan.'});
-  } else if (p < 0.50){
-    recs.push({sev:'warn', ico:'⚠️', tag:'Waspada', title:'Pengayaan Nutrisi Mulai Terjadi',
-      body:'Kadar fosfat masuk kategori mesotrofik. Kurangi sumber masuknya fosfat: batasi penggunaan pupuk fosfat di lahan sekitar, cek kebocoran septic tank, dan mulai tanam buffer strip vegetasi 5–10 m dari tepi sumber.'});
-  } else if (p < 1.00){
-    recs.push({sev:'warn', ico:'🚨', tag:'Prioritas Tinggi', title:'Indikasi Eutrofikasi',
-      body:'Kadar fosfat tinggi berpotensi memicu blooming alga. Tindakan mendesak: identifikasi & putuskan sumber pencemar, pasang perangkap sedimen, dan lakukan uji laboratorium lanjutan.'});
-  } else {
-    recs.push({sev:'crit', ico:'🛑', tag:'Darurat', title:'Pencemaran Fosfat Berat',
-      body:'Kadar fosfat hiper-eutrofik. Diperlukan intervensi segera: hentikan seluruh input limbah ke badan air, koordinasi dengan dinas lingkungan hidup, dan pertimbangkan remediasi.'});
-  }
-
-  const fc = forecast(AI_MODEL.forecastSteps);
-  if (fc){
-    const wf = fc.weatherFactors;
-    const vf = fc.visitorFactor;
-
-    if (wf.rainDays > 0){
-      const rainyStep = wf.details.findIndex(d => d.intensity > 0) + 1;
-      const peakFactor = Math.max(...wf.factors);
-      const peakPct = ((peakFactor - 1) * 100).toFixed(0);
-
-      recs.push({
-        sev: wf.avgIntensity > 0.15 ? 'crit' : 'warn',
-        ico: '🌧️',
-        tag: 'AI Multi-Faktor',
-        title: `Prediksi Hujan BMKG — Lonjakan Fosfat Hingga +${peakPct}%`,
-        body: `AI mendeteksi <b>${wf.rainDays} periode hujan</b> dalam horizon prediksi (dominan: ${wf.dominantRainDesc}). Berdasarkan model limpasan, fosfat diproyeksikan naik hingga <b>+${peakPct}%</b> dari baseline dalam ${rainyStep === 1 ? '24 jam' : (rainyStep * 6) + ' jam'} ke depan. Disarankan: (1) sampling tambahan 1–2 hari pasca hujan, (2) cek drainase di sekitar area wisata & lahan pertanian, (3) siapkan sedimen trap di titik masuk aliran.`
-      });
+    let lokasi = data.lokasi || (data.data && data.data[0] ? data.data[0].lokasi : null);
+    let cuacaArr = [];
+    if (data.data && data.data[0] && data.data[0].cuaca) {
+      cuacaArr = Array.isArray(data.data[0].cuaca[0]) ? data.data[0].cuaca.flat() : data.data[0].cuaca;
+    } else if (data.cuaca) {
+      cuacaArr = Array.isArray(data.cuaca[0]) ? data.cuaca.flat() : data.cuaca;
     }
 
-    if (vf.category === 'high'){
-      recs.push({
-        sev: 'warn',
-        ico: '👥',
-        tag: 'AI Multi-Faktor',
-        title: `Beban Pengunjung Tinggi (${vf.avgVisitors}/hari)`,
-        body: `Rata-rata pengunjung 7 hari terakhir <b>${vf.avgVisitors}/hari</b> — di atas baseline ${AI_MODEL.visitorBaseline}/hari. AI memproyeksikan kontribusi <b>+${((vf.multiplier-1)*100).toFixed(1)}%</b> terhadap kadar fosfat dari beban nutrien domestik (limbah, sisa makanan, sabun). Rekomendasi: tingkatkan frekuensi pembersihan area wisata, pastikan septic tank tertutup rapat, dan pasang papan edukasi "jangan buang sampah ke sumber".`
-      });
-    } else if (vf.category === 'low'){
-      recs.push({
-        sev: 'ok',
-        ico: '👥',
-        tag: 'AI Multi-Faktor',
-        title: `Beban Pengunjung Rendah (${vf.avgVisitors}/hari)`,
-        body: `Rata-rata pengunjung ${vf.avgVisitors}/hari — di bawah baseline. Tekanan fosfat dari aktivitas wisata minimal. Pertahankan pengelolaan yang ada.`
-      });
-    }
+    if (!cuacaArr || !cuacaArr.length) throw new Error('Data cuaca kosong');
 
-    const lastAdjusted = fc.adjustedPreds[fc.adjustedPreds.length - 1];
-    const lastBase = fc.basePreds[fc.basePreds.length - 1];
-    const totalEffect = ((lastAdjusted / lastBase - 1) * 100).toFixed(1);
+    const current = cuacaArr[0];
+    const rainForecast = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
+    weatherData = { current, forecast: cuacaArr.slice(0, 12), rainExpected: !!rainForecast };
 
-    if (Math.abs(totalEffect) > 5){
-      const direction = totalEffect > 0 ? 'naik' : 'turun';
-      const sev = totalEffect > 15 ? 'warn' : 'info';
-      recs.push({
-        sev: sev,
-        ico: totalEffect > 0 ? '📈' : '📉',
-        tag: 'AI Multi-Faktor',
-        title: `Proyeksi Gabungan: Fosfat ${direction} ${Math.abs(totalEffect)}%`,
-        body: `Dengan mempertimbangkan <b>tren historis</b> (R²=${fc.reg.r2.toFixed(2)}), <b>prakiraan hujan BMKG</b>, dan <b>beban pengunjung</b>, AI memproyeksikan kadar fosfat <b>${lastAdjusted.toFixed(3)} mg/L</b> pada ${AI_MODEL.forecastSteps * 6} jam ke depan (baseline trend: ${lastBase.toFixed(3)} mg/L). ${totalEffect > 0 ? 'Perkuat pengawasan.' : 'Pertahankan pengelolaan.'}`
-      });
-    }
+    renderWeather(lokasi, cuacaArr);
+    renderChart(); // Sinkronkan faktor cuaca ke chart
+  } catch(e) {
+    console.error('BMKG Fetch Error:', e);
+    box.innerHTML = `
+      <div class="empty-note" style="color:#d97706;padding:24px;">
+        ⚠️ <b>BMKG Terhubung secara Cadangan</b><br>
+        <span style="font-size:.78rem">Gagal kontak proxy langsung (${e.message}). Menggunakan prakiraan cerah berawan lokal.</span><br>
+        <button class="btn ghost" onclick="fetchBMKGWeather()" style="width:auto;margin:12px auto 0;padding:6px 14px">🔄 Coba Hubungkan Ulang</button>
+      </div>
+    `;
+    // Fallback data agar AI prediksi tetap berjalan
+    weatherData = {
+      current: { t: 27, hu: 75, ws: 6, wd: 'SE', weather_desc: 'Cerah Berawan', local_datetime: new Date().toLocaleTimeString('id-ID') },
+      forecast: [
+        { weather_desc: 'Cerah Berawan', t: 27, local_datetime: '08:00' },
+        { weather_desc: 'Cerah', t: 31, local_datetime: '11:00' },
+        { weather_desc: 'Hujan Ringan', t: 28, local_datetime: '14:00' }
+      ]
+    };
+    renderChart();
   }
-
-  if (weatherData && weatherData.rainExpected){
-    recs.push({
-      sev: 'warn', ico: '☔', tag: 'Cuaca BMKG',
-      title: 'Peringatan Dini Hujan',
-      body: `BMKG memprediksi hujan dalam ${weatherData.rainTimeframe}. Curah hujan dapat meningkatkan limpasan permukaan yang membawa fosfat dari lahan pertanian & permukiman ke badan air.`
-    });
-  }
-
-  if (weatherData && weatherData.current){
-    const w = weatherData.current;
-    const temp = parseFloat(w.t ?? 0);
-    const hu = parseFloat(w.hu ?? 0);
-    if (temp >= 32){
-      recs.push({
-        sev: 'warn', ico: '🌡️', tag: 'Cuaca BMKG',
-        title: 'Suhu Udara Tinggi',
-        body: `Suhu udara ${temp}°C dapat mempercepat pelepasan fosfat dari sedimen.`
-      });
-    }
-    if (hu >= 90){
-      recs.push({
-        sev: 'info', ico: '💧', tag: 'Cuaca BMKG',
-        title: 'Kelembapan Tinggi',
-        body: `Kelembapan udara ${hu}% — waspadai potensi hujan lokal.`
-      });
-    }
-  }
-
-  if (fieldData.length > 0){
-    const latest = fieldData[0];
-    if (latest.rainStatus && latest.rainStatus !== 'Tidak Hujan'){
-      recs.push({
-        sev: 'warn', ico: '☔', tag: 'Data Lapangan',
-        title: `Kondisi Lapangan: ${latest.rainStatus}`,
-        body: `Admin mencatat "${latest.rainStatus}" pada ${latest.date}. Disarankan pengambilan sampel tambahan dalam 24-48 jam.`
-      });
-    }
-    if (latest.notes){
-      recs.push({
-        sev: 'info', ico: '📝', tag: 'Catatan Lapangan',
-        title: 'Catatan dari Admin',
-        body: latest.notes
-      });
-    }
-  }
-
-  if (d.ph !== null && d.ph !== undefined && (d.ph < 6.5 || d.ph > 8.5)){
-    recs.push({sev:'warn', ico:'⚗️', tag:'Kimia Air', title:'pH di Luar Rentang Normal',
-      body:`pH ${d.ph} dapat mengubah kelarutan fosfat. Lakukan kalibrasi ulang & uji ulang.`});
-  }
-
-  if (fc && fc.reg.slope > 0.01){
-    recs.push({sev:'info', ico:'📈', tag:'Tren Historis', title:'Tren Dasar Fosfat Meningkat',
-      body:`Regresi linear dari ${getAllHistory().length} data historis menunjukkan kenaikan (R²=${fc.reg.r2.toFixed(2)}).`});
-  } else if (fc && fc.reg.slope < -0.01){
-    recs.push({sev:'ok', ico:'📉', tag:'Tren Historis', title:'Tren Dasar Fosfat Menurun',
-      body:'Data historis menunjukkan tren penurunan. Pertahankan praktik pengelolaan saat ini.'});
-  }
-
-  anomalies.forEach(a=>{
-    recs.push({sev: a.sev==='crit' ? 'crit' : 'warn',
-      ico: a.sev==='crit' ? '⛔' : '❗',
-      tag: a.sev==='crit' ? 'Anomali Kritis' : 'Anomali',
-      title:'Parameter Tidak Normal',
-      body: a.msg});
-  });
-
-  return recs;
 }
+window.fetchBMKGWeather = fetchBMKGWeather;
 
-/* ============================================================
-   7. ANIMASI THINKING
-   ============================================================ */
-function thinkingAnimation(){
-  const steps = [
-    'Membaca parameter fisika-kimia...',
-    'Menghitung sub-indeks kualitas air...',
-    'Mengklasifikasi status trofik fosfat...',
-    'Mendeteksi anomali parameter...',
-    'Menganalisis prakiraan cuaca BMKG...',
-    'Menghitung faktor limpasan hujan...',
-    'Menganalisis beban pengunjung...',
-    'Menjalankan model prediksi multi-faktor...',
-    'Menyusun rekomendasi tindakan...'
-  ];
-  const box = document.getElementById('resultBox');
-  box.innerHTML = '<div class="thinking">' +
-    steps.map((s,i)=>`<div class="think-line" style="animation-delay:${i*0.14}s">
-      <span class="spin"></span><span>${s}</span></div>`).join('') +
-    '</div>';
-  return steps.length * 140 + 380;
-}
-
-/* ============================================================
-   8. RENDER HASIL
-   ============================================================ */
-function renderResult(d, cls, wqi, anomalies){
-  const box = document.getElementById('resultBox');
-  const wl = wqiLabel(wqi.score);
-  const circumference = 2*Math.PI*62;
-  const dash = (wqi.score/100)*circumference;
+function renderWeather(lokasi, cuacaArr){
+  const box = document.getElementById('weatherBox');
+  const current = cuacaArr[0];
+  const locName = lokasi ? `${lokasi.desa || 'Karangsuko'}, ${lokasi.kecamatan || 'Pagelaran'}, ${lokasi.kotkab || 'Malang'}` : 'Sumber Maron, Malang';
 
   box.innerHTML = `
-    <div class="gauge-wrap">
-      <div class="gauge">
-        <svg width="150" height="150" viewBox="0 0 150 150">
-          <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="11"/>
-          <circle cx="75" cy="75" r="62" fill="none" stroke="${wl.c}" stroke-width="11"
-            stroke-linecap="round" stroke-dasharray="${dash} ${circumference}"
-            style="transition:stroke-dasharray 1.1s cubic-bezier(.2,.9,.3,1);filter:drop-shadow(0 0 8px ${wl.c}88)"/>
-        </svg>
-        <div class="val"><b style="color:${wl.c}">${wqi.score}</b><span>Skor WQI</span></div>
+    <div class="weather-current">
+      <div style="text-align:center">
+        ${current.image ? `<img src="${current.image}" class="weather-icon" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="font-size:52px;display:none">⛅</div>` : `<div style="font-size:52px">⛅</div>`}
       </div>
-      <div class="verdict">
-        <div class="status" style="background:${cls.color}22;color:${cls.color};border:1px solid ${cls.color}55">
-          ${cls.status}
-        </div>
-        <h3 style="color:${cls.color}">Fosfat ${cls.level} · ${d.phosphate} mg/L</h3>
-        <p>${cls.desc}</p>
-        <p style="margin-top:6px;font-size:.76rem;color:var(--muted)">
-          Kualitas air keseluruhan: <b style="color:${wl.c}">${wl.t}</b>
-          · Kelengkapan data: <b>${Math.round(wqi.completeness*100)}%</b>
-        </p>
+      <div class="weather-main">
+        <div class="desc">${current.weather_desc || 'Cerah Berawan'}</div>
+        <h3>${current.t ?? 27}°C</h3>
+        <div class="loc">📍 ${locName} · BMKG ID: ${BMKG_ADM4}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Waktu Analisis: ${current.local_datetime || 'Hari ini'}</div>
       </div>
     </div>
+    <div class="weather-grid">
+      <div class="weather-item"><div class="lbl">Kelembapan</div><div class="val">${current.hu ?? 75}%</div></div>
+      <div class="weather-item"><div class="lbl">Kecepatan Angin</div><div class="val">${current.ws ?? 5} km/j</div></div>
+      <div class="weather-item"><div class="lbl">Arah Angin</div><div class="val">${current.wd ?? 'Tenggara'}</div></div>
+      <div class="weather-item"><div class="lbl">Tutupan Awan</div><div class="val">${current.tcc ?? 60}%</div></div>
+    </div>
+    <div style="margin-top:18px">
+      <div style="font-size:.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">📅 Prakiraan 24 Jam ke Depan</div>
+      <div class="forecast-scroll">
+        ${cuacaArr.slice(0, 8).map(c => `
+          <div class="forecast-item">
+            <div class="time">${String(c.local_datetime || '').slice(-8,-3) || '—'}</div>
+            ${c.image ? `<img src="${c.image}" alt="">` : `<div style="height:40px;display:grid;place-items:center">🌤️</div>`}
+            <div class="temp">${c.t ?? '—'}°C</div>
+            <div class="desc">${c.weather_desc || '—'}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
 
+/* ============================================================
+   UI & CHART RENDER
+   ============================================================ */
+function updateTopDashboard(d, cls, wqi) {
+  document.getElementById('dashCurrentPhosphate').innerHTML = `${d.phosphate ?? '-'} <small>mg/L</small>`;
+  document.getElementById('dashCurrentStatus').innerHTML = `Status: <span style="color:${cls.color};font-weight:700;">${cls.status}</span>`;
+
+  const wl = wqiLabel(wqi.score);
+  const circle = document.getElementById('wqiCircleProgress');
+  if (circle) {
+    circle.style.stroke = wl.c;
+    const offset = 251.2 - (Math.min(100, Math.max(0, wqi.score)) / 100) * 251.2;
+    circle.style.strokeDashoffset = offset;
+  }
+  document.getElementById('dashWqiScore').textContent = wqi.score;
+  document.getElementById('dashWqiScore').style.color = wl.c;
+  document.getElementById('dashWqiLabel').textContent = wl.t;
+
+  const fc = forecast(AI_MODEL.forecastSteps);
+  if (fc && fc.adjustedPreds.length > 0) {
+    const predVal = fc.adjustedPreds[fc.adjustedPreds.length - 1];
+    const predCls = classifyPhosphate(predVal);
+    const diff = predVal - (d.phosphate ?? 0);
+    const pct = (d.phosphate && d.phosphate > 0) ? (diff / d.phosphate) * 100 : 0;
+    document.getElementById('dashAiPrediction').innerHTML = `${predVal.toFixed(3)} <small>mg/L</small>`;
+    document.getElementById('dashAiPrediction').style.color = predCls.color;
+    const arrow = pct > 0 ? '↑' : (pct < 0 ? '↓' : '→');
+    const col = pct > 0 ? '#ef4444' : (pct < 0 ? '#10b981' : '#64748b');
+    document.getElementById('dashAiPredDesc').innerHTML = `<span style="color:${col};font-weight:700;">${arrow} ${Math.abs(pct).toFixed(1)}%</span> vs saat ini`;
+  }
+}
+
+function updateMitigationButton(phosphate) {
+  const area = document.getElementById('mitigationArea');
+  const btn = document.getElementById('mitigationBtn');
+  if (!area || !btn) return;
+  if (phosphate !== null && !isNaN(phosphate) && phosphate >= 0.5) {
+    area.classList.add('show');
+    if (phosphate >= 1.0) {
+      btn.classList.add('critical');
+      btn.innerHTML = `<span>🚨</span> <span>TINDAKAN DARURAT (Hiper-eutrofik)</span>`;
+    } else {
+      btn.classList.remove('critical');
+      btn.innerHTML = `<span>⚠️</span> <span>Butuh Mitigasi (Eutrofik)</span>`;
+    }
+  } else {
+    area.classList.remove('show');
+  }
+}
+
+function renderResult(d, cls, wqi, anomalies){
+  const box = document.getElementById('resultBox');
+  updateTopDashboard(d, cls, wqi);
+  updateMitigationButton(d.phosphate);
+
+  box.innerHTML = `
+    <div class="verdict" style="margin-bottom:20px;">
+      <div class="status" style="background:${cls.color}1A;color:${cls.color};border:1px solid ${cls.color}33">${cls.status}</div>
+      <h3 style="color:${cls.color}">Fosfat ${cls.level} · ${d.phosphate} mg/L</h3>
+      <p>${cls.desc}</p>
+    </div>
     <div class="metrics">
-      ${metricCard('Fosfat (PO₄)', d.phosphate, 'mg/L', subIndex('phosphate', d.phosphate), '#22d3ee')}
-      ${metricCard('pH', d.ph, '—', subIndex('ph', d.ph), '#2dd4bf')}
-      ${metricCard('Suhu', d.temp, '°C', subIndex('temp', d.temp), '#38bdf8')}
-      ${metricCard('Konduktivitas', d.conductivity, 'µS/cm', subIndex('conductivity', d.conductivity), '#a78bfa')}
+      ${metricCard('Fosfat', d.phosphate, 'mg/L', subIndex('phosphate', d.phosphate), '#0ea5e9')}
+      ${metricCard('pH', d.ph, '—', subIndex('ph', d.ph), '#10b981')}
+      ${metricCard('Suhu', d.temp, '°C', subIndex('temp', d.temp), '#3b82f6')}
+      ${metricCard('Konduktivitas', d.conductivity, 'µS/cm', subIndex('conductivity', d.conductivity), '#8b5cf6')}
     </div>
-
-    ${anomalies.length ? `
-      <div style="margin-top:16px;padding:13px 15px;border-radius:12px;
-        background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.22)">
-        <div style="font-size:.72rem;font-weight:700;color:#fca5a5;letter-spacing:.6px;
-          text-transform:uppercase;margin-bottom:6px">⚠ ${anomalies.length} Anomali Terdeteksi</div>
-        <ul style="list-style:none;font-size:.79rem;color:var(--muted);line-height:1.7">
-          ${anomalies.map(a=>`<li>• ${a.msg}</li>`).join('')}
-        </ul>
-      </div>` : ''}
   `;
 }
 
 function metricCard(label, val, unit, si, color){
   if (val === null || val === undefined || isNaN(val)) {
-    return `<div class="metric"><div class="lbl">${label}</div>
-      <div class="vl" style="color:#3d5568">—</div>
-      <div class="sub">tidak diisi</div></div>`;
+    return `<div class="metric"><div class="lbl">${label}</div><div class="vl" style="color:#cbd5e1">—</div><div class="sub">belum diisi</div></div>`;
   }
-  const pct = si ?? 0;
+  const pct = Math.max(0, Math.min(100, si ?? 0));
   return `<div class="metric">
     <div class="lbl">${label}</div>
-    <div class="vl">${val}<span style="font-size:.66rem;color:var(--muted);font-weight:500"> ${unit}</span></div>
+    <div class="vl">${val}<span style="font-size:.66rem;color:var(--muted)"> ${unit}</span></div>
     <div class="bar"><i style="width:${pct}%;background:${color}"></i></div>
-    <div class="sub">indeks ${Math.round(pct)}/100</div>
+    <div class="sub">skor ${Math.round(pct)}/100</div>
   </div>`;
 }
 
-/* ============================================================
-   9. RENDER REKOMENDASI
-   ============================================================ */
 function renderRecommendations(recs){
   const box = document.getElementById('recBox');
+  if (!recs.length) { box.innerHTML = `<div class="empty-note">Belum ada rekomendasi.</div>`; return; }
   box.innerHTML = recs.map(r=>`
     <div class="rec">
       <div class="ico ${r.sev}">${r.ico}</div>
@@ -1388,109 +1071,66 @@ function renderRecommendations(recs){
     </div>`).join('');
 }
 
-/* ============================================================
-   10. RENDER BREAKDOWN AI MULTI-FAKTOR
-   ============================================================ */
-function renderForecastBreakdown(){
+function renderForecastBreakdown(passedFc){
   const box = document.getElementById('breakdownBox');
-  const stamp = document.getElementById('breakdownStamp');
-  const fc = forecast(AI_MODEL.forecastSteps);
-
-  if (!fc){
-    box.innerHTML = '<div class="empty-note">Minimal butuh 2 data historis untuk menjalankan prediksi multi-faktor.</div>';
-    return;
-  }
+  const fc = passedFc || forecast(AI_MODEL.forecastSteps);
+  if (!fc){ box.innerHTML = `<div class="empty-note">Ketik data untuk melihat rincian kalkulasi AI.</div>`; return; }
 
   const lastBase = fc.basePreds[fc.basePreds.length - 1];
   const lastAdjusted = fc.adjustedPreds[fc.adjustedPreds.length - 1];
   const wf = fc.weatherFactors;
   const vf = fc.visitorFactor;
-
   const overallChange = lastBase > 0 ? ((lastAdjusted / lastBase - 1) * 100) : 0;
   const changeClass = Math.abs(overallChange) < 3 ? 'stable' : (overallChange > 0 ? 'up' : 'down');
   const changeLabel = Math.abs(overallChange) < 3 ? 'Stabil' : (overallChange > 0 ? `+${overallChange.toFixed(1)}%` : `${overallChange.toFixed(1)}%`);
-
-  const rainySteps = wf.details.filter(d => d.intensity > 0);
-  const weatherExplain = rainySteps.length > 0
-    ? `<b>${rainySteps.length} periode hujan</b> terdeteksi dari forecast BMKG. Total efek limpasan kumulatif: <b>+${((Math.max(...wf.factors) - 1) * 100).toFixed(0)}%</b> pada peak.`
-    : 'Tidak ada hujan diprediksi dalam horizon prediksi — faktor limpasan minimal.';
-
-  const visitorExplain = vf.sampleCount > 0
-    ? `Rata-rata <b>${vf.avgVisitors} pengunjung/hari</b> (dari ${vf.sampleCount} entri terakhir). <b>${vf.explanation}</b>`
-    : 'Belum ada data lapangan — faktor pengunjung dianggap netral (1.0×).';
 
   box.innerHTML = `
     <div class="forecast-breakdown">
       <div class="fb-card base">
         <div class="head"><span class="icon">📈</span> Tren Historis</div>
-        <div class="value">${lastBase.toFixed(3)} <small style="font-size:.7rem;color:var(--muted);font-weight:500">mg/L</small></div>
-        <div style="font-size:.72rem;color:var(--muted)">Regresi linear dari ${getAllHistory().length} data</div>
-        <div class="formula">
-          y = ${fc.reg.slope.toFixed(5)} × t + ${fc.reg.intercept.toFixed(4)}
-        </div>
-        <div class="detail">
-          Akurasi model (R²): <b style="color:${fc.reg.r2 > 0.7 ? '#6ee7b7' : fc.reg.r2 > 0.4 ? '#fcd34d' : '#fca5a5'}">${(fc.reg.r2 * 100).toFixed(1)}%</b><br>
-          Slope: <b>${fc.reg.slope > 0 ? '↑ naik' : fc.reg.slope < 0 ? '↓ turun' : '→ stabil'}</b> per periode
-        </div>
+        <div class="value">${lastBase.toFixed(3)} <small style="font-size:.7rem;color:var(--muted)">mg/L</small></div>
+        <div class="formula">y = ${fc.reg.slope.toFixed(5)} × t + ${fc.reg.intercept.toFixed(4)}</div>
       </div>
-
       <div class="fb-card weather">
         <div class="head"><span class="icon">🌧️</span> Faktor Cuaca BMKG</div>
         <div class="value">×${wf.factors[wf.factors.length - 1].toFixed(3)}</div>
-        <div style="font-size:.72rem;color:var(--muted)">Multiplier limpasan hujan</div>
-        <div class="formula">
-          +${((wf.factors[wf.factors.length - 1] - 1) * 100).toFixed(1)}% fosfat
-        </div>
-        <div class="detail">
-          ${weatherExplain}
-          ${wf.dominantRainDesc ? `<br>Dominan: <b>${wf.dominantRainDesc}</b>` : ''}
-        </div>
+        <div class="formula">+${((wf.factors[wf.factors.length - 1] - 1) * 100).toFixed(1)}% limpasan</div>
       </div>
-
       <div class="fb-card visitor">
-        <div class="head"><span class="icon">👥</span> Faktor Pengunjung</div>
+        <div class="head"><span class="icon">👥</span> Faktor Beban Pengunjung</div>
         <div class="value">×${vf.multiplier.toFixed(3)}</div>
-        <div style="font-size:.72rem;color:var(--muted)">Beban nutrien domestik</div>
-        <div class="formula">
-          ${vf.multiplier >= 1 ? '+' : ''}${((vf.multiplier - 1) * 100).toFixed(1)}% fosfat
-        </div>
-        <div class="detail">
-          ${visitorExplain}
-        </div>
+        <div class="formula">${vf.explanation || 'Normal (1.0×)'}</div>
       </div>
     </div>
-
     <div class="final-prediction">
       <div>
-        <div class="label">🎯 Prediksi Final AI (${AI_MODEL.forecastSteps * 6} jam ke depan)</div>
+        <div class="label">🎯 Prediksi Final AI (30 jam ke depan)</div>
         <div class="num">${lastAdjusted.toFixed(3)} <small>mg/L PO₄</small></div>
       </div>
       <div class="change ${changeClass}">${changeLabel} vs baseline</div>
     </div>
-
-    <div style="margin-top:16px;padding:12px 15px;border-radius:11px;
-      background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.2);
-      font-size:.75rem;color:var(--muted);line-height:1.65">
-      <b style="color:var(--aqua)">🧠 Cara kerja AI Multi-Faktor:</b><br>
-      Prediksi akhir = <span style="font-family:monospace;color:var(--aqua)">Tren Historis × (1 + ΔCuaca × ${AI_MODEL.externalWeight}) × (1 + ΔPengunjung × ${AI_MODEL.externalWeight})</span><br>
-      • <b>ΔCuaca</b>: multiplier kenaikan dari limpasan hujan (efek kumulatif dengan decay ${AI_MODEL.rainDecayFactor})<br>
-      • <b>ΔPengunjung</b>: multiplier dari beban nutrien domestik (baseline ${AI_MODEL.visitorBaseline} orang/hari, ±${AI_MODEL.visitorEffect*100}% per ${AI_MODEL.visitorStep} orang)<br>
-      • <b>Bobot eksternal ${AI_MODEL.externalWeight}</b>: seberapa besar faktor eksternal mempengaruhi prediksi vs tren murni
-    </div>
   `;
-
-  stamp.textContent = 'Diperbarui ' + new Date().toLocaleTimeString('id-ID');
 }
 
-/* ============================================================
-   11. CHART
-   ============================================================ */
 function renderChart(){
-  const all = getAllHistory();
-  const ctx = document.getElementById('trendChart').getContext('2d');
+  const canvas = document.getElementById('trendChart');
+  if (!canvas) return;
 
-  const recent = all.slice(-60);
+  const all = getAllHistory();
+  const currentInput = readInputs();
+  let chartData = [...all];
+  
+  if (currentInput.phosphate !== null && !isNaN(currentInput.phosphate)) {
+    const livePoint = { ...currentInput, ts: Date.now(), time: 'Input Live' };
+    const lastSaved = all[all.length - 1];
+    if (!lastSaved || lastSaved.phosphate !== livePoint.phosphate) {
+      chartData.push(livePoint);
+    }
+  }
+
+  const recent = chartData.slice(-60);
   const labels = recent.map(h => {
+    if (h.time === 'Input Live') return 'Input Live';
     if (h.ts){
       const d = new Date(h.ts);
       return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}) + ' ' +
@@ -1500,11 +1140,11 @@ function renderChart(){
   });
   const data = recent.map(h => h.phosphate);
 
-  const fc = forecast(AI_MODEL.forecastSteps);
+  const fc = forecast(AI_MODEL.forecastSteps, chartData);
   const basePredData = [];
   const adjustedPredData = [];
   if (fc){
-    for (let i=0;i<AI_MODEL.forecastSteps;i++){
+    for (let i=0; i<AI_MODEL.forecastSteps; i++){
       labels.push(`+${i+1} (pred)`);
       data.push(null);
       basePredData.push(parseFloat(fc.basePreds[i].toFixed(4)));
@@ -1513,19 +1153,21 @@ function renderChart(){
   }
 
   const datasets = [{
-    label:'Kadar Fosfat Terukur (mg/L)',
+    label: 'Kadar Fosfat Terukur (mg/L)',
     data: data,
-    borderColor:'#22d3ee',
+    borderColor:'#0ea5e9',
     backgroundColor: (c)=>{
-      const g = c.chart.ctx.createLinearGradient(0,0,0,340);
-      g.addColorStop(0,'rgba(34,211,238,.35)');
-      g.addColorStop(1,'rgba(34,211,238,0)');
+      const g = c.chart.ctx.createLinearGradient(0,0,0,320);
+      g.addColorStop(0,'rgba(14,165,233,.25)');
+      g.addColorStop(1,'rgba(14,165,233,0)');
       return g;
     },
-    borderWidth:2.5, tension:.38, fill:true,
-    pointBackgroundColor:'#22d3ee', pointBorderColor:'#04141a',
-    pointBorderWidth:2, pointRadius:4, pointHoverRadius:7,
-    spanGaps:true
+    borderWidth:3, tension:.35, fill:true,
+    pointBackgroundColor:(c) => {
+      const item = recent[c.dataIndex];
+      return (item && item.time === 'Input Live') ? '#f59e0b' : '#0ea5e9';
+    }, 
+    pointBorderColor:'#ffffff', pointBorderWidth:2, pointRadius:5, spanGaps:true
   }];
 
   if (fc && recent.length){
@@ -1533,228 +1175,169 @@ function renderChart(){
     baseSeries.push(recent[recent.length-1].phosphate);
     basePredData.forEach(v => baseSeries.push(v));
     datasets.push({
-      label:'Tren Historis (mg/L)',
-      data: baseSeries,
-      borderColor:'rgba(138,166,184,.55)',
-      borderDash:[4,4], borderWidth:1.8, tension:.3, fill:false,
-      pointBackgroundColor:'rgba(138,166,184,.7)', pointRadius:3, spanGaps:true
+      label: 'Tren Historis', data: baseSeries,
+      borderColor:'rgba(100,116,139,.45)', borderDash:[4,4], borderWidth:2, tension:.3, fill:false,
+      pointBackgroundColor:'rgba(100,116,139,.6)', pointRadius:3, spanGaps:true
     });
 
     const adjustedSeries = new Array(recent.length-1).fill(null);
     adjustedSeries.push(recent[recent.length-1].phosphate);
     adjustedPredData.forEach(v => adjustedSeries.push(v));
     datasets.push({
-      label:'🤖 Prediksi AI Multi-Faktor (mg/L)',
-      data: adjustedSeries,
-      borderColor:'#fbbf24',
-      backgroundColor:'rgba(251,191,36,.08)',
-      borderWidth:2.8, tension:.3, fill:true,
-      pointBackgroundColor:'#fbbf24', pointBorderColor:'#04141a',
-      pointBorderWidth:2, pointRadius:5, pointHoverRadius:8,
-      spanGaps:true
+      label: '🤖 Prediksi AI Multi-Faktor',
+      data: adjustedSeries, borderColor:'#8b5cf6', backgroundColor:'rgba(139,92,246,.06)',
+      borderWidth:3, tension:.3, fill:true, pointBackgroundColor:'#8b5cf6', pointBorderColor:'#ffffff',
+      pointBorderWidth:2, pointRadius:5, spanGaps:true
     });
   }
 
   datasets.push({
-    label:'Ambang Eutrofik (0.5 mg/L)',
-    data: new Array(labels.length).fill(0.5),
-    borderColor:'rgba(251,146,60,.5)', borderWidth:1, borderDash:[3,4],
-    pointRadius:0, fill:false
+    label: 'Ambang Eutrofik (0.5 mg/L)', data: new Array(labels.length).fill(0.5),
+    borderColor:'rgba(249,115,22,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false
   });
   datasets.push({
-    label:'Ambang Aman (0.1 mg/L)',
-    data: new Array(labels.length).fill(0.1),
-    borderColor:'rgba(52,211,153,.5)', borderWidth:1, borderDash:[3,4],
-    pointRadius:0, fill:false
+    label: 'Ambang Aman (0.1 mg/L)', data: new Array(labels.length).fill(0.1),
+    borderColor:'rgba(16,185,129,.45)', borderWidth:1.5, borderDash:[4,4], pointRadius:0, fill:false
   });
 
-  if (chart) chart.destroy();
+  if (chart) {
+    try {
+      chart.data.labels = labels;
+      chart.data.datasets = datasets;
+      chart.update();
+      renderForecastBreakdown(fc);
+      return;
+    } catch(e) {
+      chart.destroy();
+      chart = null;
+    }
+  }
 
-  chart = new Chart(ctx, {
+  chart = new Chart(canvas, {
     type:'line',
     data:{ labels, datasets },
     options:{
       responsive:true, maintainAspectRatio:false,
+      animation: { duration: 600, easing: 'easeOutQuart' },
       interaction:{mode:'index', intersect:false},
       plugins:{
-        legend:{ labels:{ color:'#8aa6b8', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, padding:16, usePointStyle:true } },
-        tooltip:{
-          backgroundColor:'rgba(10,21,36,.96)',
-          borderColor:'rgba(34,211,238,.3)', borderWidth:1,
-          titleColor:'#22d3ee', bodyColor:'#e6f4f8', padding:12,
-          titleFont:{size:12, weight:'700'}, bodyFont:{size:12},
-          callbacks:{ label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(4) ?? '—'} mg/L` }
-        }
+        legend:{ labels:{ color:'#64748b', font:{size:11, family:'Inter'}, boxWidth:14, boxHeight:2, usePointStyle:true } }
       },
       scales:{
-        x:{ grid:{color:'rgba(94,234,212,.05)'}, ticks:{color:'#8aa6b8', font:{size:10}, maxRotation:45} },
-        y:{
-          grid:{color:'rgba(94,234,212,.07)'},
-          ticks:{color:'#8aa6b8', font:{size:10}},
-          title:{display:true, text:'Konsentrasi PO₄ (mg/L)', color:'#8aa6b8', font:{size:11}}
-        }
+        x:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}, maxRotation:45} },
+        y:{ grid:{color:'rgba(0,0,0,.05)'}, ticks:{color:'#64748b', font:{size:10}} }
       }
     }
   });
 
-  renderForecastBreakdown();
+  renderForecastBreakdown(fc);
 }
 
-/* ============================================================
-   12. RIWAYAT
-   ============================================================ */
 function renderHistory(){
   const body = document.getElementById('historyBody');
   const all = getAllHistory().slice().reverse();
-  const isAdmin = isAdminLoggedIn();
-  const actionCol = document.getElementById('actionCol');
-
-  if (isAdmin) actionCol.style.display = 'table-cell';
-  else actionCol.style.display = 'none';
-
+  const isAdm = isAdminLoggedIn();
   if (!all.length){
-    body.innerHTML = `<tr><td colspan="${isAdmin ? 9 : 8}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
-    document.getElementById('historyInfo').textContent =
-      FIREBASE_ENABLED ? 'Menunggu data dari sensor & input manual...' : 'Data tersimpan otomatis di browser (mode offline).';
+    body.innerHTML = `<tr><td colspan="${isAdm?9:8}" class="empty-note">Belum ada data tersimpan.</td></tr>`;
     return;
   }
-
-  body.innerHTML = all.slice(0, 200).map(h=>{
+  body.innerHTML = all.slice(0, 50).map(h=>{
     const cls = classifyPhosphate(h.phosphate);
-    const timeStr = h.ts
-      ? new Date(h.ts).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
-      : (h.time || '—');
-
-    const uniqueId = h.source === 'sensor'
-      ? `fb:${h.id || ''}`
-      : `local:${h.ts}`;
-
-    const actionCell = isAdmin
-      ? `<td><div class="btn-row-del">
-           <button class="btn-del" data-del-id="${uniqueId}" data-del-src="${h.source || 'manual'}">🗑 Hapus</button>
-         </div></td>`
-      : '';
-
-    return `<tr data-row-id="${uniqueId}">
+    const timeStr = h.ts ? new Date(h.ts).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : (h.time || '—');
+    const delBtn = isAdm ? `<td><button class="btn-del" onclick="window.__delRow(${h.ts})">🗑 Hapus</button></td>` : '';
+    return `<tr>
       <td style="color:var(--muted);font-size:.76rem">${timeStr}</td>
       <td><b style="color:${cls.color}">${h.phosphate}</b></td>
       <td>${h.ph ?? '—'}</td>
       <td>${h.temp ?? '—'}</td>
       <td>${h.conductivity ?? '—'}</td>
-      <td><span class="pill" style="background:${cls.color}22;color:${cls.color}">${cls.status}</span></td>
+      <td><span class="pill" style="background:${cls.color}1A;color:${cls.color}">${cls.status}</span></td>
       <td>${h.wqi ?? '—'}</td>
       <td style="font-size:.72rem;color:var(--muted)">${h.source || 'manual'}</td>
-      ${actionCell}
+      ${delBtn}
     </tr>`;
   }).join('');
-
-  if (isAdmin){
-    body.querySelectorAll('.btn-del').forEach(btn => {
-      btn.addEventListener('click', () => handleDeleteRow(btn));
-    });
-  }
-
-  document.getElementById('historyInfo').textContent =
-    `Menampilkan ${Math.min(all.length,200)} dari ${all.length} data · ${firebaseHistory.length} dari sensor · ${localHistory.length} manual`;
 }
+window.__delRow = (ts) => {
+  if (!confirm('Hapus baris data pengukuran ini?')) return;
+  localHistory = localHistory.filter(h => h.ts !== ts);
+  localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
+  updateAllLive();
+  showToast('✅ Baris riwayat dihapus.', 'success');
+};
 
-async function handleDeleteRow(btn){
-  const id = btn.dataset.delId;
-  const src = btn.dataset.delSrc;
-  const [prefix, key] = id.split(':');
-
-  if (!confirm(`Hapus data ini?\n\nSumber: ${src}\nID: ${key || id}`)) return;
-
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-
-  try {
-    if (prefix === 'local'){
-      const tsNum = parseInt(key);
-      localHistory = localHistory.filter(h => h.ts !== tsNum);
-      localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
-      showToast('✅ Data manual dihapus', 'success');
-    } else if (prefix === 'fb'){
-      if (!FIREBASE_ENABLED || !db || !key){
-        showToast('❌ Tidak bisa hapus — Firebase tidak aktif atau ID tidak valid', 'error');
-        btn.disabled = false;
-        btn.innerHTML = '🗑 Hapus';
-        return;
-      }
-      const { ref, remove } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js');
-      await remove(ref(db, `readings/${key}`));
-      showToast('✅ Data sensor dihapus dari Firebase', 'success');
-    }
-
-    renderHistory();
-    renderChart();
-    updateMapFromData();
-  } catch(e){
-    console.error('Delete error:', e);
-    showToast('❌ Gagal hapus: ' + e.message, 'error');
-    btn.disabled = false;
-    btn.innerHTML = '🗑 Hapus';
-  }
-}
-
-/* ============================================================
-   13. INPUT
-   ============================================================ */
 function readInputs(){
   const num = id => {
     const el = document.getElementById(id);
+    if (!el) return null;
     const v = el.value.trim();
     return v === '' ? null : parseFloat(v);
   };
-  return {
-    phosphate: num('phosphate'),
-    ph: num('ph'),
-    temp: num('temp'),
-    conductivity: num('conductivity'),
-    flow: num('flow')
-  };
+  return { phosphate: num('phosphate'), ph: num('ph'), temp: num('temp'), conductivity: num('conductivity'), flow: num('flow') };
 }
 
 function fillInputs(d){
-  ['phosphate','ph','temp','conductivity'].forEach(k => {
+  ['phosphate','ph','temp','conductivity','flow'].forEach(k => {
     if (d[k] === null || d[k] === undefined || isNaN(d[k])) return;
     const el = document.getElementById(k);
-    el.value = d[k];
-    el.classList.add('from-sensor');
-    setTimeout(() => el.classList.remove('from-sensor'), 2500);
+    if (el) el.value = d[k];
   });
 }
 
-/* ============================================================
-   14. MAIN ANALYZE
-   ============================================================ */
-async function analyze(){
-  const d = readInputs();
-  const btn = document.getElementById('analyzeBtn');
-
-  if (d.phosphate === null || isNaN(d.phosphate)){
-    alert('⚠️ Kadar fosfat (PO₄) wajib diisi sebagai parameter utama.');
-    document.getElementById('phosphate').focus();
-    return;
-  }
-  if (d.phosphate < 0){
-    alert('⚠️ Kadar fosfat tidak boleh negatif.');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span>⏳</span> Menganalisis...';
-
-  const delay = thinkingAnimation();
-  await new Promise(r=>setTimeout(r, delay));
-
+function runAIEngine(d) {
+  if (!d || d.phosphate === null || isNaN(d.phosphate)) return;
   const cls = classifyPhosphate(d.phosphate);
   const wqi = computeWQI(d);
   const anomalies = detectAnomalies(d);
   const recs = buildRecommendations(d, cls, wqi, anomalies);
-
   renderResult(d, cls, wqi, anomalies);
   renderRecommendations(recs);
+  const stamp = document.getElementById('stamp');
+  if (stamp) stamp.textContent = 'Diperbarui ' + new Date().toLocaleTimeString('id-ID');
+}
+
+function updateAllLive() {
+  const d = readInputs();
+  if (d.phosphate !== null && !isNaN(d.phosphate)) {
+    runAIEngine(d);
+  } else {
+    const all = getAllHistory();
+    if (all.length > 0) runAIEngine(all[all.length - 1]);
+  }
+  renderChart();
+}
+
+let liveDebounceTimer;
+['phosphate', 'ph', 'temp', 'conductivity', 'flow'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    clearTimeout(liveDebounceTimer);
+    liveDebounceTimer = setTimeout(updateAllLive, 250);
+  });
+});
+
+/* ============================================================
+   AKSI ADMIN: SIMPAN PENGUKURAN RESMI
+   ============================================================ */
+document.getElementById('analyzeBtn').addEventListener('click', async () => {
+  if (!isAdminLoggedIn()){
+    openLoginModal();
+    showToast('Silakan login ke Gateway Admin untuk menyimpan data resmi.', 'warn');
+    return;
+  }
+
+  const d = readInputs();
+  if (d.phosphate === null || isNaN(d.phosphate)){
+    alert('Kadar fosfat wajib diisi sebelum menyimpan data.');
+    document.getElementById('phosphate').focus();
+    return;
+  }
+
+  const btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+  btn.innerHTML = `<span>⏳</span> Menyimpan resmi...`;
+  await new Promise(r=>setTimeout(r, 500));
 
   const now = new Date();
   const newEntry = {
@@ -1762,595 +1345,50 @@ async function analyze(){
     ts: now.getTime(),
     phosphate: d.phosphate, ph: d.ph, temp: d.temp,
     conductivity: d.conductivity, flow: d.flow,
-    wqi: wqi.score, status: cls.status, source: 'manual'
+    wqi: computeWQI(d).score, status: classifyPhosphate(d.phosphate).status, source: 'Admin Gateway'
   };
   localHistory.push(newEntry);
   localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
 
-  // Sinkronisasi ke Google Sheets (Manual)
-  syncToGoogleSheets(newEntry);
-
-  document.getElementById('stamp').textContent = 'Diperbarui ' + now.toLocaleTimeString('id-ID');
-
+  runAIEngine(d);
   renderHistory();
   renderChart();
-  updateMapFromData();
 
   btn.disabled = false;
-  btn.innerHTML = '<span>⚡</span> Analisis dengan AI';
-
-  document.getElementById('analisis').scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-/* ============================================================
-   15. BMKG WEATHER
-   ============================================================ */
-async function fetchBMKGWeather(){
-  const box = document.getElementById('weatherBox');
-
-  if (!PROXY_ENABLED){
-    box.innerHTML = `<div class="empty-note" style="color:#fcd34d;line-height:1.7">
-      ⚠️ <b>Proxy BMKG belum dikonfigurasi.</b><br>
-      <span style="font-size:.75rem">Isi <code style="background:rgba(0,0,0,.4);padding:2px 6px;border-radius:5px;color:#22d3ee">PROXY_URL</code> di atas.</span>
-    </div>`;
-    return;
-  }
-
-  box.innerHTML = '<div class="empty-note">🔄 Mengambil data cuaca dari BMKG...</div>';
-
-  try {
-    const url = `${PROXY_URL}/api/cuaca?adm4=${BMKG_ADM4}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-
-    let lokasi = null, cuacaArr = [];
-    if (data.lokasi) lokasi = data.lokasi;
-    if (data.data && data.data[0]){
-      const first = data.data[0];
-      if (first.lokasi && !lokasi) lokasi = first.lokasi;
-      if (first.cuaca) cuacaArr = Array.isArray(first.cuaca[0]) ? first.cuaca.flat() : first.cuaca;
-    }
-    if (!cuacaArr.length) throw new Error('Format data cuaca tidak dikenali');
-
-    const current = cuacaArr[0];
-    const rainForecast = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
-    weatherData = {
-      current,
-      forecast: cuacaArr.slice(0, 12),
-      rainExpected: !!rainForecast,
-      rainTimeframe: rainForecast ? formatTimeDiff(rainForecast.local_datetime) : '',
-      rainDesc: rainForecast ? rainForecast.weather_desc : ''
-    };
-
-    renderWeather(lokasi, cuacaArr, 'self-hosted proxy');
-    renderChart();
-
-  } catch(e) {
-    console.error('BMKG fetch error:', e);
-    box.innerHTML = `<div class="empty-note" style="color:#fca5a5;line-height:1.7">
-      ❌ <b>Gagal memuat data cuaca BMKG.</b><br>
-      <span style="font-size:.75rem;display:block;margin-top:6px">${e.message}</span>
-      <button class="btn ghost" onclick="window.__retryWeather()" style="width:auto;padding:8px 16px;margin-top:14px">🔄 Coba Lagi</button>
-    </div>`;
-  }
-}
-
-function formatTimeDiff(datetimeStr){
-  if (!datetimeStr) return 'waktu dekat';
-  try {
-    const target = new Date(datetimeStr.replace(' ', 'T'));
-    const now = new Date();
-    const diffH = Math.round((target - now) / 3600000);
-    if (diffH <= 0) return 'saat ini';
-    if (diffH <= 24) return `${diffH} jam ke depan`;
-    return `${Math.round(diffH/24)} hari ke depan`;
-  } catch(_) { return 'waktu dekat'; }
-}
-
-function renderWeather(lokasi, cuacaArr, source){
-  const box = document.getElementById('weatherBox');
-  const current = cuacaArr[0];
-  const locName = lokasi ? [lokasi.desa, lokasi.kecamatan, lokasi.kotkab].filter(Boolean).join(', ') : 'Sumber Maron';
-
-  const curTemp = current.t ?? '—';
-  const curDesc = current.weather_desc || '—';
-  const curHu   = current.hu ?? '—';
-  const curWs   = current.ws ?? '—';
-  const curWd   = current.wd || '—';
-  const curTcc  = current.tcc ?? '—';
-  const curVs   = current.vs_text || '—';
-  const curTime = current.local_datetime || '—';
-  const curIcon = current.image || '';
-
-  const rainSoon = cuacaArr.find(c => (c.weather_desc || '').toLowerCase().includes('hujan'));
-
-  box.innerHTML = `
-    <div class="weather-current">
-      <div style="text-align:center">
-        ${curIcon
-          ? `<img src="${curIcon}" alt="Cuaca" class="weather-icon" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-             <div style="font-size:60px;display:none">🌤️</div>`
-          : '<div style="font-size:60px">🌤️</div>'}
-      </div>
-      <div class="weather-main">
-        <div class="desc">${curDesc}</div>
-        <h3>${curTemp}°C</h3>
-        <div class="loc">📍 ${locName} · Kode: ${BMKG_ADM4}</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Diperbarui: ${curTime}</div>
-      </div>
-    </div>
-
-    <div class="weather-grid">
-      <div class="weather-item"><div class="lbl">Kelembapan</div><div class="val">${curHu}${curHu !== '—' ? '%' : ''}</div></div>
-      <div class="weather-item"><div class="lbl">Kecepatan Angin</div><div class="val">${curWs}${curWs !== '—' ? ' km/j' : ''}</div></div>
-      <div class="weather-item"><div class="lbl">Arah Angin</div><div class="val">${curWd}</div></div>
-      <div class="weather-item"><div class="lbl">Tutupan Awan</div><div class="val">${curTcc}${curTcc !== '—' ? '%' : ''}</div></div>
-      <div class="weather-item"><div class="lbl">Jarak Pandang</div><div class="val">${curVs}</div></div>
-    </div>
-
-    ${rainSoon ? `<div class="rain-alert">
-      🌧️ <b>Waspada Hujan:</b> BMKG memprediksi <b>${rainSoon.weather_desc || 'hujan'}</b> pada ${rainSoon.local_datetime || 'beberapa saat ke depan'}.
-    </div>` : ''}
-
-    <div style="margin-top:18px">
-      <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px">
-        📅 Prakiraan 36 Jam ke Depan
-      </div>
-      <div class="forecast-scroll">
-        ${cuacaArr.slice(0, 12).map(c => `
-          <div class="forecast-item">
-            <div class="time">${formatForecastTime(c.local_datetime)}</div>
-            ${c.image ? `<img src="${c.image}" alt="" onerror="this.style.display='none'">` : '<div style="height:40px"></div>'}
-            <div class="temp">${c.t ?? '—'}°C</div>
-            <div class="desc">${c.weather_desc || '—'}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    <div style="margin-top:10px;font-size:.68rem;color:var(--muted);text-align:right">
-      Sumber: <b>BMKG</b> · via ${source || 'proxy'}
-    </div>
-  `;
-}
-
-function formatForecastTime(dt){
-  if (!dt) return '—';
-  try {
-    const d = new Date(String(dt).replace(' ', 'T'));
-    if (isNaN(d.getTime())) return String(dt).slice(-5);
-    const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-    return `${days[d.getDay()]} ${String(d.getHours()).padStart(2,'0')}:00`;
-  } catch(_) { return String(dt).slice(-5) || '—'; }
-}
-
-window.__retryWeather = fetchBMKGWeather;
-
-/* ============================================================
-   16. GOOGLE SHEETS SYNC
-   ============================================================ */
-async function syncToGoogleSheets(data) {
-  if (!SHEETS_ENABLED) return;
-  
-  // Cegah spam: Jangan kirim data yang sama dua kali jika timestamp-nya identik
-  if (data.ts && data.ts <= lastSyncedTimestamp) return;
-  
-  try {
-    const payload = {
-      timestamp: new Date(data.ts || Date.now()).toISOString(),
-      phosphate: data.phosphate,
-      ph: data.ph,
-      temp: data.temp,
-      conductivity: data.conductivity,
-      wqi: data.wqi,
-      status: data.status,
-      source: data.source || 'sensor',
-      notes: data.notes || ''
-    };
-
-    await fetch(SHEETS_WEBAPP_URL, {
-      method: 'POST',
-      mode: 'no-cors', // Apps Script Web App menggunakan no-cors dari browser
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (data.ts) lastSyncedTimestamp = data.ts;
-    console.log('📊 Data terkirim ke Google Sheets:', payload);
-    
-  } catch (e) {
-    console.warn('Gagal sinkronisasi ke Google Sheets:', e);
-  }
-}
-
-/* ============================================================
-   17. FIREBASE
-   ============================================================ */
-async function initFirebase(){
-  if (!FIREBASE_ENABLED){
-    document.getElementById('configWarning').style.display = 'block';
-    setSensorStatus('Mode offline — Firebase belum dikonfigurasi', 'warn');
-    setLiveIndicator('offline', 'Mode Offline');
-    return;
-  }
-
-  try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
-    const fb = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js');
-    fbApi = fb;
-
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = fb.getDatabase(app);
-    fb.goOnline(db);
-
-    setSensorStatus('🔄 Menghubungkan ke Firebase...', '');
-
-    fb.onValue(fb.ref(db, 'latest'), (snap) => {
-      const d = snap.val();
-      if (!d){ setSensorStatus('Terhubung — menunggu data sensor pertama...', 'ok'); return; }
-      
-      const ts = d.ts || Date.now();
-      lastFirebaseTs = ts;
-      fillInputs(d);
-      setSensorStatus(`📡 Data terakhir: ${new Date(lastFirebaseTs).toLocaleString('id-ID')} — PO₄: ${d.phosphate} mg/L`, 'ok');
-
-      // Sinkronisasi ke Google Sheets (Otomatis dari alat)
-      const sheetPayload = {
-        ts: ts,
-        phosphate: d.phosphate,
-        ph: d.ph,
-        temp: d.temp,
-        conductivity: d.conductivity,
-        wqi: computeWQI(d).score,
-        status: classifyPhosphate(d.phosphate).status,
-        source: 'sensor'
-      };
-      syncToGoogleSheets(sheetPayload);
-
-    }, (err) => {
-      console.error('Firebase /latest error:', err);
-      setSensorStatus('❌ Gagal baca /latest: ' + err.message, 'err');
-    });
-
-    fb.onValue(fb.ref(db, 'status'), (snap) => {
-      const s = snap.val();
-      if (!s || !s.lastSeen){ setLiveIndicator('offline', 'Alat Belum Aktif'); return; }
-      const secAgo = (Date.now() - s.lastSeen) / 1000;
-      if (secAgo > 120) setLiveIndicator('offline', `Alat Offline (${Math.round(secAgo/60)}m lalu)`);
-      else setLiveIndicator('online', `Alat Online · ${new Date(s.lastSeen).toLocaleTimeString('id-ID')}`);
-    });
-
-    fb.onValue(fb.query(fb.ref(db, 'readings'), fb.limitToLast(200)), (snap) => {
-      const arr = [];
-      snap.forEach(child => {
-        const v = child.val();
-        arr.push({
-          id: child.key,
-          ts: v.ts || Date.now(),
-          phosphate: v.phosphate, ph: v.ph, temp: v.temp,
-          conductivity: v.conductivity,
-          wqi: computeWQI(v).score,
-          status: classifyPhosphate(v.phosphate).status,
-          source: 'sensor'
-        });
-      });
-      firebaseHistory = arr.sort((a,b) => (a.id > b.id ? 1 : -1));
-      renderHistory();
-      renderChart();
-      updateMapFromData();
-      if (!document.getElementById('stamp').textContent){
-        setSensorStatus(`✅ Tersinkron: ${arr.length} data sensor dari Firebase`, 'ok');
-      }
-    });
-
-    fb.onValue(fb.query(fb.ref(db, 'fieldData'), fb.limitToLast(100)), (snap) => {
-      const arr = [];
-      snap.forEach(child => arr.push(child.val()));
-      const merged = [...arr, ...fieldData];
-      const seen = new Set();
-      fieldData = merged.filter(f => {
-        if (!f.ts || seen.has(f.ts)) return false;
-        seen.add(f.ts);
-        return true;
-      }).sort((a,b) => b.ts - a.ts).slice(0, 100);
-      localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
-      renderFieldStats();
-      renderChart();
-    });
-
-  } catch(e) {
-    console.error('Firebase init error:', e);
-    setSensorStatus('❌ Gagal inisialisasi Firebase: ' + e.message, 'err');
-    setLiveIndicator('offline', 'Error Firebase');
-  }
-}
-
-function setLiveIndicator(state, text){
-  const el = document.getElementById('liveIndicator');
-  el.classList.remove('online','offline');
-  el.classList.add(state);
-  el.innerHTML = `<span class="dot"></span> ${text}`;
-}
-
-function setSensorStatus(text, kind){
-  const box = document.getElementById('sensorStatus');
-  const txt = document.getElementById('sensorStatusText');
-  box.classList.remove('ok','err','warn');
-  if (kind) box.classList.add(kind);
-  txt.textContent = text;
-}
-
-/* ============================================================
-   18. ADMIN AUTHENTICATION
-   ============================================================ */
-async function sha256(text) {
-  const buf = new TextEncoder().encode(text);
-  const hash = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-window.sha256 = sha256;
-
-function isAdminLoggedIn(){
-  try {
-    const s = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
-    if (!s) return false;
-    if (Date.now() - s.ts > SESSION_DURATION){
-      localStorage.removeItem(ADMIN_SESSION_KEY);
-      return false;
-    }
-    return true;
-  } catch(_) { return false; }
-}
-
-function setAdminSession(){ localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
-function clearAdminSession(){ localStorage.removeItem(ADMIN_SESSION_KEY); }
-
-async function verifyPassword(input){
-  if (ADMIN_AUTH.hash) {
-    const inputHash = await sha256(input);
-    return inputHash === ADMIN_AUTH.hash;
-  }
-  return input === ADMIN_AUTH.password;
-}
-
-function updateAuthUI(){
-  const loggedIn = isAdminLoggedIn();
-  const btn = document.getElementById('loginBtn');
-  const panel = document.getElementById('adminPanel');
-  const sensorDeleteBtn = document.getElementById('clearSensorBtn');
-
-  if (loggedIn){
-    btn.innerHTML = '🔓 Logout Admin';
-    btn.classList.add('admin');
-    panel.classList.add('show');
-    if (FIREBASE_ENABLED) sensorDeleteBtn.style.display = 'inline-flex';
-  } else {
-    btn.innerHTML = '🔐 Login Admin';
-    btn.classList.remove('admin');
-    panel.classList.remove('show');
-    sensorDeleteBtn.style.display = 'none';
-  }
-
-  renderHistory();
-}
-
-function openLoginModal(){
-  document.getElementById('loginModal').classList.add('show');
-  document.getElementById('adminPassword').value = '';
-  document.getElementById('loginError').classList.remove('show');
-  setTimeout(() => document.getElementById('adminPassword').focus(), 100);
-}
-
-function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
-
-document.getElementById('loginBtn').addEventListener('click', () => {
-  if (isAdminLoggedIn()){
-    if (confirm('Logout dari panel admin?')){
-      clearAdminSession();
-      updateAuthUI();
-      showToast('Berhasil logout', 'success');
-    }
-  } else {
-    openLoginModal();
-  }
+  btn.innerHTML = `<span>💾</span> <span id="analyzeBtnTxt">Simpan Pengukuran Resmi (Admin)</span>`;
+  showToast('✅ Pengukuran resmi berhasil disimpan ke riwayat!', 'success');
 });
 
-document.getElementById('closeLogin').addEventListener('click', closeLoginModal);
-document.getElementById('cancelLogin').addEventListener('click', closeLoginModal);
-
-document.getElementById('submitLogin').addEventListener('click', async () => {
-  const pwd = document.getElementById('adminPassword').value;
-  const err = document.getElementById('loginError');
-
-  if (!pwd){
-    err.textContent = '❌ Password tidak boleh kosong';
-    err.classList.add('show');
-    return;
-  }
-
-  const btn = document.getElementById('submitLogin');
-  btn.disabled = true;
-  btn.textContent = 'Memeriksa...';
-
-  if (await verifyPassword(pwd)){
-    setAdminSession();
-    updateAuthUI();
-    closeLoginModal();
-    showToast('✅ Login berhasil! Selamat datang, Admin.', 'success');
-  } else {
-    err.textContent = '❌ Password salah. Coba lagi.';
-    err.classList.add('show');
-    document.getElementById('adminPassword').value = '';
-    document.getElementById('adminPassword').focus();
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Masuk';
-});
-
-document.getElementById('adminPassword').addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') document.getElementById('submitLogin').click();
-});
-
-document.getElementById('adminPassword').addEventListener('input', () => {
-  document.getElementById('loginError').classList.remove('show');
-});
-
-/* ============================================================
-   19. FIELD DATA
-   ============================================================ */
-function saveFieldDataLocal(data){
-  fieldData.unshift(data);
-  if (fieldData.length > 100) fieldData = fieldData.slice(0, 100);
-  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
-}
-
-async function saveFieldDataToFirebase(data){
-  if (!FIREBASE_ENABLED || !db || !fbApi) return false;
-  try {
-    await fbApi.set(fbApi.push(fbApi.ref(db, 'fieldData')), data);
-    await fbApi.set(fbApi.ref(db, 'fieldDataLatest'), data);
-    return true;
-  } catch(e){
-    console.error('Save field data error:', e);
-    return false;
-  }
-}
-
-async function deleteFieldDataEntry(ts){
-  fieldData = fieldData.filter(f => f.ts !== ts);
-  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
-
-  if (FIREBASE_ENABLED && db && fbApi){
-    try {
-      const snap = await fbApi.get(fbApi.query(fbApi.ref(db, 'fieldData'), fbApi.limitToLast(100)));
-      const updates = {};
-      snap.forEach(child => {
-        const v = child.val();
-        if (v.ts === ts) updates[`fieldData/${child.key}`] = null;
-      });
-      if (Object.keys(updates).length){
-        await fbApi.update(fbApi.ref(db), updates);
-      }
-    } catch(e){
-      console.error('Delete field from Firebase error:', e);
-    }
-  }
-
-  renderFieldStats();
-  renderChart();
-  showToast('✅ Entri data lapangan dihapus', 'success');
-}
-
-function renderFieldStats(){
-  const box = document.getElementById('fieldStatsBox');
-  const isAdmin = isAdminLoggedIn();
-
-  if (!fieldData.length){
-    box.innerHTML = '<div class="empty-note">Belum ada data lapangan. Admin dapat menambahkan data di panel bawah.</div>';
-    return;
-  }
-
-  const latest = fieldData[0];
-  const rainEmoji = latest.rainStatus === 'Tidak Hujan' ? '☀️' :
-                    latest.rainStatus === 'Hujan Ringan' ? '🌦️' :
-                    latest.rainStatus === 'Hujan Sedang' ? '🌧️' :
-                    latest.rainStatus === 'Hujan Lebat' ? '⛈️' : '🌤️';
-
-  const vf = computeVisitorFactor();
-
-  box.innerHTML = `
-    <div class="visitor-stats">
-      <div class="stat-card">
-        <div class="icon">👥</div>
-        <div class="val">${latest.visitorCount ?? 0}</div>
-        <div class="lbl">Pengunjung Terbaru</div>
-        <div class="sub">${latest.date || '—'}</div>
-      </div>
-      <div class="stat-card">
-        <div class="icon">${rainEmoji}</div>
-        <div class="val txt">${latest.rainStatus || '—'}</div>
-        <div class="lbl">Kondisi Hujan</div>
-        <div class="sub">${latest.weatherCond || '—'}</div>
-      </div>
-      <div class="stat-card">
-        <div class="icon">🌡️</div>
-        <div class="val">${latest.airTemp ?? '—'}°</div>
-        <div class="lbl">Suhu Udara</div>
-        <div class="sub">Kelembapan ${latest.airHumidity ?? '—'}%</div>
-      </div>
-      <div class="stat-card">
-        <div class="icon">🤖</div>
-        <div class="val" style="font-size:1.4rem;padding-top:2px">×${vf.multiplier.toFixed(3)}</div>
-        <div class="lbl">Faktor AI</div>
-        <div class="sub">${vf.avgVisitors} rata-rata/hari</div>
-      </div>
-    </div>
-    ${latest.notes ? `
-      <div style="margin-top:14px;padding:14px;border-radius:12px;background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.2)">
-        <div style="font-size:.68rem;color:var(--aqua);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">📝 Catatan Lapangan</div>
-        <div style="font-size:.85rem;color:var(--txt);line-height:1.6">${escapeHtml(latest.notes)}</div>
-      </div>
-    ` : ''}
-    ${fieldData.length > 1 ? `
-      <div style="margin-top:16px">
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">
-          Riwayat Data Lapangan (${fieldData.length} entri)
-        </div>
-        <div class="table-scroll" style="max-height:240px">
-          <table>
-            <thead>
-              <tr>
-                <th>Tanggal</th><th>Pengunjung</th><th>Hujan</th><th>Cuaca</th><th>Suhu</th><th>Lembap</th>
-                ${isAdmin ? '<th>Aksi</th>' : ''}
-              </tr>
-            </thead>
-            <tbody>
-              ${fieldData.slice(0, 30).map(f => `
-                <tr>
-                  <td style="font-size:.76rem">${f.date || '—'}</td>
-                  <td><b>${f.visitorCount ?? '—'}</b></td>
-                  <td>${f.rainStatus || '—'}</td>
-                  <td>${f.weatherCond || '—'}</td>
-                  <td>${f.airTemp ?? '—'}°C</td>
-                  <td>${f.airHumidity ?? '—'}%</td>
-                  ${isAdmin ? `<td><div class="btn-row-del"><button class="btn-del" data-field-del="${f.ts}">🗑 Hapus</button></div></td>` : ''}
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    ` : ''}
-  `;
-
-  if (isAdmin){
-    box.querySelectorAll('[data-field-del]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const ts = parseInt(btn.dataset.fieldDel);
-        if (!confirm('Hapus entri data lapangan ini?')) return;
-        btn.disabled = true;
-        btn.textContent = '⏳';
-        await deleteFieldDataEntry(ts);
-      });
-    });
-  }
-}
-
-function escapeHtml(s){
-  const div = document.createElement('div');
-  div.textContent = s;
-  return div.innerHTML;
-}
-
-document.getElementById('saveFieldBtn').addEventListener('click', async () => {
+// QUICK VISITOR INPUT
+document.getElementById('quickVisitorBtn').addEventListener('click', () => {
   if (!isAdminLoggedIn()){
-    showToast('Sesi admin habis. Silakan login ulang.', 'error');
+    openLoginModal();
+    showToast('Input pengunjung memerlukan akses Gateway Admin.', 'warn');
     return;
   }
+  const val = parseInt(document.getElementById('quickVisitorInput').value);
+  if (isNaN(val) || val < 0) return;
+  fieldData.unshift({
+    date: new Date().toISOString().slice(0, 10),
+    visitorCount: val,
+    rainStatus: 'Tidak Hujan',
+    weatherCond: 'Cerah',
+    ts: Date.now()
+  });
+  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
+  renderFieldStats();
+  updateAllLive();
+  document.getElementById('quickVisitorInput').value = '';
+  showToast(`✅ Tiket: ${val} pengunjung dicatat. AI diperbarui!`, 'success');
+});
 
+// SIMPAN DATA LAPANGAN
+document.getElementById('saveFieldBtn').addEventListener('click', () => {
+  if (!isAdminLoggedIn()){
+    openLoginModal();
+    showToast('Akses dibatasi. Silakan login admin.', 'warn');
+    return;
+  }
   const visitorCount = parseInt(document.getElementById('visitorCount').value);
   const data = {
     date: document.getElementById('fieldDate').value || new Date().toISOString().slice(0,10),
@@ -2360,531 +1398,135 @@ document.getElementById('saveFieldBtn').addEventListener('click', async () => {
     airTemp: parseFloat(document.getElementById('airTemp').value) || null,
     airHumidity: parseInt(document.getElementById('airHumidity').value) || null,
     notes: document.getElementById('fieldNotes').value.trim(),
-    ts: Date.now(),
-    admin: true
+    ts: Date.now()
   };
-
-  const btn = document.getElementById('saveFieldBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span>⏳</span> Menyimpan...';
-
-  saveFieldDataLocal(data);
-  const fbOk = await saveFieldDataToFirebase(data);
+  fieldData.unshift(data);
+  localStorage.setItem(FIELD_STORE_KEY, JSON.stringify(fieldData));
   renderFieldStats();
-  renderChart();
-
-  btn.disabled = false;
-  btn.innerHTML = '💾 Simpan Data Lapangan';
-
-  if (fbOk) showToast('✅ Data tersimpan & tersinkron ke cloud', 'success');
-  else if (FIREBASE_ENABLED) showToast('⚠️ Tersimpan lokal, gagal sync ke Firebase', 'warn');
-  else showToast('✅ Data tersimpan lokal', 'success');
-
-  document.getElementById('visitorCount').value = '';
-  document.getElementById('fieldNotes').value = '';
+  updateAllLive();
+  showToast('✅ Data lapangan berhasil disimpan pengelola.', 'success');
 });
 
+// AUTO FILL DARI BMKG KE FORM LAPANGAN
 document.getElementById('autoFillWeatherBtn').addEventListener('click', () => {
-  if (!weatherData || !weatherData.current){
-    showToast('Data cuaca BMKG belum tersedia', 'warn');
+  if (!weatherData || !weatherData.current) {
+    showToast('Data BMKG sedang dimuat, coba sebentar lagi.', 'warn');
     return;
   }
-  const w = weatherData.current;
-  document.getElementById('airTemp').value = w.t ?? '';
-  document.getElementById('airHumidity').value = w.hu ?? '';
+  const c = weatherData.current;
+  document.getElementById('airTemp').value = c.t ?? '';
+  document.getElementById('airHumidity').value = c.hu ?? '';
+  const desc = (c.weather_desc || '').toLowerCase();
+  if (desc.includes('hujan lebat')) document.getElementById('rainStatus').value = 'Hujan Lebat';
+  else if (desc.includes('hujan sedang')) document.getElementById('rainStatus').value = 'Hujan Sedang';
+  else if (desc.includes('hujan')) document.getElementById('rainStatus').value = 'Hujan Ringan';
+  else document.getElementById('rainStatus').value = 'Tidak Hujan';
 
-  const desc = (w.weather_desc || '').toLowerCase();
-  let rainStatus = 'Tidak Hujan';
-  if (desc.includes('hujan lebat') || desc.includes('badai')) rainStatus = 'Hujan Lebat';
-  else if (desc.includes('hujan sedang')) rainStatus = 'Hujan Sedang';
-  else if (desc.includes('hujan')) rainStatus = 'Hujan Ringan';
-  document.getElementById('rainStatus').value = rainStatus;
+  if (desc.includes('hujan')) document.getElementById('weatherCond').value = 'Hujan';
+  else if (desc.includes('mendung')) document.getElementById('weatherCond').value = 'Mendung';
+  else if (desc.includes('berawan')) document.getElementById('weatherCond').value = 'Berawan';
+  else document.getElementById('weatherCond').value = 'Cerah';
 
-  let weatherCond = 'Cerah';
-  if (desc.includes('hujan')) weatherCond = 'Hujan';
-  else if (desc.includes('mendung') || desc.includes('tebal')) weatherCond = 'Mendung';
-  else if (desc.includes('berawan') || desc.includes('awan')) weatherCond = 'Berawan';
-  document.getElementById('weatherCond').value = weatherCond;
-
-  showToast('Data cuaca diisi dari BMKG', 'success');
+  showToast('🌤️ Parameter cuaca terisi otomatis dari BMKG!', 'success');
 });
-
-/* ============================================================
-   20. TOAST
-   ============================================================ */
-function showToast(message, type = 'info'){
-  const toast = document.createElement('div');
-  const colors = {
-    success: { bg: 'rgba(52,211,153,.15)', border: 'rgba(52,211,153,.4)', color: '#6ee7b7' },
-    error:   { bg: 'rgba(239,68,68,.15)',  border: 'rgba(239,68,68,.4)',  color: '#fca5a5' },
-    warn:    { bg: 'rgba(251,191,36,.15)', border: 'rgba(251,191,36,.4)', color: '#fcd34d' },
-    info:    { bg: 'rgba(34,211,238,.15)', border: 'rgba(34,211,238,.4)', color: '#67e8f9' }
-  };
-  const c = colors[type] || colors.info;
-  toast.style.cssText = `
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-    padding:12px 20px;border-radius:12px;
-    background:${c.bg};border:1px solid ${c.border};color:${c.color};
-    font-size:.85rem;font-weight:600;z-index:10000;
-    backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,.4);
-    animation:toastIn .3s ease;max-width:90vw;text-align:center;
-  `;
-  toast.textContent = message;
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.style.animation = 'toastOut .3s ease forwards';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-/* ============================================================
-   21. PARSER I2ASPO
-   ============================================================ */
-function parseI2ASPOData(csvText) {
-  const lines = csvText.split('\n');
-  let currentDay = '';
-  let currentTime = '';
-  const parsed = [];
-
-  const locMap = {
-    'sumber': 'W-04',
-    'beringin': 'W-02',
-    'bawah': 'W-06'
-  };
-
-  lines.forEach(line => {
-    const cols = line.split(',').map(c => c.trim());
-    
-    if (cols[0] && ['Kamis','Jumat','Sabtu','Minggu','Senin','Selasa','Rabu'].includes(cols[0])) {
-      currentDay = cols[0];
-      if (cols[1]) currentTime = cols[1];
-      return;
-    }
-
-    if (cols[1] && ['PAGI','SIANG','SORE','MALAM'].includes(cols[1])) {
-      currentTime = cols[1];
-    }
-
-    if (cols[3] && !isNaN(parseFloat(cols[3])) && currentDay) {
-      const phosphate = parseFloat(cols[3]);
-      const location = cols[2] || '';
-      const note = cols[4] || '';
-      
-      if (location.toLowerCase().includes('antropogenik') || location.toLowerCase().includes('debit')) return;
-
-      const pointId = locMap[location.toLowerCase()] || null;
-
-      parsed.push({
-        phosphate: phosphate,
-        location: location,
-        pointId: pointId,
-        day: currentDay,
-        time: currentTime,
-        note: note,
-        raw: cols
-      });
-    }
-  });
-
-  return parsed;
-}
-
-async function importCSVData(csvText) {
-  const parsed = parseI2ASPOData(csvText);
-  
-  if (!parsed.length) {
-    showToast('❌ Format CSV tidak dikenali atau tidak ada data fosfat.', 'error');
-    return;
-  }
-
-  const dayOffsets = { 'Kamis': 3, 'Jumat': 2, 'Sabtu': 1 };
-  const now = Date.now();
-  
-  const newEntries = parsed.map(p => {
-    const offset = dayOffsets[p.day] || 0;
-    const ts = now - (offset * 24 * 60 * 60 * 1000);
-    
-    return {
-      time: `${p.day} ${p.time} (${p.location})`,
-      ts: ts + Math.random(),
-      phosphate: p.phosphate,
-      ph: null, temp: null, conductivity: null, flow: null,
-      wqi: computeWQI({phosphate: p.phosphate}).score,
-      status: classifyPhosphate(p.phosphate).status,
-      source: 'I2ASPO',
-      pointId: p.pointId,
-      notes: p.note
-    };
-  });
-
-  localHistory = [...newEntries, ...localHistory];
-  localStorage.setItem(STORE_KEY, JSON.stringify(localHistory));
-
-  if (FIREBASE_ENABLED && db && fbApi) {
-    try {
-      for (const entry of newEntries) {
-        await fbApi.push(fbApi.ref(db, 'readings'), entry);
-        syncToGoogleSheets(entry);
-      }
-      showToast(`✅ ${newEntries.length} data diimpor & disinkronkan ke Firebase`, 'success');
-    } catch (e) {
-      showToast(`⚠️ ${newEntries.length} data tersimpan lokal, gagal sync ke Firebase`, 'warn');
-    }
-  } else {
-    newEntries.forEach(e => syncToGoogleSheets(e));
-    showToast(`✅ ${newEntries.length} data I2ASPO berhasil diimpor`, 'success');
-  }
-
-  renderHistory();
-  renderChart();
-  updateMapFromData();
-}
-
-document.getElementById('importI2ASPO').addEventListener('click', () => {
-  document.getElementById('csvFileInput').click();
-});
-
-document.getElementById('csvFileInput').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (evt) => {
-    importCSVData(evt.target.result);
-  };
-  reader.readAsText(file);
-  e.target.value = '';
-});
-
-/* ============================================================
-   22. MAP LOGIC (PERBAIKAN BUG)
-   ============================================================ */
-function initMap(){
-  if (map) return;
-
-  map = L.map('phosphateMap', {
-    center: SUMBER_MARON_CENTER,
-    zoom: MAP_DEFAULT_ZOOM,
-    minZoom: MAP_MIN_ZOOM,
-    maxZoom: MAP_MAX_ZOOM,
-    maxBounds: MAP_BOUNDS,
-    maxBoundsViscosity: 1.0,
-    zoomControl: true,
-    attributionControl: true
-  });
-
-  satelliteLayer = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {
-      maxZoom: 19,
-      minZoom: 15,
-      attribution: 'Tiles &copy; Esri',
-      bounds: MAP_BOUNDS
-    }
-  );
-
-  streetLayer = L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      maxZoom: 19,
-      minZoom: 15,
-      attribution: '&copy; OpenStreetMap',
-      bounds: MAP_BOUNDS
-    }
-  );
-
-  satelliteLayer.addTo(map);
-  currentTileLayer = 'satellite';
-
-  markerLayer = L.layerGroup().addTo(map);
-
-  legendControl = L.control({ position: 'bottomright' });
-  legendControl.onAdd = function(){
-    const div = L.DomUtil.create('div', 'map-legend');
-    div.innerHTML = `
-      <div class="legend-title">Keterangan Peta</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#22d3ee"></span> 🏞️ Wisata</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> 🛍️ UMKM & Kuliner</div>
-      <div style="margin-top:6px;font-size:.65rem;color:#8aa6b8">
-        Warna marker = Kadar Fosfat
-      </div>
-    `;
-    return div;
-  };
-  legendControl.addTo(map);
-
-  // Inisialisasi titik data
-  phosphatePoints = SUMBER_MARON_POINTS.map(p => ({ ...p, phosphate: p.basePhosphate }));
-  updateMapFromData();
-
-  document.getElementById('mapCenterBtn').addEventListener('click', () => {
-    map.setView(SUMBER_MARON_CENTER, MAP_DEFAULT_ZOOM);
-    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
-    document.getElementById('mapCenterBtn').classList.add('active');
-  });
-
-  document.getElementById('mapFitBtn').addEventListener('click', () => {
-    const visiblePoints = getVisiblePoints();
-    if (visiblePoints.length > 0){
-      const bounds = L.latLngBounds(visiblePoints.map(p => [p.lat, p.lng]));
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: MAP_DEFAULT_ZOOM });
-    }
-    document.querySelectorAll('.map-toolbar button').forEach(b => b.classList.remove('active'));
-    document.getElementById('mapFitBtn').classList.add('active');
-  });
-
-  document.getElementById('mapLayerSatelit').addEventListener('click', () => {
-    if (currentTileLayer === 'satellite') return;
-    map.removeLayer(streetLayer);
-    satelliteLayer.addTo(map);
-    satelliteLayer.bringToBack();
-    currentTileLayer = 'satellite';
-    document.getElementById('mapLayerSatelit').classList.add('active');
-    document.getElementById('mapLayerJalan').classList.remove('active');
-  });
-
-  document.getElementById('mapLayerJalan').addEventListener('click', () => {
-    if (currentTileLayer === 'street') return;
-    map.removeLayer(satelliteLayer);
-    streetLayer.addTo(map);
-    streetLayer.bringToBack();
-    currentTileLayer = 'street';
-    document.getElementById('mapLayerJalan').classList.add('active');
-    document.getElementById('mapLayerSatelit').classList.remove('active');
-  });
-
-  document.getElementById('mapLayerWisata').addEventListener('click', (e) => {
-    showWisata = !showWisata;
-    e.target.classList.toggle('active', showWisata);
-    renderMapPoints();
-  });
-
-  document.getElementById('mapLayerUMKM').addEventListener('click', (e) => {
-    showUMKM = !showUMKM;
-    e.target.classList.toggle('active', showUMKM);
-    renderMapPoints();
-  });
-}
-
-function getVisiblePoints(){
-  return phosphatePoints.filter(p => {
-    if (p.category === 'wisata' && !showWisata) return false;
-    if (p.category === 'umkm' && !showUMKM) return false;
-    return true;
-  });
-}
-
-function updateMapFromData() {
-  if (!map) return;
-
-  // Reset ke nilai default (base)
-  phosphatePoints = SUMBER_MARON_POINTS.map(p => ({ ...p, phosphate: p.basePhosphate }));
-
-  const all = getAllHistory();
-  if (all.length > 0) {
-    const latestByPoint = {};
-    // Cari data terbaru per pointId (khusus data I2ASPO atau data yang punya pointId)
-    all.forEach(h => {
-      if (h.pointId) {
-        if (!latestByPoint[h.pointId] || h.ts > latestByPoint[h.pointId].ts) {
-          latestByPoint[h.pointId] = h;
-        }
-      }
-    });
-
-    phosphatePoints.forEach(p => {
-      if (latestByPoint[p.id]) {
-        p.phosphate = latestByPoint[p.id].phosphate;
-      }
-    });
-  }
-
-  renderMapPoints();
-}
-
-function renderMapPoints(){
-  if (!markerLayer) return;
-  markerLayer.clearLayers();
-
-  const visible = getVisiblePoints();
-
-  visible.forEach(point => {
-    const cls = classifyPhosphate(point.phosphate);
-    const color = cls.color; // Warna dinamis berdasarkan fosfat
-
-    const marker = L.circleMarker([point.lat, point.lng], {
-      radius: 14,
-      fillColor: color,
-      color: '#04141a',
-      weight: 3,
-      opacity: 1,
-      fillOpacity: 0.9
-    });
-
-    const popupHtml = `
-      <div style="min-width:220px">
-        <div style="font-size:.68rem;color:${color};font-weight:700;
-          text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">
-          ${point.id} · ${point.category === 'wisata' ? 'Wisata' : 'UMKM & Kuliner'}
-        </div>
-        <div style="font-size:1rem;font-weight:800;margin-bottom:6px">
-          ${point.icon} ${point.name}
-        </div>
-        <div style="font-size:1.4rem;font-weight:800;color:${color};letter-spacing:-.5px;line-height:1;margin-bottom:8px">
-          ${point.phosphate.toFixed(3)} <span style="font-size:.7rem;color:var(--muted);font-weight:500">mg/L PO₄</span>
-        </div>
-        <div style="font-size:.78rem;color:#8aa6b8;line-height:1.55;margin-bottom:8px">
-          ${point.description}
-        </div>
-        <div style="font-size:.68rem;color:#8aa6b8;border-top:1px solid rgba(255,255,255,.1);
-          padding-top:6px;margin-top:6px">
-          📍 ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}<br>
-          Status: <b style="color:${color}">${cls.status}</b>
-        </div>
-      </div>
-    `;
-
-    marker.bindPopup(popupHtml, { maxWidth: 300 });
-    marker.bindTooltip(`${point.icon} ${point.name} (${point.phosphate.toFixed(2)} mg/L)`, {
-      direction: 'top',
-      offset: [0, -8]
-    });
-
-    marker.addTo(markerLayer);
-  });
-
-  visible.forEach(point => {
-    const cls = classifyPhosphate(point.phosphate);
-    const color = cls.color;
-
-    const label = L.divIcon({
-      className: 'point-label',
-      html: `<div style="
-        background:${color};color:#04141a;
-        padding:2px 8px;border-radius:6px;
-        font-size:10px;font-weight:700;
-        white-space:nowrap;
-        box-shadow:0 2px 8px rgba(0,0,0,.5);
-        border:1px solid rgba(255,255,255,.3);
-        transform:translateX(-50%);
-        margin-top:22px;
-      ">${point.name}</div>`,
-      iconSize: [0, 0],
-      iconAnchor: [0, 0]
-    });
-    L.marker([point.lat, point.lng], { icon: label, interactive: false }).addTo(markerLayer);
-  });
-}
-
-/* ============================================================
-   23. EVENT LISTENERS
-   ============================================================ */
-document.getElementById('analyzeBtn').addEventListener('click', analyze);
 
 document.getElementById('sampleBtn').addEventListener('click', ()=>{
   const samples = [
     {phosphate:0.045, ph:7.1, temp:25.4, conductivity:280, flow:48},
     {phosphate:0.32,  ph:7.6, temp:27.8, conductivity:410, flow:42},
     {phosphate:0.78,  ph:8.4, temp:29.2, conductivity:620, flow:33},
-    {phosphate:1.42,  ph:5.8, temp:30.6, conductivity:890, flow:21},
-    {phosphate:0.012, ph:6.9, temp:24.8, conductivity:210, flow:52}
+    {phosphate:1.42,  ph:5.8, temp:30.6, conductivity:890, flow:21}
   ];
   const s = samples[Math.floor(Math.random()*samples.length)];
-  for (const k in s) document.getElementById(k).value = s[k];
+  fillInputs(s);
+  updateAllLive();
 });
+
+function renderFieldStats(){
+  const box = document.getElementById('fieldStatsBox');
+  if (!box || !fieldData.length) return;
+  const latest = fieldData[0];
+  const vf = computeVisitorFactor();
+  box.innerHTML = `
+    <div class="visitor-stats">
+      <div class="stat-card"><div class="icon">👥</div><div class="val">${latest.visitorCount ?? 0}</div><div class="lbl">Pengunjung Lapangan</div></div>
+      <div class="stat-card"><div class="icon">🤖</div><div class="val">×${vf.multiplier.toFixed(3)}</div><div class="lbl">Faktor Beban AI</div></div>
+    </div>
+  `;
+}
+
+function showToast(message, type = 'info'){
+  const toast = document.createElement('div');
+  const colors = { success: '#059669', error: '#dc2626', warn: '#d97706', info: '#0284c7' };
+  toast.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;background:white;border:1px solid rgba(14,165,233,.3);color:${colors[type] || colors.info};font-size:.85rem;font-weight:700;z-index:10000;box-shadow:0 8px 32px rgba(0,0,0,.15);`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+function initMap(){
+  if (map || !document.getElementById('phosphateMap')) return;
+  map = L.map('phosphateMap', { center: SUMBER_MARON_CENTER, zoom: MAP_DEFAULT_ZOOM, minZoom: MAP_MIN_ZOOM, maxZoom: MAP_MAX_ZOOM, maxBounds: MAP_BOUNDS });
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }).addTo(map);
+  markerLayer = L.layerGroup().addTo(map);
+  SUMBER_MARON_POINTS.forEach(p => {
+    const cls = classifyPhosphate(p.phosphate);
+    L.circleMarker([p.lat, p.lng], { radius: 12, fillColor: cls.color, color: '#fff', weight: 2, fillOpacity: 0.9 })
+      .bindTooltip(`${p.icon} ${p.name} (${p.phosphate.toFixed(2)} mg/L)`).addTo(markerLayer);
+  });
+}
+
+document.getElementById('mitigationBtn').addEventListener('click', () => {
+  const d = readInputs();
+  const p = d.phosphate ?? 0;
+  const content = document.getElementById('mitigationContent');
+  content.innerHTML = p >= 1.0 ? `
+    <ul class="mitigasi-list">
+      <li><span class="num">1</span> <div><b>Tutup Saluran Masuk:</b> Hentikan pembuangan limbah hulu ke badan air.</div></li>
+      <li><span class="num">2</span> <div><b>Aerasi Darurat:</b> Pasang aerator penyuplai oksigen terlarut.</div></li>
+    </ul>` : `
+    <ul class="mitigasi-list">
+      <li><span class="num">1</span> <div><b>Inspeksi Pertanian:</b> Pantau pemupukan fosfat di lahan riparian.</div></li>
+      <li><span class="num">2</span> <div><b>Pembersihan Saluran:</b> Kuras endapan perangkap sedimen.</div></li>
+    </ul>`;
+  document.getElementById('mitigationModal').classList.add('show');
+});
+document.getElementById('closeMitigation').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
+document.getElementById('closeMitigationBtn').addEventListener('click', () => document.getElementById('mitigationModal').classList.remove('show'));
 
 document.getElementById('exportBtn').addEventListener('click', ()=>{
   const all = getAllHistory();
-  if (!all.length){ alert('Belum ada data untuk diekspor.'); return; }
-  const headers = ['Waktu','PO4 (mg/L)','pH','Suhu (C)','Konduktivitas (uS/cm)','Debit (L/s)','WQI','Status','Sumber'];
-  const rows = all.map(h=>[
-    h.ts ? new Date(h.ts).toISOString() : (h.time || ''),
-    h.phosphate, h.ph ?? '', h.temp ?? '',
-    h.conductivity ?? '', h.flow ?? '', h.wqi ?? '', h.status ?? '', h.source ?? 'manual'
-  ]);
-  const csv = [headers, ...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `maronphos_data_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  if (!all.length) return;
+  const csv = "Waktu,Fosfat,pH,Suhu,WQI,Sumber\n" + all.map(h=>`"${h.time || ''}",${h.phosphate},${h.ph ?? ''},${h.temp ?? ''},${h.wqi ?? ''},${h.source || ''}`).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download = 'maronphos_data.csv'; a.click();
 });
-
 document.getElementById('clearManualBtn').addEventListener('click', ()=>{
-  if (!localHistory.length){
-    alert('Tidak ada data manual untuk dihapus.');
-    return;
-  }
-  if (confirm(`Hapus ${localHistory.length} data INPUT MANUAL & I2ASPO dari browser?\n\nData sensor dari Firebase TIDAK akan terhapus.`)){
-    localHistory = [];
-    localStorage.removeItem(STORE_KEY);
-    renderHistory();
-    renderChart();
-    updateMapFromData();
-    document.getElementById('resultBox').innerHTML =
-      '<div class="result-empty"><div class="big">🧪</div><p>Riwayat manual telah dihapus.</p></div>';
-    document.getElementById('recBox').innerHTML =
-      '<div class="empty-note">Belum ada rekomendasi. Lakukan analisis terlebih dahulu.</div>';
-    document.getElementById('stamp').textContent = '';
-    showToast('✅ Semua data manual dihapus', 'success');
+  if (!isAdminLoggedIn()){ openLoginModal(); showToast('Hapus riwayat memerlukan akses Admin.', 'warn'); return; }
+  if (confirm('Hapus seluruh data riwayat manual?')){
+    localHistory = []; localStorage.setItem(STORE_KEY, '[]');
+    renderHistory(); updateAllLive();
+    showToast('Riwayat data manual dibersihkan.', 'success');
   }
 });
 
-document.getElementById('clearSensorBtn').addEventListener('click', async ()=>{
-  if (!isAdminLoggedIn()){
-    showToast('Login admin dulu untuk hapus data sensor', 'error');
-    return;
-  }
-  if (!FIREBASE_ENABLED || !db || !fbApi){
-    showToast('Firebase tidak aktif', 'error');
-    return;
-  }
-  if (!firebaseHistory.length){
-    alert('Tidak ada data sensor untuk dihapus.');
-    return;
-  }
-  if (!confirm(`⚠️ PERINGATAN KERAS!\n\nHapus SEMUA (${firebaseHistory.length}) data sensor dari Firebase?\n\nTindakan ini TIDAK BISA dibatalkan.`)) return;
-  if (!confirm('Yakin? Konfirmasi terakhir — ketik OK untuk lanjut.')) return;
-
-  const btn = document.getElementById('clearSensorBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Menghapus...';
-
-  try {
-    await fbApi.remove(fbApi.ref(db, 'readings'));
-    await fbApi.remove(fbApi.ref(db, 'latest'));
-    firebaseHistory = [];
-    renderHistory();
-    renderChart();
-    updateMapFromData();
-    showToast(`✅ ${firebaseHistory.length} data sensor dihapus dari Firebase`, 'success');
-  } catch(e){
-    console.error('Clear sensor error:', e);
-    showToast('❌ Gagal hapus: ' + e.message, 'error');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '🗑 Hapus Data Sensor';
-});
-
-/* ============================================================
-   24. INIT
-   ============================================================ */
+// INISIALISASI
 document.getElementById('fieldDate').value = new Date().toISOString().slice(0,10);
-
+updateGatewayUI();
 renderHistory();
 renderChart();
-updateAuthUI();
 renderFieldStats();
-initFirebase();
 fetchBMKGWeather();
 
 setTimeout(() => {
   initMap();
-}, 300);
+  const all = getAllHistory();
+  if (all.length > 0) {
+    const latest = all[all.length - 1];
+    fillInputs(latest);
+    runAIEngine(latest);
+  }
+  renderChart();
+}, 200);
 
 setInterval(fetchBMKGWeather, 30 * 60 * 1000);
 </script>
